@@ -6,5 +6,7 @@ namespace BoothModel.Models
 {
     class bbb
     {
+
+
     }
 }
