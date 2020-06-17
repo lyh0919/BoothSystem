@@ -7,7 +7,6 @@ namespace BoothService
     public class Class1
     {
         public int name { get; set; }
-        public int Id { get; set; }
-        public int pwd { get; set; }
+
     }
 }
