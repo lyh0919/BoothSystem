@@ -8,5 +8,6 @@ namespace BoothService
     {
         public int name { get; set; }
         public int Id { get; set; }
+        public int pwd { get; set; }
     }
 }
