@@ -9,19 +9,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{96
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{6DC9D62D-85F6-4B2C-AD13-1C7977C14295}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoothAPI", "BoothAPI\BoothAPI.csproj", "{FA301AC1-DC01-44B4-BFAB-4E658F4BD2D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoothAPI", "BoothAPI\BoothAPI.csproj", "{FA301AC1-DC01-44B4-BFAB-4E658F4BD2D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IBoothService", "IBoothService\IBoothService.csproj", "{1CA83E12-FCD9-4D59-854E-1D890586E1D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IBoothService", "IBoothService\IBoothService.csproj", "{1CA83E12-FCD9-4D59-854E-1D890586E1D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoothService", "BoothService\BoothService.csproj", "{121DF850-A112-4343-9AB1-E43923CF339C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoothService", "BoothService\BoothService.csproj", "{121DF850-A112-4343-9AB1-E43923CF339C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IBoothDataAccess", "IBoothDataAccess\IBoothDataAccess.csproj", "{7BB4DFB2-1962-4189-9710-4A7622CC7251}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IBoothDataAccess", "IBoothDataAccess\IBoothDataAccess.csproj", "{7BB4DFB2-1962-4189-9710-4A7622CC7251}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoothDataAccess", "BoothDataAccess\BoothDataAccess.csproj", "{F7A229B2-DFDB-47B8-ABB8-8BC162A027D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoothDataAccess", "BoothDataAccess\BoothDataAccess.csproj", "{F7A229B2-DFDB-47B8-ABB8-8BC162A027D5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{2DFCCA67-92DB-47CC-B151-A4887E3C385B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoothModel", "BoothModel\BoothModel.csproj", "{9B8DEA2F-774F-42E1-A190-5EF719B2F47F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoothModel", "BoothModel\BoothModel.csproj", "{9B8DEA2F-774F-42E1-A190-5EF719B2F47F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoothAdmin", "BoothAdmin\BoothAdmin.csproj", "{0D455C19-CFF4-4FA0-AF00-5EA48B506FE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{9B8DEA2F-774F-42E1-A190-5EF719B2F47F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B8DEA2F-774F-42E1-A190-5EF719B2F47F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B8DEA2F-774F-42E1-A190-5EF719B2F47F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D455C19-CFF4-4FA0-AF00-5EA48B506FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D455C19-CFF4-4FA0-AF00-5EA48B506FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D455C19-CFF4-4FA0-AF00-5EA48B506FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D455C19-CFF4-4FA0-AF00-5EA48B506FE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
