@@ -8,5 +8,7 @@ namespace IBoothService
     public interface IShow
     {
         List<RbacDeptPart> GetDept();
+
+        
     }
 }
