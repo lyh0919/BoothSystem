@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using BoothModel.Models;
 using IBoothService;
@@ -31,10 +32,10 @@ namespace BoothAPI.Controllers
         }
 
         //部门显示
-        public List<RbacDeptPart> GetDept()
+        public List<RbacDeptPart> GetDept(Expression<Func<RbacDeptPart,bool>> where, Expression<Func<RbacDeptPart, RbacDeptPart>> order,int pageindex,int pagesize)
         {
-
-            return null;
+            int count = 0;
+            return _rbac.GetDept(where,order,pageindex, pagesize,out count);
         }
         
         //部门修改
