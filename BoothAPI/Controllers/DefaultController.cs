@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BoothModel.Models;
 using IBoothService;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace BoothAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [EnableCors("MyCors")]
     public class DefaultController : ControllerBase
     {
         private IShow _show;
