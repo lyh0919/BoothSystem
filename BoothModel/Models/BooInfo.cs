@@ -15,7 +15,7 @@ namespace BoothModel.Models
         public byte[] BooLabel { get; set; }
         public decimal? BooRent { get; set; }
         public int? BooDead { get; set; }
-        public Guid? LessId租户id { get; set; }
+        public Guid? LessId { get; set; }
         public DateTime? CreateTime { get; set; }
         public DateTime? UpdateTime { get; set; }
         public string IsEnable { get; set; }
