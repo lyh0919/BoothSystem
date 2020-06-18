@@ -29,36 +29,42 @@
                 <th>部门名称</th>
                 <th>职能描述</th>
                 <th>添加时间</th>
+                <th>状态</th>
                 <th>操作</th>
             </tr>
         </thead>
         <tbody id="dt">
         </tbody>
-
+        
     </table>
 
 </div>
 
-
-<script src="~/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
-    $(function () {
+
         $.get('http://localhost:52229/api/rbac/getdept', function (res) {
             console.log(res);
             $("#dt").empty();
             var html = "";
             $.each(res, function (i, v) {
-                html = "<tr>";
-                html = "<td>" + v.deptName + "</td>";/*isEnable*/
-                html = "<td>" + v.deptDesc + "</td>";
-                html = "<td>" + v.createTime + "</td>";
-                html = "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
-                html = "<td><a>编辑</a></td>";
-                html = "</tr>";
+                html += "<tr>";
+                html += "<td>" + v.deptName + "</td>";/*isEnable*/
+                html += "<td>" + v.deptDesc + "</td>";
+                html += "<td>" + v.createTime + "</td>";
+                html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
+                html += "<td><a href='javascript:Upt(" + v.id + ")'>编辑&nbsp;<a href='javascript: Del(" + v.id + ")'>删除</td>";
+                html += "</tr>";
             });
             $("#dt").append(html);
         });
-    });
+
+
+    function Del(id) {
+        if (confirm("确认删除吗")) {
+            alert(id);
+        }
+    }
 
 </script>
 
