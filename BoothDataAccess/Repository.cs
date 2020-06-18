@@ -110,7 +110,7 @@ namespace BoothDataAccess
             }
             if (isSave)
             {
-                flag=  this.SaveChanges();
+                flag = this.SaveChanges();
             }
             return flag;
         }
