@@ -10,5 +10,6 @@ namespace BoothModel.Models
         public int PId { get; set; }
         public string CityName { get; set; }
         public int CType { get; set; }
+
     }
 }
