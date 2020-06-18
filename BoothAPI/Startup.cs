@@ -38,6 +38,7 @@ namespace BoothAPI
             services.AddScoped<IBoothManageContext, BoothDataAccess.BoothManageContext>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
             services.AddScoped<IShow, Show>();
+            services.AddScoped<IRbac, Rbac>();
 
 
 
