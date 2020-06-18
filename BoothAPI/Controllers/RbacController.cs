@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using BoothAPI.ViewModel;
 using BoothModel.Models;
 using IBoothService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace BoothAPI.Controllers
 {
@@ -32,10 +34,13 @@ namespace BoothAPI.Controllers
         }
 
         //部门显示
-        public List<RbacDeptPart> GetDept(Expression<Func<RbacDeptPart,bool>> where, Expression<Func<RbacDeptPart, RbacDeptPart>> order,int pageindex,int pagesize)
+        public DeptPage GetDept(Expression<Func<RbacDeptPart, bool>> where, Expression<Func<RbacDeptPart, RbacDeptPart>> order,int pageindex,int pagesize)
         {
+
             int count = 0;
-            return _rbac.GetDept(where,order,pageindex, pagesize,out count);
+            List<RbacDeptPart> list = _rbac.GetDept(where, order, pageindex, pagesize, out count);
+            DeptPage deptPage = new DeptPage() { DeptList = list,Count=count};
+            return deptPage;
         }
         
         //部门修改

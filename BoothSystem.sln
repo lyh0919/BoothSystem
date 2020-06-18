@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{2DFCCA67
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoothModel", "BoothModel\BoothModel.csproj", "{9B8DEA2F-774F-42E1-A190-5EF719B2F47F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoothAdmin", "BoothAdmin\BoothAdmin.csproj", "{0D455C19-CFF4-4FA0-AF00-5EA48B506FE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoothAdmin", "BoothAdmin\BoothAdmin.csproj", "{0D455C19-CFF4-4FA0-AF00-5EA48B506FE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
