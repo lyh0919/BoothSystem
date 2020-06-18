@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewData["Title"] = "DeptIndex";
+    Layout = null;
+}
+
+<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+<div class="layui-card">
+    <div class="layui-card-header">
+        <h1>部门管理</h1>
+    </div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote role_search">
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-normal newsAdd_btn" href="/Menu/Add">
+                    <i class="layui-icon layui-icon-add-1"></i>
+                    添加菜单
+                </a>
+            </div>
+
+        </blockquote>
+    </div>
+</div>
+
+<div>
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th>部门名称</th>
+                <th>职能描述</th>
+                <th>添加时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="dt">
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<script src="~/jquery.min.js"></script>
+<script>
+    $(function () {
+        $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+            console.log(res);
+            $("#dt").empty();
+            var html = "";
+            $.each(res, function (i, v) {
+                html = "<tr>";
+                html = "<td>" + v.deptName + "</td>";/*isEnable*/
+                html = "<td>" + v.deptDesc + "</td>";
+                html = "<td>" + v.createTime + "</td>";
+                html = "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
+                html = "<td><a>编辑</a></td>";
+                html = "</tr>";
+            });
+            $("#dt").append(html);
+        });
+    });
+
+</script>
+

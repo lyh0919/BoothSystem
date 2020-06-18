@@ -25,8 +25,4 @@
     <ProjectReference Include="..\IBoothService\IBoothService.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
-  </ItemGroup>
-
 </Project>

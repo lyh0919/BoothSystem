@@ -1,6 +1,7 @@
 ﻿using BoothModel.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace IBoothService
@@ -8,6 +9,8 @@ namespace IBoothService
     public interface IRbac
     {
         List<RbacDeptPart> GetDept();
+
+
 
         int AddDept(RbacDeptPart dept);
 

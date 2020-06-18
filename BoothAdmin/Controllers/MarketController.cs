@@ -6,15 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BoothAdmin.Controllers
 {
-    public class BoothController : Controller
+    public class MarketController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
-
-
-
-
     }
 }

@@ -30,34 +30,32 @@ namespace BoothAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-           
-           
-
-
             services.AddControllers();
 
-            //services.AddDbContext<BoothManageContext>(options =>
-            //options.UseSqlServer(Configuration.GetConnectionString("BoothConnection")));
+            services.AddDbContext<BoothManageContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("BoothConnection")));
             
             services.AddScoped<IBoothManageContext, BoothDataAccess.BoothManageContext>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
             services.AddScoped<IShow, Show>();
             services.AddScoped<IRbac, Rbac>();
 
+
+            // 配置跨域处理，允许所有来源
             services.AddCors(options =>
             {
                 // Policy 名稱 CorsPolicy 是自訂的，可以自己改
                 options.AddPolicy("getd", policy =>
                 {
                     // 設定允許跨域的來源，有多個的話可以用 `,` 隔開
-                    policy.WithOrigins("http://localhost:52229", "http://localhost:62192")
+                    policy.WithOrigins("http://localhost:52229", "http://localhost:53979")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();
                 });
             });
-
+            services.AddControllers();
+            
 
 
         }
@@ -65,10 +63,6 @@ namespace BoothAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //配置Cors
-          
-            app.UseCors("getd");
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -77,7 +71,11 @@ namespace BoothAPI
             app.UseRouting();
 
             app.UseAuthorization();
-           
+            app.UseCors("getd");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
