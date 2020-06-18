@@ -2,14 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoothAdmin.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RentController : ControllerBase
+    public class RentController : Controller
     {
+        public IActionResult ConTastShow()
+        {
+            return View();
+        }
+        public IActionResult InsertRent()
+        {
+            return View();
+        }
+        public IActionResult RentShow()
+        {
+            return View();
+        }
+        public IActionResult Update()
+        {
+            return View();
+        }
     }
 }
