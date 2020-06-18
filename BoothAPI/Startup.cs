@@ -38,6 +38,9 @@ namespace BoothAPI
             services.AddScoped<IBoothManageContext, BoothDataAccess.BoothManageContext>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
             services.AddScoped<IShow, Show>();
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
