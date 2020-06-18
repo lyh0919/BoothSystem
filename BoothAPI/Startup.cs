@@ -40,7 +40,18 @@ namespace BoothAPI
             services.AddScoped<IShow, Show>();
             services.AddScoped<IRbac, Rbac>();
 
-
+            services.AddCors(options =>
+            {
+                // Policy 名稱 CorsPolicy 是自訂的，可以自己改
+                options.AddPolicy("getd", policy =>
+                {
+                    // 設定允許跨域的來源，有多個的話可以用 `,` 隔開
+                    policy.WithOrigins("http://localhost:52229", "http://localhost:62192")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                });
+            });
 
         }
 
@@ -51,7 +62,7 @@ namespace BoothAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors("getd");
             app.UseRouting();
 
             app.UseAuthorization();
