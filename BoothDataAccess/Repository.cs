@@ -100,7 +100,7 @@ namespace BoothDataAccess
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <param name="isSave"></param>
-        public void Update(T entity, bool isSave = true)
+        public int Update(T entity, bool isSave = true)
         {
             var entry = this._dbContext.Entry(entity);
             if (entry.State == EntityState.Detached)
