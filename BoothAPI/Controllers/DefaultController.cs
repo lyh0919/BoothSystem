@@ -25,5 +25,6 @@ namespace BoothAPI.Controllers
             var list = _show.GetDept();
             return list;
         }
+
     }
 }
