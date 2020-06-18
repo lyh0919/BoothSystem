@@ -31,6 +31,7 @@ namespace BoothAPI.Controllers
 
         //分页获取微信会员信息列表
         [HttpGet]
+
         public List<MemberInfoo> GetWeiXin(Func<MemberInfoo, bool> @where, Func<MemberInfoo, MemberInfoo> order, int pageIndex, int pageSize, out int count, bool isDesc = false)
         {
             var list = _show.GetWeiXin(@where, order, pageIndex, pageSize, out count, isDesc);
