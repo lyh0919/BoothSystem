@@ -29,7 +29,7 @@ namespace BoothAPI.Controllers
             return _rbac.AddDept(dept);
         }
         //部门删除
-        [HttpPost]
+        [HttpDelete]
         public int DelDept(object id)
         {
             return _rbac.DelDept(id);
@@ -45,7 +45,7 @@ namespace BoothAPI.Controllers
         }
 
         //部门修改
-        [HttpPost]
+        [HttpPut]
         public int UptDept(RbacDeptPart dept)
         {
             return _rbac.UptDept(dept);

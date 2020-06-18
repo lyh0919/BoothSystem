@@ -10,8 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BoothAPI.Controllers
 {
-    [EnableCors("MyCors")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class MarketController : ControllerBase
     {

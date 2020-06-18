@@ -41,8 +41,20 @@
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
-    $.get('', function (res) {
-
+    $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+        console.log(res);
+        $("#dt").empty();
+        var html = "";
+        $.each(res, function (i, v) {
+            html = "<tr>";
+            html = "<td>" + v.deptName + "</td>";/*isEnable*/
+            html = "<td>" + v.deptDesc + "</td>";
+            html = "<td>" + v.createTime + "</td>";
+            html = "<td>" + v.isEnable + "</td>";
+            html = "<td><a>编辑</a></td>";
+            html = "</tr>";
+        });
+        $("#dt").append(html);
     });
 </script>
 
