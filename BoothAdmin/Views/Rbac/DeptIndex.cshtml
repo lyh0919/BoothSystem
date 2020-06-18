@@ -39,22 +39,26 @@
 
 </div>
 
-<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script src="~/jquery.min.js"></script>
 <script>
-    $.get('http://localhost:52229/api/rbac/getdept', function (res) {
-        console.log(res);
-        $("#dt").empty();
-        var html = "";
-        $.each(res, function (i, v) {
-            html = "<tr>";
-            html = "<td>" + v.deptName + "</td>";/*isEnable*/
-            html = "<td>" + v.deptDesc + "</td>";
-            html = "<td>" + v.createTime + "</td>";
-            html = "<td>" + v.isEnable + "</td>";
-            html = "<td><a>编辑</a></td>";
-            html = "</tr>";
+    $(function () {
+        $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+            console.log(res);
+            $("#dt").empty();
+            var html = "";
+            $.each(res, function (i, v) {
+                html = "<tr>";
+                html = "<td>" + v.deptName + "</td>";/*isEnable*/
+                html = "<td>" + v.deptDesc + "</td>";
+                html = "<td>" + v.createTime + "</td>";
+                html = "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
+                html = "<td><a>编辑</a></td>";
+                html = "</tr>";
+            });
+            $("#dt").append(html);
         });
-        $("#dt").append(html);
     });
+
 </script>
 
