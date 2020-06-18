@@ -137,7 +137,7 @@ namespace BoothModel.Models
                     .HasMaxLength(3)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LessId).HasColumnName("Less_Id(租户Id)");
+                entity.Property(e => e.LessId).HasColumnName("Less_Id");
 
                 entity.Property(e => e.MarkId).HasColumnName("Mark_Id");
 

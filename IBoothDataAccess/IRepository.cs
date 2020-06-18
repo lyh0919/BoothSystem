@@ -69,7 +69,7 @@ namespace IBoothDataAccess
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <param name="isSave"></param>
-        void Update(T entity, bool isSave = true);
+        int Update(T entity, bool isSave = true);
 
         /// <summary>
         /// 批量修改 - 通过实体对象集合修改

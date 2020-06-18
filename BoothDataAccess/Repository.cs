@@ -102,6 +102,7 @@ namespace BoothDataAccess
         /// <param name="isSave"></param>
         public int Update(T entity, bool isSave = true)
         {
+            int flag = 0;
             var entry = this._dbContext.Entry(entity);
             if (entry.State == EntityState.Detached)
             {
@@ -109,8 +110,9 @@ namespace BoothDataAccess
             }
             if (isSave)
             {
-                this.SaveChanges();
+                flag=  this.SaveChanges();
             }
+            return flag;
         }
         //批量注释
         public void Update(bool isSave = true, params T[] entitys)

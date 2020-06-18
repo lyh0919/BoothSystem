@@ -40,6 +40,11 @@ namespace BoothAPI
             services.AddScoped<IShow, Show>();
 
 
+            // 配置跨域处理，允许所有来源
+            services.AddCors(options =>
+            options.AddPolicy("MyCors",
+            p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+
 
         }
 
@@ -54,7 +59,7 @@ namespace BoothAPI
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseCors("MyCors");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
