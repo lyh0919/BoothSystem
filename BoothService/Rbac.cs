@@ -4,6 +4,7 @@ using IBoothService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace BoothService
@@ -27,10 +28,10 @@ namespace BoothService
         }
 
         //部门显示
-        public List<RbacDeptPart> GetDept()
+        public List<RbacDeptPart> GetDept(Expression<Func<RbacDeptPart, bool>> @where, Expression<Func<RbacDeptPart, RbacDeptPart>> order, int pageIndex, int pageSize, out int count, bool isDesc = false)
         {
             var server = this.CreateService<RbacDeptPart>();
-            return server.GetAll().ToList();
+            return server.Where(@where, order, pageIndex, pageSize,out count).ToList();
         }
         //部门修改
         public int UptDept(RbacDeptPart dept)

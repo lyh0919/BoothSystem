@@ -33,8 +33,10 @@ namespace BoothAPI.Controllers
         //部门显示
         public List<RbacDeptPart> GetDept()
         {
-            return _rbac.GetDept();
+
+            return null;
         }
+        
         //部门修改
         public int UptDept(RbacDeptPart dept)
         {
