@@ -12,7 +12,7 @@
     <div class="layui-card-body">
         <blockquote class="layui-elem-quote role_search">
             <div class="layui-inline">
-                <a class="layui-btn layui-btn-normal newsAdd_btn" href="/Menu/Add">
+                <a data-method="offset" data-type="auto" class="layui-btn layui-btn-normal newsAdd_btn">
                     <i class="layui-icon layui-icon-add-1"></i>
                     添加菜单
                 </a>
@@ -29,6 +29,7 @@
                 <th>部门名称</th>
                 <th>职能描述</th>
                 <th>添加时间</th>
+                <th>状态</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -39,26 +40,48 @@
 
 </div>
 
-
-<script src="~/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/layuiadmin/layui/layui.js"></script>
 <script>
-    $(function () {
-        $.get('http://localhost:52229/api/rbac/getdept', function (res) {
-            console.log(res);
-            $("#dt").empty();
-            var html = "";
-            $.each(res, function (i, v) {
-                html = "<tr>";
-                html = "<td>" + v.deptName + "</td>";/*isEnable*/
-                html = "<td>" + v.deptDesc + "</td>";
-                html = "<td>" + v.createTime + "</td>";
-                html = "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
-                html = "<td><a>编辑</a></td>";
-                html = "</tr>";
-            });
-            $("#dt").append(html);
+
+    $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+        $("#dt").empty();
+        var html = "";
+        $.each(res, function (i, v) {
+            html += "<tr>";
+            html += "<td>" + v.deptName + "</td>";/*isEnable*/
+            html += "<td>" + v.deptDesc + "</td>";
+            html += "<td>" + v.createTime + "</td>";
+            html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
+            html += "<td><a href='javascript:Upt(" + v.id + ")'>编辑&nbsp;<a href='javascript: Del(" + v.id + ")'>删除</td>";
+            html += "</tr>";
         });
+        $("#dt").append(html);
     });
 
+
+    function Del(id) {
+        if (confirm("确认删除吗")) {
+            alert(id);
+        }
+    }
+
+    layui.use('layer', function () { //独立版的layer无需执行这一句
+        //var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+
+            layer.open({
+                type: 1
+                , offset: 't' //具体配置参考：offset参数项
+                , content: '<div style="padding: 20px 80px;">内容</div>'
+                , btn: '添加'
+                , btnAlign: 'c' //按钮居中
+                , shade: 0 //不显示遮罩
+                , yes: function () {
+                    layer.closeAll();
+                }
+            });
+
+    });
 </script>
 
