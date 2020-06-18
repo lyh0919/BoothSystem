@@ -28,10 +28,10 @@ namespace BoothService
         }
 
         //部门显示
-        public List<RbacDeptPart> GetDept(Expression<Func<RbacDeptPart, bool>> @where, Expression<Func<RbacDeptPart, RbacDeptPart>> order, int pageIndex, int pageSize, out int count, bool isDesc = false)
+        public List<RbacDeptPart> GetDept()
         {
             var server = this.CreateService<RbacDeptPart>();
-            return server.Where(@where, order, pageIndex, pageSize,out count).ToList();
+            return server.GetAll().ToList();
         }
         //部门修改
         public int UptDept(RbacDeptPart dept)

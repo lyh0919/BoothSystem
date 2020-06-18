@@ -12,7 +12,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace BoothAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class RbacController : ControllerBase
     {
@@ -23,27 +23,29 @@ namespace BoothAPI.Controllers
         }
 
         //部门添加
+        [HttpPost]
         public int AddDept(RbacDeptPart dept)
         {
             return _rbac.AddDept(dept);
         }
         //部门删除
+        [HttpPost]
         public int DelDept(object id)
         {
             return _rbac.DelDept(id);
         }
 
         //部门显示
-        public DeptPage GetDept(Expression<Func<RbacDeptPart, bool>> where, Expression<Func<RbacDeptPart, RbacDeptPart>> order,int pageindex,int pagesize)
+        [HttpGet]
+        public List<RbacDeptPart> GetDept()
         {
 
-            int count = 0;
-            List<RbacDeptPart> list = _rbac.GetDept(where, order, pageindex, pagesize, out count);
-            DeptPage deptPage = new DeptPage() { DeptList = list,Count=count};
-            return deptPage;
+            
+            return _rbac.GetDept();
         }
-        
+
         //部门修改
+        [HttpPost]
         public int UptDept(RbacDeptPart dept)
         {
             return _rbac.UptDept(dept);
