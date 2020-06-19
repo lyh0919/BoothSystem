@@ -21,7 +21,7 @@ namespace BoothAPI.Controllers
             _show = show;
         }
 
-       
+        [HttpGet]
         //分页获取微信会员信息列表
         public List<MemberInfoo> ShowWeiXin(int page = 1, int limit = 10)
         {
@@ -36,10 +36,10 @@ namespace BoothAPI.Controllers
         }
 
         //根据省份id 查询该省的城市 用于二级联动
-        [HttpGet]
+       
 
         //根据城市id 查询该城市的县 用于三级联动
-        [HttpGet]
+       
 
         //微信会员添加 
         [HttpPost]
