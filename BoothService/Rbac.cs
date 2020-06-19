@@ -77,5 +77,20 @@ namespace BoothService
             return server.GetAll().ToList();
         }
 
+        //设置权限
+        public int AddRolePow(List<RbacPowerAndRole> raps)
+        {
+            var server = this.CreateService<RbacPowerAndRole>();
+            return server.Add(raps);
+        }
+        //获取角色对应的权限
+        public List<RbacPowerAndRole> GetRolePower(string roleid)
+        {
+            var server = this.CreateService<RbacPowerAndRole>();
+            var raps = server.GetAll().ToList();
+            var raplist = from s in raps where s.RoleId.Equals(roleid) select s;
+            return raplist.ToList();
+        }
+
     }
 }

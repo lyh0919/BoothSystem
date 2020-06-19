@@ -95,6 +95,32 @@ namespace BoothAPI.Controllers
         {
             return _rbac.GetPower();
         }
+        //设置权限
+        [HttpGet]
+        public int AddRolePow(string roleId, string powId)
+        {
+            string[] pow = powId.Split(',');
+            List<RbacPowerAndRole> raps = new List<RbacPowerAndRole>();
+            foreach (var item in pow)
+            {
+                RbacPowerAndRole rap = new RbacPowerAndRole();
+                rap.Id = Guid.NewGuid();
+                rap.RoleId = roleId;
+                rap.PowerId = item;
+                raps.Add(rap);
+            }
+            
+
+            return _rbac.AddRolePow(raps);
+        }
+
+        //反填已有的权限
+        [HttpGet]
+        public List<RbacPowerAndRole> GetRolePowById(string roleId)
+        {
+
+            return _rbac.GetRolePower(roleId);
+        }
 
     }
 }

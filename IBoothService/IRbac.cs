@@ -30,5 +30,11 @@ namespace IBoothService
         //权限反填
         List<RbacPower> GetPower();
 
+        //设置权限
+        int AddRolePow(List<RbacPowerAndRole> raps);
+
+        //查询是否有权限
+        List<RbacPowerAndRole> GetRolePower(string roleid);
+
     }
 }
