@@ -36,10 +36,13 @@ namespace BoothAPI.Controllers
         }
 
 
-
+      
         public List<MarketInfo> ShowMarket(int page = 1,int limit = 10)
         {
-            return _marketBll.ShowMarket().ToList().Skip((page-1)*limit).Take(limit).ToList();
+           List<MarketInfo> list= _marketBll.ShowMarket();
+            list = list.Skip((page - 1) * limit).Take(limit).ToList();
+
+            return list;
         }
     }
 }
