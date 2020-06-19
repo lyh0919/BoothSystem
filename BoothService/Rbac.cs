@@ -70,7 +70,12 @@ namespace BoothService
         }
         #endregion
 
-
+        //权限反填
+        public List<RbacPower> GetPower()
+        {
+            var server = this.CreateService<RbacPower>();
+            return server.GetAll().ToList();
+        }
 
     }
 }

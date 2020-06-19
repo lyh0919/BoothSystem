@@ -89,5 +89,12 @@ namespace BoothAPI.Controllers
         }
         #endregion
 
+        //权限反填
+        [HttpGet]
+        public List<RbacPower> GetPower()
+        {
+            return _rbac.GetPower();
+        }
+
     }
 }

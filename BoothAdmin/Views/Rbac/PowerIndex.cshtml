@@ -4,6 +4,7 @@
     Layout = null;
 }
 
+
 <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 
 <div class="layui-card">
@@ -22,15 +23,53 @@
     </div>
 </div>
 
+<div>
+    <form class="layui-form" action="">
+        <div class="layui-form-item" pane="">
+            <label class="layui-form-label">权限</label>
+            <div class="layui-input-block">
+                <div id="power"></div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
 <script src="~/lib/jquery/dist/jquery.js"></script>
+
 <script src="~/layuiadmin/layui/layui.js"></script>
 <script>
+
+    //对表单重新渲染  复选框、下拉框等
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+
     $(function () {
+
+
         var role = window.location.search.split('?')[1].split('&')[0].split('=')[1];
-        $("#role").html(decodeURI(role));
+        $("#role").html(decodeURI(role));//需要解码
 
         var id = window.location.search.split('?')[1].split('&')[1].split('=')[1];
-        alert(id);
+        $("#roleid").val(id);
+
+
+        $.get('http://localhost:52229/api/rbac/getpower', function (res) {
+            console.log(res);
+            //$("#power").remove();
+            var html = "";
+            $.each(res, function (i, v) {
+                html += '<input type="checkbox" name="pow" lay-skin="primary"  value="' + v.id + '"  />' + v.powerName;
+            });
+            $("#power").append(html);
+        });
+
+
     });
+    
 </script>
 

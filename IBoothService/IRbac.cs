@@ -27,5 +27,8 @@ namespace IBoothService
 
         int UptRole(RbacRoleInfo role);
 
+        //权限反填
+        List<RbacPower> GetPower();
+
     }
 }
