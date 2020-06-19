@@ -103,14 +103,19 @@ namespace BoothAPI.Controllers
             List<RbacPowerAndRole> raps = new List<RbacPowerAndRole>();
             foreach (var item in pow)
             {
-                RbacPowerAndRole rap = new RbacPowerAndRole();
-                rap.Id = Guid.NewGuid();
-                rap.RoleId = roleId;
-                rap.PowerId = item;
-                raps.Add(rap);
+                foreach (var rp in _rbac.GetRolePower(roleId))
+                {
+                    if (!rp.PowerId.Equals(item))
+                    {
+                        RbacPowerAndRole rap = new RbacPowerAndRole();
+                        rap.Id = Guid.NewGuid();
+                        rap.RoleId = roleId;
+                        rap.PowerId = item;
+                        raps.Add(rap);
+                    }
+                }
             }
             
-
             return _rbac.AddRolePow(raps);
         }
 
