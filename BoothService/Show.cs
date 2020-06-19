@@ -62,6 +62,38 @@ namespace BoothService
             return service.Delete(entitys);
         }
 
-      
+
+        //分页获取租户信息列表
+        public List<UserInfo> ShowUser(int page = 1, int limit = 10)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.GetAll().ToList();
+        }
+        //添加租户信息 
+        public int AddUser(UserInfo m)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.Add(m);
+        }
+        //根据id删除租户信息
+        public int Delus(object id)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.Delete(id);
+        }
+        //编辑微信租户信息
+        public int UptUs(UserInfo m)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.Update(m);
+        }
+
+        //批量删除租户信息
+        public int DelAllUs(bool isSave = true, params UserInfo[] entitys)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.Delete(entitys);
+        }
+
     }
 }

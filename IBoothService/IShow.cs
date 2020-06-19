@@ -32,6 +32,24 @@ namespace IBoothService
 
         //批量删除微信会员信息
         int DelAll(bool isSave = true, params MemberInfoo[] entitys);
-    
+
+
+
+        //分页获取租户信息列表
+        List<UserInfo> ShowUser(int page = 1, int limit = 10);
+
+        //添加租户信息
+        int AddUser(UserInfo m);
+
+        //编辑租户信息
+        int UptUs(UserInfo m);
+
+        //根据id删除租户信息
+        int Delus(object id);
+
+        //批量删除租户信息
+        int DelAllUs(bool isSave = true, params UserInfo[] entitys);
+
+
     }
 }

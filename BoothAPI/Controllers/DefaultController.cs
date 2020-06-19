@@ -70,5 +70,43 @@ namespace BoothAPI.Controllers
         }
 
 
+        [HttpGet]
+        //分页获取租户信息列表
+        public List<UserInfo> ShowUser(int page = 1, int limit = 10)
+        {
+            return _show.ShowUser().ToList().Skip((page - 1) * limit).Take(limit).ToList();
+        }
+
+        //添加租户信息 
+        [HttpPost]
+        public int AddUser(UserInfo m)
+        {
+            return _show.AddUser(m);
+        }
+
+        //根据id删除租户信息
+        [HttpPost]
+        public int Delus(object id)
+        {
+            return _show.Delus(id);
+        }
+
+        //批量删除租户信息
+        [HttpPost]
+        public int DelAllUs(bool isSave = true, params UserInfo[] entitys)
+        {
+            return _show.DelAllUs(isSave = true, entitys); ;
+        }
+
+        //编辑租户信息
+        [HttpPost]
+        public int UptUs(UserInfo m)
+        {
+            return _show.UptUs(m);
+        }
+
+
+
+
     }
 }
