@@ -14,20 +14,15 @@ namespace BoothService
         {
         }
 
-        public List<RbacDeptPart> GetDept()
+       
+        //分页获取微信会员信息列表
+        public List<MemberInfoo>ShowWeiXin(int page=1,int limit=10)
         {
-            var service = this.CreateService<RbacDeptPart>();
+            var service = this.CreateService<MemberInfoo>();
             return service.GetAll().ToList();
         }
 
-        //分页获取微信会员信息列表
-        public List<MemberInfoo>GetWeiXin(Func<MemberInfoo, bool> @where, Func<MemberInfoo, MemberInfoo> order, int pageIndex, int pageSize, out int count, bool isDesc = false)
-        {
-            var service = this.CreateService<MemberInfoo>();
-            return service.Where<MemberInfoo>(@where, order, pageIndex,pageSize,out count, isDesc).ToList();
-        }
-
-        //查询所有省份 用于绑定第一级下拉 
+        //显示所有省份 用于绑定第一级下拉 
         public List<City> GetSheng()
         {
             var service = this.CreateService<City>();
@@ -41,17 +36,23 @@ namespace BoothService
 
 
         //微信会员添加 
-        public int Add(MemberInfoo entity, bool isSave = true)
+        public int AddWx(MemberInfoo m)
         {
             var service = this.CreateService<MemberInfoo>();
-            return service.Add(entity);
+            return service.Add(m);
         }
 
         //根据id删除微信会员信息
-        public int Del(object id, bool isSave = true)
+        public int DelWx(object id)
         {
             var service = this.CreateService<MemberInfoo>();
             return service.Delete(id);
+        }
+         //编辑微信会员信息
+         public int UpdateWx(MemberInfoo m)
+        {
+            var service = this.CreateService<MemberInfoo>();
+            return service.Update(m);
         }
 
         //批量删除微信会员信息
@@ -60,5 +61,39 @@ namespace BoothService
             var service = this.CreateService<MemberInfoo>();
             return service.Delete(entitys);
         }
+
+
+        //分页获取租户信息列表
+        public List<UserInfo> ShowUser(int page = 1, int limit = 10)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.GetAll().ToList();
+        }
+        //添加租户信息 
+        public int AddUser(UserInfo m)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.Add(m);
+        }
+        //根据id删除租户信息
+        public int Delus(object id)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.Delete(id);
+        }
+        //编辑微信租户信息
+        public int UptUs(UserInfo m)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.Update(m);
+        }
+
+        //批量删除租户信息
+        public int DelAllUs(bool isSave = true, params UserInfo[] entitys)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.Delete(entitys);
+        }
+
     }
 }

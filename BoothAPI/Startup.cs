@@ -39,6 +39,8 @@ namespace BoothAPI
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
             services.AddScoped<IShow, Show>();
             services.AddScoped<IRbac, Rbac>();
+            services.AddScoped<IMarketBll, MarketBll>();
+            services.AddScoped<IRent, Rent>();
 
 
             // 配置跨域处理，允许所有来源
