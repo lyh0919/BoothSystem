@@ -17,6 +17,8 @@
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
     <link href="~/layuiadmin/style/admin.css" rel="stylesheet" />
 
+
+
     <script>
         /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
     </script>
@@ -138,12 +140,25 @@
                                 <i class="layui-icon layui-icon-template"></i>
                                 <cite>租赁管理</cite>
                             </a>
+
                             <dl class="layui-nav-child">
-                                <dd><a lay-href="">订单列表</a></dd>
-                                <dd><a lay-href="">竞拍订单列表</a></dd>
+                                <dd>
+                                    <a  lay-href="template/personalpage.html">
+                                        租赁订单列表
+                                    </a>
+                                    <dl class="layui-nav-child">
+                                        <dd><a lay-href="/rent/Update">订单详情</a></dd>
+                                        <dd><a lay-href="/rent/ConTastShow">合同管理</a></dd>
+                                    </dl>
+                                </dd>
+
+                                <dd><a lay-href="/rent/RentShow">竞拍订单列表</a></dd>
 
                             </dl>
                         </li>
+
+
+
                         <li data-name="app" class="layui-nav-item">
                             <a href="javascript:;" lay-tips="租户管理" lay-direction="2">
                                 <i class="layui-icon layui-icon-app"></i>
@@ -156,7 +171,7 @@
                                     <a lay-href="">租户列表</a>
                                 </dd>
                                 <dd data-name="workorder">
-                                    <a lay-href="">微信会员列表</a>
+                                    <a lay-href="app/workorder/list.html">微信会员列表</a>
                                 </dd>
                             </dl>
                         </li>
@@ -221,8 +236,8 @@
         </div>
     </div>
 
-    @*<script src="~/dist/layuiadmin/layui/layui.js"></script>
-        <script src="../layuiadmin/layui/layui.js"></script>*@
+    @*<script src="~/dist/layuiadmin/layui/layui.js"></script>*@
+        @*<script src="../layuiadmin/layui/layui.js"></script>*@
     <script src="~/layuiadmin/layui/layui.js"></script>
     <script>
         layui.config({
