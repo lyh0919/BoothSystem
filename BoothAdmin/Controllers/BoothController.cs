@@ -12,16 +12,5 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-        //显示微信会员信息
-        public IActionResult ShowWeiXin()
-        {
-            return View();
-        }
-        //添加微信会员信息
-        public IActionResult Addwx()
-        {
-            return View();
-        }
-
     }
 }

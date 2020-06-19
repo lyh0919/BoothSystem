@@ -3,7 +3,7 @@
     Layout = null;
 }
 
-@model BoothAdmin.Controllers.BoothController
+@model BoothAdmin.Controllers.WeiXinController
 
 <script src="~/jquery-3.3.1.js"></script>
 <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
@@ -25,7 +25,7 @@
     <script src="~/js/jquery-3.3.1.js"></script>
 </head>
 <body>
-    @using (Html.BeginForm("Addwx", "Booth", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Add", "Addwx", FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
         <div class="layui-form-item">
             <label class="layui-form-label">会员昵称：</label>
@@ -70,8 +70,8 @@
                 <input id="Mem_State" type="radio" />关闭
             </div>
         </div>
-      
-<div class="layui-form-item">
+
+        <div class="layui-form-item">
             <div class="layui-input-block">
                 <button type="submit" class="layui-btn" id="bt">保存</button>
                 <button type="reset" class="layui-btn layui-btn-primary">取消</button>
@@ -81,9 +81,11 @@
 </body>
 </html>
 <script>
-    var ue = UE.getEditor('GoodsRemark');
+
 
 </script>
+
+
 
 
 
