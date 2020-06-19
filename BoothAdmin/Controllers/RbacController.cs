@@ -12,5 +12,13 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
+        public IActionResult RoleIndex()
+        {
+            return View();
+        }
+        public IActionResult PowerIndex()
+        {
+            return View();
+        }
     }
 }

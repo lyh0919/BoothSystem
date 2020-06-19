@@ -14,6 +14,7 @@ namespace BoothService
         public Rbac(IRepositoryFactory repositoryFactory, IBoothManageContext mydbcontext) : base(repositoryFactory, mydbcontext)
         {
         }
+        #region 部门
         //部门添加
         public int AddDept(RbacDeptPart dept)
         {
@@ -39,5 +40,37 @@ namespace BoothService
             var server = this.CreateService<RbacDeptPart>();
             return server.Update(dept);
         }
+        #endregion
+
+        #region 角色
+        //显示
+        public List<RbacRoleInfo> GetRole()
+        {
+            var server = this.CreateService<RbacRoleInfo>();
+            return server.GetAll().ToList();
+        }
+        //添加
+        public int AddRole(RbacRoleInfo role)
+        {
+            var server = this.CreateService<RbacRoleInfo>();
+            return server.Add(role);
+        }
+        //删除
+        public int DelRole(object id)
+        {
+            var server = this.CreateService<RbacRoleInfo>();
+            return server.Delete(id);
+
+        }
+        //修改
+        public int UptRole(RbacRoleInfo role)
+        {
+            var server = this.CreateService<RbacRoleInfo>();
+            return server.Update(role);
+        }
+        #endregion
+
+
+
     }
 }

@@ -21,7 +21,7 @@ namespace BoothAPI.Controllers
         {
             _rbac = rbac;
         }
-
+        #region 部门
         //部门添加
         [HttpPost]
         public int AddDept(RbacDeptPart dept)
@@ -43,8 +43,6 @@ namespace BoothAPI.Controllers
         [HttpGet]
         public List<RbacDeptPart> GetDept()
         {
-
-            
             return _rbac.GetDept();
         }
 
@@ -55,5 +53,41 @@ namespace BoothAPI.Controllers
             dept.UpdateTime = DateTime.Now;
             return _rbac.UptDept(dept);
         }
+        #endregion
+        
+        #region 角色
+        //角色添加
+        [HttpPost]
+        public int AddRole(RbacRoleInfo role)
+        {
+            role.Id = Guid.NewGuid();
+            role.CreateTime = DateTime.Now;
+            role.UpdateTime = DateTime.Now;
+            role.IsEnable = "1";
+            return _rbac.AddRole(role);
+        }
+        //角色删除
+        [HttpDelete]
+        public int DelRole(object id)
+        {
+            return _rbac.DelDept(id);
+        }
+
+        //角色显示
+        [HttpGet]
+        public List<RbacRoleInfo> GetRole()
+        {
+            return _rbac.GetRole();
+        }
+
+        //角色修改
+        [HttpPut]
+        public int UptRole(RbacRoleInfo role)
+        {
+            role.UpdateTime = DateTime.Now;
+            return _rbac.UptRole(role);
+        }
+        #endregion
+
     }
 }

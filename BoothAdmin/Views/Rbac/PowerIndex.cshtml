@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "PowerIndex";
+    Layout = null;
+}
+
+<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+
+<div class="layui-card">
+    <div class="layui-card-header">
+        <h1>权限分配</h1>
+    </div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote role_search">
+            <div class="layui-inline">
+                <label>当前角色</label>
+                <label id="role"></label>
+                <input type="hidden" id="roleid" />
+            </div>
+
+        </blockquote>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/layuiadmin/layui/layui.js"></script>
+<script>
+    $(function () {
+        var role = window.location.search.split('?')[1].split('&')[0].split('=')[1];
+        $("#role").html(decodeURI(role));
+
+        var id = window.location.search.split('?')[1].split('&')[1].split('=')[1];
+        alert(id);
+    });
+</script>
+
