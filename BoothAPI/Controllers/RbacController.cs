@@ -26,6 +26,10 @@ namespace BoothAPI.Controllers
         [HttpPost]
         public int AddDept(RbacDeptPart dept)
         {
+            dept.Id = Guid.NewGuid();
+            dept.CreateTime = DateTime.Now;
+            dept.UpdateTime = DateTime.Now;
+            dept.IsEnable = "1";
             return _rbac.AddDept(dept);
         }
         //部门删除
@@ -48,6 +52,7 @@ namespace BoothAPI.Controllers
         [HttpPut]
         public int UptDept(RbacDeptPart dept)
         {
+            dept.UpdateTime = DateTime.Now;
             return _rbac.UptDept(dept);
         }
     }
