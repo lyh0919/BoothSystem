@@ -35,6 +35,8 @@ namespace BoothAPI.Controllers
             return _marketBll.UptMarket(model);
         }
 
+
+
         public List<MarketInfo> ShowMarket(int page = 1,int limit = 10)
         {
             return _marketBll.ShowMarket().ToList().Skip((page-1)*limit).Take(limit).ToList();
