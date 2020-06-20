@@ -36,5 +36,14 @@ namespace IBoothService
         //查询是否有权限
         List<RbacPowerAndRole> GetRolePower(string roleid);
 
+
+        //成员
+        List<RbacAdmin> GetAdmin(Expression<Func<RbacAdmin, bool>> @where, Expression<Func<RbacAdmin, DateTime>> order, int pageIndex, int pageSize, out int count);
+
+        int AddAdmin(RbacAdmin role);
+
+        int DelAdmin(object id);
+
+        int UptAdmin(RbacAdmin role);
     }
 }

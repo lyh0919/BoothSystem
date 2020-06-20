@@ -101,9 +101,9 @@ namespace BoothAPI.Controllers
         {
             string[] pow = powId.Split(',');
             List<RbacPowerAndRole> raps = new List<RbacPowerAndRole>();
-            foreach (var item in pow)
+            foreach (var rp in _rbac.GetRolePower(roleId)) 
             {
-                foreach (var rp in _rbac.GetRolePower(roleId))
+                foreach (var item in pow)
                 {
                     if (!rp.PowerId.Equals(item))
                     {
@@ -126,6 +126,52 @@ namespace BoothAPI.Controllers
 
             return _rbac.GetRolePower(roleId);
         }
+
+        #region 成员
+        //显示
+        [HttpGet]
+        public List<RbacAdmin> GetAdmin(string accName,string deptId,int pageindex,int pagesize =2)
+        {
+            int count = 0;
+            return _rbac.GetAdmin(u => u.AccName==accName,u => (DateTime)u.CreateTime,pageindex,pagesize,out count);
+
+            //var list = from s in _rbac.GetAdmin(accName, deptId)
+            //           join d in _rbac.GetDept() on s.DeptId equals d.Id
+            //           select new Member()
+            //           {
+            //               Id=s.Id,
+            //               AccNum=s.AccNum,
+            //               AccName=s.AccName,
+            //               AccPass=s.AccPass,
+            //               AccPhone=s.AccPhone,
+            //               DeptName=d.DeptName,
+            //               CreateTime=s.CreateTime,
+            //               UpdateTime=s.UpdateTime,
+            //               IsEnable=s.IsEnable
+            //           };
+            //list.Count();
+            //return list.ToList();
+        }
+        //添加
+        [HttpPost]
+        public int AddAdmin(RbacAdmin admin)
+        {
+            return _rbac.AddAdmin(admin);
+        }
+        //删除
+        [HttpDelete]
+        public int DelAdmin(object id)
+        {
+            return _rbac.DelAdmin(id);
+
+        }
+        //修改
+        [HttpPut]
+        public int UptAdmin(RbacAdmin admin)
+        {
+            return _rbac.UptAdmin(admin);
+        }
+        #endregion
 
     }
 }

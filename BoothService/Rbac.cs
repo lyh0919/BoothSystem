@@ -92,5 +92,45 @@ namespace BoothService
             return raplist.ToList();
         }
 
+        #region 成员
+        //显示
+        public List<RbacAdmin> GetAdmin(Expression<Func<RbacAdmin, bool>> @where, Expression<Func<RbacAdmin, DateTime>> order, int pageIndex, int pageSize, out int count)
+        {
+            var server = this.CreateService<RbacAdmin>();
+            return server.Where(where,order,pageIndex,pageSize,out count).ToList();
+
+            //var server = this.CreateService<RbacAdmin>();
+            //var admin = server.GetAll().ToList();
+            //if (depeId=="")
+            //{
+            //    return (from s in admin where s.AccName.Contains(accName) select s).ToList();
+            //}
+            //else
+            //{
+            //    return (from s in admin where s.AccName.Contains(accName) & s.DeptId.Equals(depeId) select s).ToList();
+            //}
+
+        }
+        //添加
+        public int AddAdmin(RbacAdmin admin)
+        {
+            var server = this.CreateService<RbacAdmin>();
+            return server.Add(admin);
+        }
+        //删除
+        public int DelAdmin(object id)
+        {
+            var server = this.CreateService<RbacAdmin>();
+            return server.Delete(id);
+
+        }
+        //修改
+        public int UptAdmin(RbacAdmin admin)
+        {
+            var server = this.CreateService<RbacAdmin>();
+            return server.Update(admin);
+        }
+        #endregion
+
     }
 }
