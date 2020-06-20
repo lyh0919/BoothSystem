@@ -57,15 +57,15 @@
                     , title: '市场数据表'
                     , totalRow: true
                     , cols: [[ //表头
-                        { field: 'id', title: 'ID', sort: true, fixed: 'left' }
-                        , { field: 'markName', title: '市场名称', sort: true }
-                        , { field: 'markPhone', title: '市场电话' }
-                        , { field: 'markAccName', title: '市场管理员', sort: true }
-                        , { field: 'markAddress', title: '地址' }
+                        { field: 'id', title: 'ID', sort: true, fixed: 'left',align:"center" }
+                        , { field: 'markName', title: '市场名称', sort: true,align:"center" }
+                        , { field: 'markPhone', title: '市场电话',align:"center" }
+                        , { field: 'markAccName', title: '市场管理员', sort: true,align:"center" }
+                        , { field: 'markAddress', title: '地址',align:"center" }
                         , { field: 'markSortId', title: '排序', sort: true }
 
-                        , { field: 'isEnable', title: '状态', width: 135, sort: true }
-                        , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                        , { field: 'isEnable', title: '状态', width: 135, sort: true ,align:"center",templet: function(d){if(d.isEnable == '1'){return '开启'}else{return '关闭'}}}
+                        , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150,align:"center" }
                     ]]
 
                     , parseData: function (res) { //res 即为原始返回的数据

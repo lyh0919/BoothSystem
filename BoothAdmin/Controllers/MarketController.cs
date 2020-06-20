@@ -20,7 +20,7 @@ namespace BoothAdmin.Controllers
            
         }
         //通过调用api做显示
-        public ActionResult SelectMarket(int page=1,int limit=10)
+        public ActionResult SelectMarket(int page=2,int limit=10)
         {
 
             string url = "http://localhost:52229/api/Market/ShowMarket";
@@ -46,6 +46,24 @@ namespace BoothAdmin.Controllers
             return View();
         }
 
+
+        public int Add(MarketInfo m)
+        {
+            HttpResponseMessage message = null;
+            string url = "http://localhost:52229/api/Market/AddMarket";
+            m.Id = Guid.NewGuid();
+            m.CreateTime = DateTime.Now;
+            m.UpdateTime = DateTime.Now;
+            m.MarkSortId = 2;
+            string stu = JsonConvert.SerializeObject(m);
+            HttpClient client = new HttpClient();
+            HttpContent content = new StringContent(stu);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json") { CharSet = "utf-8" };
+            message = client.PostAsync(url,content).Result;
+            string s= message.Content.ReadAsStringAsync().Result;
+            return Convert.ToInt32(s);
+
+        }
        public IActionResult UpdateMarket(object id)
         {
             return View();
