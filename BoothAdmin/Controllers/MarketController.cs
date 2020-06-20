@@ -12,30 +12,15 @@ namespace BoothAdmin.Controllers
 {
     public class MarketController : Controller
     {
-        //private IMarketBll _marketBll;
-        //public MarketController(IMarketBll marketBll)
-        //{
-        //    this._marketBll = marketBll;
-        //}
+     
         public IActionResult Index()
         {
-            //string url = "http://localhost:52229/api/Market/ShowMarket";
-            //HttpClient client = new HttpClient();
-
-            //HttpResponseMessage httpResponse = client.GetAsync(url).Result;
-            //string s = httpResponse.Content.ReadAsStringAsync().Result;
-            //List<MarketInfo> list = JsonConvert.DeserializeObject<List<MarketInfo>>(s);
-            //List<MarketInfo> list = _marketBll.ShowMarket(page,limit);
-            //int PageCount = (list == null || list.Count == 0) ? 0 : list.Count;
-            //int c = (int)Math.Ceiling((decimal)PageCount / limit);
-            //ViewBag.parper = (page <= 1) ? 1 : page - 1;
-            //ViewBag.pagenext = page >= c ? c : page + 1;
-            //ViewBag.pahelast = c;
-            //return Json(new LayUi { code = "0", msg = "", count = PageCount.ToString(), data = list });
+           
             return View();
            
         }
-        public ActionResult SelectMarket(int page=1,int limit=10)
+        //通过调用api做显示
+        public ActionResult SelectMarket(int page=2,int limit=10)
         {
 
             string url = "http://localhost:52229/api/Market/ShowMarket";
@@ -51,9 +36,7 @@ namespace BoothAdmin.Controllers
             ViewBag.pagenext = page >= c ? c : page + 1;
             ViewBag.pahelast = c;
             return Json(new LayUi { code = "0", msg = "", count = PageCount.ToString(), data = list });
-            //List<MarketInfo> list = JsonConvert.DeserializeObject<List<MarketInfo>>(s);
-            //return View(list);
-            //return View();
+            
         }
 
 
@@ -63,7 +46,32 @@ namespace BoothAdmin.Controllers
             return View();
         }
 
-       public IActionResult UptMarkert()
+
+        public int Add(MarketInfo m)
+        {
+            HttpResponseMessage message = null;
+            string url = "http://localhost:52229/api/Market/AddMarket";
+            m.Id = Guid.NewGuid();
+            m.CreateTime = DateTime.Now;
+            m.UpdateTime = DateTime.Now;
+            m.MarkSortId = 2;
+            string stu = JsonConvert.SerializeObject(m);
+            HttpClient client = new HttpClient();
+            HttpContent content = new StringContent(stu);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json") { CharSet = "utf-8" };
+            message = client.PostAsync(url,content).Result;
+            string s= message.Content.ReadAsStringAsync().Result;
+            return Convert.ToInt32(s);
+
+        }
+       public IActionResult UpdateMarket(object id)
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult DelMarket(Object id)
         {
             return View();
         }
