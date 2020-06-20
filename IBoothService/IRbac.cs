@@ -8,14 +8,33 @@ namespace IBoothService
 {
     public interface IRbac
     {
+        //部门
         List<RbacDeptPart> GetDept();
-
-
 
         int AddDept(RbacDeptPart dept);
 
         int DelDept(object id);
 
         int UptDept(RbacDeptPart dept);
+
+
+        //角色
+        List<RbacRoleInfo> GetRole();
+
+        int AddRole(RbacRoleInfo role);
+
+        int DelRole(object id);
+
+        int UptRole(RbacRoleInfo role);
+
+        //权限反填
+        List<RbacPower> GetPower();
+
+        //设置权限
+        int AddRolePow(List<RbacPowerAndRole> raps);
+
+        //查询是否有权限
+        List<RbacPowerAndRole> GetRolePower(string roleid);
+
     }
 }

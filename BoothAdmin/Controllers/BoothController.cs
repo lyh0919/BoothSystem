@@ -12,9 +12,5 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-
-
-
-
     }
 }

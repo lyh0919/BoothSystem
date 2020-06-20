@@ -47,6 +47,22 @@ namespace BoothDataAccess
             }
             return flag;
         }
+        //添加多条
+        public int Add(List<T> entity, bool isSave = true)
+        {
+            int flag = 0;
+            foreach (var item in entity)
+            {
+                this._dbSet.Add(item);
+            }
+            
+            if (isSave)
+            {
+                flag = this.SaveChanges();
+            }
+            return flag;
+        }
+
         //实体删除
         public int Delete(T entity, bool isSave = true)
         {
