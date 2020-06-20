@@ -27,7 +27,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">所属部门</label>
                         <div class="layui-input-inline">
-                            <select name="modules" id="deptid" lay-verify="required" lay-search="">
+                            <select name="modules" id="deptid"  lay-verify="required" lay-search="">
                             </select>
                         </div>
                     </div>
@@ -82,28 +82,15 @@
             }
         });
 
-
-        //调用分页
-        //laypage.render({
-        //    elem: 'demo20'
-        //    , count: 10
-        //    , jump: function (obj) {
-        //        //模拟渲染
-        //        document.getElementById('biuuu_city_list').innerHTML = function () {
-        //            var arr = []
-        //                , thisData = data.concat().splice(obj.curr * obj.limit - obj.limit, obj.limit);
-        //            layui.each(thisData, function (index, item) {
-        //                arr.push('<li>' + item + '</li>');
-        //            });
-        //            return arr.join('');
-        //        }();
-        //    }
-        //});
+    });
+    //对表单重新渲染  复选框、下拉框等
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
     });
 
-
     $(function () {
-        GetDept();
+        GetDept();//部门下拉框
         AdminShow();
     });
     var accname = $("#accname").val();
@@ -149,6 +136,24 @@
         });
     }
 
+    //下拉框角色
+    function GetRole() {
+        $.get('http://localhost:52229/api/rbac/getrole', function (res) {
+            $("#roleid").empty();
+            var html = "";
+            $.each(res, function (i, v) {
+                html += '<option value="' + v.id + '">' + v.roleName + '</option>';
+
+            });
+            $("#roleid").append(html);
+            //对表单重新渲染  复选框、下拉框等
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        });
+    }
+
     //删除
     function Del(id) {
         if (confirm("确认删除吗")) {
@@ -170,26 +175,62 @@
     }
     //跳转添加弹出层
     function Add() {
+   
         layui.use('layer', function () { //独立版的layer无需执行这一句
             //var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
-
-
+            
+            //对表单重新渲染  复选框、下拉框等
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
             layer.open({
+
                 type: 1
                 ,title:'添加部门'
-                ,area:["600px","400px"]
+                ,area:["600px","550px"]
                 , offset: 't' //具体配置参考：offset参数项
                 , content:
+                    '<form class="layui-form">'+
                     '<div style="padding: 20px 100px;"><div class="layui-form-item">'+
-                        '<label class= "layui-form-label" >部门名称</label>'+
+                        '<label class= "layui-form-label" >管理员名称</label>'+
                         '<div class="layui-input-inline">'+
-                            '<input type="text" id="deptname" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">'+
+                            '<input type="text" id="adminnum"  lay-verify="required" placeholder="填写管理员名称" autocomplete="off" class="layui-input">'+
                         '</div>' +
-                        '<label class= "layui-form-label" >职能描述</label>' +
+                        '<label class= "layui-form-label" >管理员姓名</label>' +
                         '<div class="layui-input-inline">' +
-                            '<input type="text" id="deptdesc" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">' +
+                            '<input type="text" id="adminname"  lay-verify="required" placeholder="填写管理员姓名" autocomplete="off" class="layui-input">' +
                         '</div>' +
-                    '</div> '
+                        '<label class= "layui-form-label" >电话</label>' +
+                        '<div class="layui-input-inline">' +
+                            '<input type="text" id="adminphone"  lay-verify="required" placeholder="填写电话" autocomplete="off" class="layui-input">' +
+                        '</div>' +
+                        '<div class="layui-inline">'+
+                            '<label class="layui-form-label">所属部门</label>'+
+                            '<div class="layui-input-inline">'+
+                                '<select id="deptid" onload="GetDept()" lay-verify="required" lay-search="">'+
+                                '</select>'+
+                        '</div>' +
+                        '<div class="layui-inline">' +
+                            '<label class="layui-form-label">权限角色</label>' +
+                            '<div class="layui-input-inline">' +
+                                '<select id="roleid" onload="GetRole()" lay-verify="required" lay-search="">' +
+                                '</select>' +
+                            '</div>' +
+                        '</div>' +
+                        '<label class= "layui-form-label" >登录密码</label>' +
+                        '<div class="layui-input-inline">' +
+                            '<input type="password" id="accpass"  lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input">' +
+                        '</div>' +
+                        '<div class="layui-form-item">'+
+                        '<label class="layui-form-label">状态</label>'+
+                            '<div class="layui-input-block">'+
+                                '<input type="radio" name="isenable" value="1" title="开启" checked="">'+
+                                '<input type="radio" name="isenable" value="0" title="关闭">'+
+                            '</div>'+
+                        '</div>'+
+                    '</div> ' +
+                    '</form>'
                 , btn: ['添加','取消']
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
@@ -216,6 +257,7 @@
                 , btn2: function () {  //取消关闭
                     layer.closeAll();
                 }
+                
             });
 
         });

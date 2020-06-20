@@ -135,6 +135,8 @@ namespace BoothAPI.Controllers
             int count = 0;
             return _rbac.GetAdmin(u => u.AccName==accName,u => (DateTime)u.CreateTime,pageindex,pagesize,out count);
 
+            
+
             //var list = from s in _rbac.GetAdmin(accName, deptId)
             //           join d in _rbac.GetDept() on s.DeptId equals d.Id
             //           select new Member()
@@ -156,6 +158,9 @@ namespace BoothAPI.Controllers
         [HttpPost]
         public int AddAdmin(RbacAdmin admin)
         {
+            admin.Id = Guid.NewGuid();
+            admin.CreateTime = DateTime.Now;
+            admin.UpdateTime = DateTime.Now;
             return _rbac.AddAdmin(admin);
         }
         //删除

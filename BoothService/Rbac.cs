@@ -97,7 +97,7 @@ namespace BoothService
         public List<RbacAdmin> GetAdmin(Expression<Func<RbacAdmin, bool>> @where, Expression<Func<RbacAdmin, DateTime>> order, int pageIndex, int pageSize, out int count)
         {
             var server = this.CreateService<RbacAdmin>();
-            return server.Where(where,order,pageIndex,pageSize,out count).ToList();
+            return server.Where(where,order,1,2,out count).ToList();
 
             //var server = this.CreateService<RbacAdmin>();
             //var admin = server.GetAll().ToList();
