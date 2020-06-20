@@ -10,7 +10,7 @@ namespace IBoothService
 
 
         //分页获取微信会员信息列表
-        List<MemberInfoo> ShowWeiXin(int page = 1, int limit = 10);
+        List<MemberInfoo> ShowWeiXin();
         
         //查询所有省份 用于绑定第一级下拉 
         List<City> GetSheng();
@@ -36,7 +36,7 @@ namespace IBoothService
 
 
         //分页获取租户信息列表
-        List<UserInfo> ShowUser(int page = 1, int limit = 10);
+        List<UserInfo> ShowUser();
 
         //添加租户信息
         int AddUser(UserInfo m);

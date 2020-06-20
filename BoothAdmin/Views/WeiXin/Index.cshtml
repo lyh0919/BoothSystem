@@ -16,16 +16,16 @@
 
 </head>
 <body>
+    <div>
+        租户名称： <input id="memName" type="text" placeholder="租户名称" /><input id="Button1" type="button" value="查询结果" />
+    </div>
     <div class="layui-fluid">
-
         <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
             <i class="layui-icon">&#xe654;</i>添加
         </button>
-
-        <script type="text/html" id="toolbarDemo">
-
+          <script type="text/html" id="toolbarDemo">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
-                <i class="layui-icon"  >&#xe654;</i>添加
+                <i class="layui-icon">&#xe654;</i>添加
             </button>
         </script>
 
@@ -59,12 +59,9 @@
                         , { field: 'memAddress', title: '联系电话', sort: true }
                         , { field: 'memState', title: '状态' }
                         , { field: 'isAllow', title: '是否允许访问', sort: true }
-
-
                         , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
                     ]]
-
-                    , parseData: function (res) { //res 即为原始返回的数据
+                , parseData: function (res) { //res 即为原始返回的数据
                         console.log(res)
                         return {
                             "code": res.status, //解析接口状态
@@ -74,8 +71,7 @@
                         };
                     }
                 });
-
-                table.on('tool(demo)', function (obj) {
+              table.on('tool(demo)', function (obj) {
                     var data = obj.data;
                     json = JSON.stringify(data);
                     switch (obj.event) {
@@ -90,8 +86,7 @@
                                 shade: 0.4,
                                 skin: 'layui-layer-rim',
                                 content: ["/WeiXin/Updwx?id=" + data.id, "no"],
-
-                            });
+                             });
                             break;
                         case 'del':
                             var delIndex = layer.confirm('真的删除id为' + data.markName + "的信息吗?", function (delIndex) {
@@ -113,12 +108,14 @@
                                 layer.close(delIndex);
                             });
                             break;
-                    }
+                       }
                 });
-
-
-            });
+          });
         </script>
+    </div>
+    <div>
+        <input id="Button1" type="button" value="批量删除" />
+        <input id="Button1" type="button" value="确定" />
     </div>
 </body>
 </html>
