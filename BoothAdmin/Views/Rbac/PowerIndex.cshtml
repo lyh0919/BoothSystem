@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewData["Title"] = "PowerIndex";
+    Layout = null;
+}
+
+
+<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+<link href="~/layuiadmin/style/admin.css" rel="stylesheet" />
+
+<div class="layui-card">
+    <div class="layui-card-header">
+        <h1>权限分配</h1>
+    </div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote role_search">
+            <div class="layui-inline">
+                <label>当前角色</label>
+                <label id="role"></label>
+                <input type="hidden" id="roleid" />
+            </div>
+
+        </blockquote>
+    </div>
+</div>
+
+<div>
+    <form class="layui-form" action="" lay-filter="example">
+        <div class="layui-form-item" style="height:300px" >
+            <label class="layui-form-label">权限</label>
+            <div class="layui-input-block" id="power">
+
+            </div>
+        </div>
+        <div style="text-align:center">
+            <button type="button" class="layui-btn layui-btn-normal" onclick="PowerSave()">保存</button>
+        </div>
+
+    </form>
+</div>
+
+
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script src="~/layuiadmin/layui/layui.js"></script>
+<script>
+    $(function () {
+
+
+        var role = window.location.search.split('?')[1].split('&')[0].split('=')[1];
+        $("#role").html(decodeURI(role));//需要解码
+
+        var id = window.location.search.split('?')[1].split('&')[1].split('=')[1];
+        $("#roleid").val(id);
+
+        //反填权限
+        $.get('http://localhost:52229/api/rbac/getpower', function (res) {
+            console.log(res);
+            //$("#power").remove();
+            var html = "";
+            $.each(res, function (i, v) {
+                html += '<input type="checkbox" name="pow" lay-skin="primary"  value="' + v.id + '" title="' + v.powerName + '"  />';
+            });
+            $("#power").append(html);
+            //对表单重新渲染  复选框、下拉框等
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        });
+        //已有权限打钩
+        $.get('http://localhost:52229/api/rbac/getrolepowbyid?roleId=' + id, function (res) {
+
+            $.each(res, function (i, v) {
+                var power = document.getElementsByName("pow");
+                for (let index = 0; index < power.length; index++) {
+                    if (power[index].value == v.powerId) {
+                        power[index].checked = true;
+                    }
+                }
+            })
+            //对表单重新渲染  复选框、下拉框等
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        });
+
+
+    });
+
+    //权限保存
+    function PowerSave() {
+        var power = document.getElementsByName("pow");
+        var arr = [];
+        for (let index = 0; index < power.length; index++) {
+            if (power[index].checked) {
+                arr.push(power[index].value);
+            }
+        }
+        
+        if (arr.length != 0) {
+            var roleid = $("#roleid").val();
+            var powid = arr.join(',');
+            alert(arr.join(','));
+            $.get('http://localhost:52229/api/rbac/addrolepow?roleId=' + roleid + '&powId=' + powid, function (res) {
+                if (res > 0) {
+                    alert("设置成功");
+                    location.href = "/Rbac/RoleIndex";
+                }
+            });
+        }
+        else {
+            alert("请选择权限");
+        }
+        
+    }
+
+</script>
+

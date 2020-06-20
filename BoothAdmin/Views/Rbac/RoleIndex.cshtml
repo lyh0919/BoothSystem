@@ -1,20 +1,21 @@
 ﻿
 @{
-    ViewData["Title"] = "DeptIndex";
+    ViewData["Title"] = "RoleIndex";
     Layout = null;
 }
 
 <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+
 <div class="layui-card">
     <div class="layui-card-header">
-        <h1>部门管理</h1>
+        <h1>角色管理</h1>
     </div>
     <div class="layui-card-body">
         <blockquote class="layui-elem-quote role_search">
             <div class="layui-inline">
                 <a data-method="offset" data-type="auto" onclick="Add()" class="layui-btn layui-btn-normal newsAdd_btn">
                     <i class="layui-icon layui-icon-add-1"></i>
-                    添加菜单
+                    添加角色
                 </a>
             </div>
 
@@ -26,8 +27,8 @@
     <table class="layui-table">
         <thead>
             <tr>
-                <th>部门名称</th>
-                <th>职能描述</th>
+                <th>角色名称</th>
+                <th>角色描述</th>
                 <th>添加时间</th>
                 <th>状态</th>
                 <th>操作</th>
@@ -44,20 +45,20 @@
 <script src="~/layuiadmin/layui/layui.js"></script>
 <script>
     $(function () {
-        DeptShow();
+        RoleShow();
     });
 
-    function DeptShow() {
-        $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+    function RoleShow() {
+        $.get('http://localhost:52229/api/rbac/getrole', function (res) {
             $("#dt").empty();
             var html = "";
             $.each(res, function (i, v) {
                 html += "<tr>";
-                html += "<td>" + v.deptName + "</td>";/*isEnable*/
-                html += "<td>" + v.deptDesc + "</td>";
+                html += "<td>" + v.roleName + "</td>";/*isEnable*/
+                html += "<td>" + v.roleDesc + "</td>";
                 html += "<td>" + v.createTime + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
-                html += "<td><a href=' javascript:Upt(" + v.id + ")'>编辑&nbsp;<a href=' javascript: Del(" + v.id + ")'>删除</td>";
+                html += "<td><a href='/Rbac/PowerIndex?rolename=" + v.roleName + "&id=" + v.id + "' >设置权限</a>&nbsp;<a href='javascript:void(0);' onclick='Upt(" + v.id + ")'>编辑</a>&nbsp;<a href='javascript:void(0);' onclick='Del(" + v.id + ")'>删除</a></td>";
                 html += "</tr>";
             });
             $("#dt").append(html);
@@ -69,7 +70,7 @@
         if (confirm("确认删除吗")) {
             alert(id);
             $.ajax({
-                url: "http://localhost:52229/api/rbac/deldept",
+                url: "http://localhost:52229/api/rbac/delrole",
                 data: { id: id },
                 dataType: "json",
                 contentType: "application/json",
@@ -77,7 +78,7 @@
                 success: function (res) {
                     if (res > 0) {
                         alert("删除成功");
-                        DeptShow();
+                        RoleShow();
                     }
                 }
             });
@@ -91,30 +92,30 @@
 
             layer.open({
                 type: 1
-                ,title:'添加部门'
+                ,title:'添加角色'
                 ,area:["600px","400px"]
                 , offset: 't' //具体配置参考：offset参数项
                 , content:
                     '<div style="padding: 20px 100px;"><div class="layui-form-item">'+
-                        '<label class= "layui-form-label" >部门名称</label>'+
+                        '<label class= "layui-form-label" >角色名称</label>'+
                         '<div class="layui-input-inline">'+
-                            '<input type="text" id="deptname" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">'+
+                            '<input type="text" id="rolename" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">'+
                         '</div>' +
-                        '<label class= "layui-form-label" >职能描述</label>' +
+                        '<label class= "layui-form-label" >角色描述</label>' +
                         '<div class="layui-input-inline">' +
-                            '<input type="text" id="deptdesc" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">' +
+                            '<input type="text" id="roledesc" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">' +
                         '</div>' +
                     '</div> '
                 , btn: ['添加','取消']
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
                 , yes: function () {  //添加按钮
-                    var dept = {};
-                    dept.DeptName = $("#deptname").val();
-                    dept.DeptDesc = $("#deptdesc").val();
+                    var role = {};
+                    role.RoleName = $("#rolename").val();
+                    role.RoleDesc = $("#roledesc").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/adddept",
-                        data: JSON.stringify(dept),
+                        url: "http://localhost:52229/api/rbac/addrole",
+                        data: JSON.stringify(role),
                         dataType: "json",
                         contentType: "application/json",
                         type: "Post",
@@ -122,7 +123,7 @@
                             if (res > 0) {
                                 alert("添加成功")
                                 layer.closeAll();
-                                DeptShow();
+                                RoleShow();
                             }
                         }
                     });
@@ -143,31 +144,31 @@
 
             layer.open({
                 type: 1
-                , title: '编辑部门'
+                , title: '编辑角色'
                 , area: ["600px", "400px"]
                 , offset: 't' //具体配置参考：offset参数项
                 , content:
                     '<div style="padding: 20px 100px;"><div class="layui-form-item">' +
-                    '<label class= "layui-form-label" >部门名称</label>' +
+                    '<label class= "layui-form-label" >角色名称</label>' +
                     '<div class="layui-input-inline">' +
-                    '<input type="text" id="deptname" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">' +
+                    '<input type="text" id="rolename" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">' +
                     '</div>' +
-                    '<label class= "layui-form-label" >职能描述</label>' +
+                    '<label class= "layui-form-label" >角色描述</label>' +
                     '<div class="layui-input-inline">' +
-                    '<input type="text" id="deptdesc" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">' +
+                    '<input type="text" id="roledesc" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">' +
                     '</div>' +
                     '</div> '
                 , btn: ['编辑', '取消']
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
                 , yes: function () {  //添加按钮
-                    var dept = {};
-                    dept.Id = id;
-                    dept.DeptName = $("#deptname").val();
-                    dept.DeptDesc = $("#deptdesc").val();
+                    var role = {};
+                    role.Id = id;
+                    role.RoleName = $("#rolename").val();
+                    role.RoleDesc = $("#roledesc").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/uptdept",
-                        data: JSON.stringify(dept),
+                        url: "http://localhost:52229/api/rbac/uptrole",
+                        data: JSON.stringify(role),
                         dataType: "json",
                         contentType: "application/json",
                         type: "put",
@@ -175,7 +176,7 @@
                             if (res > 0) {
                                 alert("修改成功")
                                 layer.closeAll();
-                                DeptShow();
+                                RoleShow();
                             }
                         }
                     });
@@ -188,6 +189,6 @@
 
         });
     }
-    
+
 </script>
 

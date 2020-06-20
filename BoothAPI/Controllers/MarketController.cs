@@ -20,6 +20,7 @@ namespace BoothAPI.Controllers
             this._marketBll = marketBll;
         }
 
+        [HttpPost]
         public int AddMarket(MarketInfo model)
         {
             return _marketBll.AddMarket(model);

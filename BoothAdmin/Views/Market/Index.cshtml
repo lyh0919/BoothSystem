@@ -8,106 +8,122 @@
 <head>
     <meta charset="utf-8">
     <title>table模块快速使用</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     @*<link rel="stylesheet" href="/layui/css/layui.css" media="all">*@
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 
 </head>
 <body>
+    <div class="layui-fluid">
 
-    <table id="demo" lay-filter="test" class="lay-filter="component-form-element "></table>
-    <script type="text/html" id="toolbarDemo">
-        <div class="layui-btn-container">
-            @*//th:href="@{///user/user_add}"-->*@
-            @*<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delBatchAll"><i class="layui-icon"></i>批量删除</button>*@
-            <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="add" onclick="useradd()"><i class="layui-icon"></i>添加</button>
-        </div>
-    </script>
-    <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </script>
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
+            <i class="layui-icon">&#xe654;</i>添加
+        </button>
 
-    <script src="~/layuiadmin/layui/layui.js"></script>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
-    <script>
-        layui.use('table', function () {
-            var table = layui.table;
+        <script type="text/html" id="toolbarDemo">
+            
+                <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
+                    <i class="layui-icon">&#xe654;</i>添加
+                </button>
 
-            //第一个实例
-            table.render({
-                elem: '#demo'
-                , height: 312
-                , url: '/Market/SelectMarket' //数据接口
-                , page: true //开启分页
-                , title: '市场数据表'
-                , totalRow: true
-                , cols: [[ //表头
-                    { field: 'id', title: 'ID',  sort: true, fixed: 'left' }
-                    , { field: 'markName', title: '市场名称', sort: true }
-                    , { field: 'markPhone', title: '市场电话' }
-                    , { field: 'markAccName', title: '市场管理员', sort: true }
-                    , { field: 'markAddress', title: '地址' }
-                    , { field: 'markSortId', title: '排序', sort: true }
+         
 
-                    , { field: 'isEnable', title: '状态', width: 135, sort: true }
-                    , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
-                ]]
-                , parseData: function (res) { //res 即为原始返回的数据
-                    console.log(res)
-                    return {
-                        "code": res.status, //解析接口状态
-                        "msg": res.nessage, //解析提示文本
-                        "count": res.total, //解析数据长度
-                        "data": res.data.Item //解析数据列表
-                    };
-                }
-            });
 
-            table.on('tool(demo)', function (obj) {
-                var data = obj.data;
-                json = JSON.stringify(data);
-                switch (obj.event) {
-                    case 'edit':
-                        var index = layer.open({
-                            type: 2,
-                            title: "编辑修改页面",
-                            area: ["1000px", "600px"],
-                            fix: false,
-                            maxmin: true,
-                            shadeClose: true,
-                            shade: 0.4,
-                            skin: 'layui-layer-rim',
-                            content: ["/Market/UpdateMarket?id=" + data.id, "no"],
+        </script>
 
-                        });
-                        break;
-                    case 'del':
-                        var delIndex = layer.confirm('真的删除id为' + data.id + "的信息吗?", function (delIndex) {
-                            $.ajax({
-                                url: '/Market/DelMarket',
-                                type: "post",
-                                data: { ids: data.goodsID },
-                                success: function (suc) {
-                                    if (suc > 0) {
-                                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                                        layer.close(delIndex);
-                                        console.log(delIndex);
-                                        layer.msg("删除成功");
-                                    } else {
-                                        layer.msg("删除失败");
-                                    }
-                                }
+        @*class="lay-filter=" component-form-element"*@
+        @*表格数据显示*@
+        <table id="demo" lay-filter="demo" class="layui-hide"></table>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+
+        <script src="~/layuiadmin/layui/layui.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
+        <script>
+            layui.use('table', function () {
+                var table = layui.table;
+
+                //第一个实例
+                table.render({
+                    elem: '#demo'
+                    , height: 312
+                    , url: '/Market/SelectMarket' //数据接口
+                    , page: true //开启分页
+                    , title: '市场数据表'
+                    , totalRow: true
+                    , cols: [[ //表头
+                        { field: 'id', title: 'ID', sort: true, fixed: 'left',align:"center" }
+                        , { field: 'markName', title: '市场名称', sort: true,align:"center" }
+                        , { field: 'markPhone', title: '市场电话',align:"center" }
+                        , { field: 'markAccName', title: '市场管理员', sort: true,align:"center" }
+                        , { field: 'markAddress', title: '地址',align:"center" }
+                        , { field: 'markSortId', title: '排序', sort: true }
+
+                        , { field: 'isEnable', title: '状态', width: 135, sort: true ,align:"center",templet: function(d){if(d.isEnable == '1'){return '开启'}else{return '关闭'}}}
+                        , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150,align:"center" }
+                    ]]
+
+                    , parseData: function (res) { //res 即为原始返回的数据
+                        console.log(res)
+                        return {
+                            "code": res.status, //解析接口状态
+                            "msg": res.nessage, //解析提示文本
+                            "count": res.total, //解析数据长度
+                            "data": res.data.Item //解析数据列表
+                        };
+                    }
+                });
+
+                table.on('tool(demo)', function (obj) {
+                    var data = obj.data;
+                    json = JSON.stringify(data);
+                    switch (obj.event) {
+                        case 'edit':
+                            var index = layer.open({
+                                type: 2,
+                                title: "编辑修改页面",
+                                area: ["1000px", "600px"],
+                                fix: false,
+                                maxmin: true,
+                                shadeClose: true,
+                                shade: 0.4,
+                                skin: 'layui-layer-rim',
+                                content: ["/Market/UpdateMarket?id=" + data.id, "no"],
+
                             });
-                            layer.close(delIndex);
-                        });
-                        break;
-                }
+                            break;
+                        case 'del':
+                            var delIndex = layer.confirm('真的删除id为' + data.markName + "的信息吗?", function (delIndex) {
+                                $.ajax({
+                                    url: '/Market/DelMarket',
+                                    type: "post",
+                                    data: { id: data.id },
+                                    success: function (suc) {
+                                        if (suc > 0) {
+                                            obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                            layer.close(delIndex);
+                                            console.log(delIndex);
+                                            layer.msg("删除成功");
+                                        } else {
+                                            layer.msg("删除失败");
+                                        }
+                                    }
+                                });
+                                layer.close(delIndex);
+                            });
+                            break;
+                    }
+                });
+
+
             });
-
-
-        });
-    </script>
+        </script>
+    </div>
 </body>
 </html>
 <script>

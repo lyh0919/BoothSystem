@@ -12,7 +12,6 @@ namespace BoothAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [EnableCors("MyCors")]
     public class DefaultController : ControllerBase
     {
         private IShow _show;

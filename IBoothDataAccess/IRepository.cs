@@ -34,6 +34,13 @@ namespace IBoothDataAccess
         /// <param name="isSave">是否执行</param>
         /// /// <returns></returns>
         int Add(T entity, bool isSave = true);
+        /// <summary>
+        /// 添加关系表多条
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="isSave"></param>
+        /// <returns></returns>
+        int Add(List<T> entity, bool isSave = true);
 
 
         /// <summary>
