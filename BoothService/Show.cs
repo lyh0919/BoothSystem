@@ -16,7 +16,7 @@ namespace BoothService
 
        
         //分页获取微信会员信息列表
-        public List<MemberInfoo>ShowWeiXin(int page=1,int limit=10)
+        public List<MemberInfoo>ShowWeiXin()
         {
             var service = this.CreateService<MemberInfoo>();
             return service.GetAll().ToList();
@@ -64,7 +64,7 @@ namespace BoothService
 
 
         //分页获取租户信息列表
-        public List<UserInfo> ShowUser(int page = 1, int limit = 10)
+        public List<UserInfo> ShowUser()
         {
             var service = this.CreateService<UserInfo>();
             return service.GetAll().ToList();

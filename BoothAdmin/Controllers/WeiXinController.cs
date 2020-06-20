@@ -16,12 +16,7 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-        //租户列表视图
-        public IActionResult ShowUs()
-        {
-            return View();
-        }
-
+        
         //显示微信会员信息
         public ActionResult ShowWeiXin(int page = 1, int limit = 10)
         {
@@ -40,14 +35,44 @@ namespace BoothAdmin.Controllers
             return Json(new LayUi { code = "0", msg = "", count = PageCount.ToString(), data = list });
            
         }
-         //添加微信会员信息
-        public ActionResult Addwx()
+         //添加微信会员视图
+        public IActionResult Addwx()
+        {
+            return View();
+        }
+        //添加的方法
+        public int addw(MemberInfoo m)
+        {
+            HttpResponseMessage message = null;
+            string url = "http://localhost:52229/api/Default/Add";
+            m.Id = Guid.NewGuid();
+            string stu = JsonConvert.SerializeObject(m);
+            HttpClient client = new HttpClient();
+            HttpContent content = new StringContent(stu);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json") {CharSet="utf-8" };
+            message = client.PostAsync(url,content).Result;
+            string s = message.Content.ReadAsStringAsync().Result;
+            return Convert.ToInt32(s);
+
+        }
+
+
+        //查询所有省份 用于绑定第一级下拉 
+        [HttpGet]
+        public IActionResult GetSheng()
         {
             return View();
         }
 
+        //根据省份id 查询该省的城市 用于二级联动
+
+
+        //根据城市id 查询该城市的县 用于三级联动
+
+
+
         //修改微信会员信息
-        public ActionResult Updwx()
+        public IActionResult Updwx()
         {
             return View();
         }
@@ -57,6 +82,11 @@ namespace BoothAdmin.Controllers
             return View();
         }
 
+        //租户列表视图
+        public IActionResult ShowUs()
+        {
+            return View();
+        }
 
         //显示租户信息
         public ActionResult ShowUser(int page = 1, int limit = 10)
@@ -76,19 +106,34 @@ namespace BoothAdmin.Controllers
             return Json(new LayUi { code = "0", msg = "", count = PageCount.ToString(), data = list });
 
         }
-        //添加租户信息
-        public ActionResult Addus()
+        //添加租户信息视图
+        public IActionResult Addus()
         {
             return View();
         }
+        //添加租户信息方法
+        public int Addu(UserInfo m)
+        {
+            HttpResponseMessage message = null;
+            string url = "http://localhost:52229/api/Default/AddUser";
+            m.Id = Guid.NewGuid();
+            string stu = JsonConvert.SerializeObject(m);
+            HttpClient client = new HttpClient();
+            HttpContent content = new StringContent(stu);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json") { CharSet = "utf-8" };
+            message = client.PostAsync(url, content).Result;
+            string s = message.Content.ReadAsStringAsync().Result;
+           return Convert.ToInt32(s); ;
+        }
+
 
         //修改租户信息
-        public ActionResult Updus()
+        public IActionResult Updus()
         {
             return View();
         }
         //删除租户信息
-        public ActionResult Delus()
+        public IActionResult Delus()
         {
             return View();
         }

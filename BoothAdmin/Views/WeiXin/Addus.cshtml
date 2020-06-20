@@ -48,15 +48,15 @@
         <div class="layui-form-item">
             <label class="layui-form-label">联系地址：</label>
             <div class="layui-input-block">
-                <select id="Mem_Address">
+                <select id="Mem_Address1">
                     <option>-选择省份-</option>
 
                 </select>
-                <select id="CityName">
+                <select id="Mem_Address2">
                     <option>-选择市区-</option>
 
                 </select>
-                <select id="CType">
+                <select id="Mem_Address3">
                     <option>-选择县区-</option>
 
                 </select>
@@ -66,14 +66,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">状态</label>
             <div class="layui-input-block">
-                <input id="Mem_State" type="radio" />开启
-                <input id="Mem_State" type="radio" />关闭
+                <input id="Mem_State" type="radio" name="sex" value="1" title="开启" checked=""/>开启
+                <input id="Mem_State" type="radio" name="sex" value="0" title="关闭" />关闭
             </div>
         </div>
 
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="submit" class="layui-btn" id="bt">保存</button>
+                <button type="submit" class="layui-btn" id="bt" onclick="addus()">保存</button>
                 <button type="reset" class="layui-btn layui-btn-primary">取消</button>
             </div>
         </div>
@@ -81,6 +81,39 @@
 </body>
 </html>
 <script>
+    function addus() {
+        var obj = {};
+        obj.Mem_Name = $("#Mem_Name").val();
+        obj.Mem_WX = $("#Mem_WX").val();
+       // 验证手机号
+        obj.User_Phone = $("#User_Phone").val();
+        if (!(/^1[3456789]\d{9}$/.test(obj.User_Phone)))
+        {
+            alert("手机号码有误，请重填");
+            return false;
+        }
+         //地址
+        var Address = $("#Mem_Address1").val() + $("#Mem_Address2").val() + $("#Mem_Address3").val();
+        obj.Mem_Address = Address;
+        //状态
+        obj.Mem_State = $("input[type='radio']:checked").val();
+        $.ajax({
+            url: "/WeiXin/Addwx",
+            dataType:"json",
+            type: 'post',
+            data: obj,
+            success: function (res) {
+                if (res > 1) {
+                    alert("添加成功");
+
+                }
+                else {
+                    alert("添加失败");
+                }
+            }
+  })
+ }
+
 
 
 </script>

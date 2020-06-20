@@ -16,6 +16,10 @@
 
 </head>
 <body>
+    <div>
+        用户账户： <input id="id" type="text" placeholder="用户账户/ID" />
+        用户昵称： <input id="userName" type="text" placeholder="用户昵称" /><input id="Button1" type="button" value="查询结果" />
+    </div>
     <div class="layui-fluid">
 
         <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
@@ -54,10 +58,10 @@
                     , totalRow: true
                     , cols: [[ //表头
                         { field: 'id', title: '用户ID', sort: true, fixed: 'left' }
-                        , { field: 'memName', title: '租户名称', sort: true }
-                        , { field: 'memWx', title: '联系方式' }
-                        , { field: 'memAddress', title: '租赁状态', sort: true }
-                       
+                        , { field: 'userName', title: '租户名称', sort: true }
+                        , { field: 'userPhone', title: '联系方式' }
+                        , { field: 'userState', title: '租赁状态', sort: true }
+
 
                         , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
                     ]]
@@ -88,7 +92,6 @@
                                 shade: 0.4,
                                 skin: 'layui-layer-rim',
                                 content: ["/WeiXin/Updus?id=" + data.id, "no"],
-
                             });
                             break;
                         case 'del':
@@ -113,11 +116,15 @@
                             break;
                     }
                 });
-
-
             });
         </script>
     </div>
+    <div>
+        <input id="Button1" type="button" value="批量删除" />
+        <input id="Button1" type="button" value="确定" />
+    </div>
+
+
 </body>
 </html>
 <script>

@@ -25,7 +25,8 @@ namespace BoothAPI.Controllers
         //分页获取微信会员信息列表
         public List<MemberInfoo> ShowWeiXin(int page = 1, int limit = 10)
         {
-            return _show.ShowWeiXin().ToList().Skip((page-1)*limit).Take(limit).ToList();
+            List<MemberInfoo> list = _show.ShowWeiXin();
+            return list.Skip((page-1)*limit).Take(limit).ToList();
         }
 
         //查询所有省份 用于绑定第一级下拉 
@@ -74,7 +75,8 @@ namespace BoothAPI.Controllers
         //分页获取租户信息列表
         public List<UserInfo> ShowUser(int page = 1, int limit = 10)
         {
-            return _show.ShowUser().ToList().Skip((page - 1) * limit).Take(limit).ToList();
+            List<UserInfo> list = _show.ShowUser();
+            return list.Skip((page - 1) * limit).Take(limit).ToList();
         }
 
         //添加租户信息 
