@@ -94,20 +94,19 @@ namespace BoothService
 
         #region 成员
         //显示
-        public List<RbacAdmin> GetAdmin(Expression<Func<RbacAdmin, bool>> @where, Expression<Func<RbacAdmin, DateTime>> order, int pageIndex, int pageSize, out int count)
+        public List<RbacAdmin> GetAdmin(Func<RbacAdmin, bool> @where, Func<RbacAdmin, DateTime> order, int pageIndex, int pageSize, out int count)
         {
             var server = this.CreateService<RbacAdmin>();
-            return server.Where(where,order,pageIndex,pageSize,out count).ToList();
+            return server.Where(where,order, pageIndex, pageSize, out count).ToList();
 
-            //var server = this.CreateService<RbacAdmin>();
-            //var admin = server.GetAll().ToList();
-            //if (depeId=="")
+
+            //if (deptId == "")
             //{
             //    return (from s in admin where s.AccName.Contains(accName) select s).ToList();
             //}
             //else
             //{
-            //    return (from s in admin where s.AccName.Contains(accName) & s.DeptId.Equals(depeId) select s).ToList();
+            //    return (from s in admin where s.AccName.Contains(accName) & s.DeptId.Equals(deptId) select s).ToList();
             //}
 
         }

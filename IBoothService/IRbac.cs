@@ -38,7 +38,7 @@ namespace IBoothService
 
 
         //成员
-        List<RbacAdmin> GetAdmin(Expression<Func<RbacAdmin, bool>> @where, Expression<Func<RbacAdmin, DateTime>> order, int pageIndex, int pageSize, out int count);
+        List<RbacAdmin> GetAdmin(Func<RbacAdmin, bool> @where, Func<RbacAdmin, DateTime> order, int pageIndex, int pageSize, out int count);
 
         int AddAdmin(RbacAdmin role);
 
