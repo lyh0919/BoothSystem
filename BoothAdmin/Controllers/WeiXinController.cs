@@ -40,22 +40,7 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-        [HttpPost]
-        //添加的方法
-        public int addw(MemberInfoo m)
-        {
-            HttpResponseMessage message = null;
-            string url = "http://localhost:52229/api/Default/Add";
-            m.Id = Guid.NewGuid();
-            string stu = JsonConvert.SerializeObject(m);
-            HttpClient client = new HttpClient();
-            HttpContent content = new StringContent(stu);
-            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json") {CharSet="utf-8" };
-            message = client.PostAsync(url,content).Result;
-            string s = message.Content.ReadAsStringAsync().Result;
-            return Convert.ToInt32(s);
-
-        }
+        
 
 
         //查询所有省份 用于绑定第一级下拉 
@@ -112,22 +97,7 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-        [HttpPost]
-        //添加租户信息方法
-        public int Addu(UserInfo m)
-        {
-            HttpResponseMessage message = null;
-            string url = "http://localhost:52229/api/Default/AddUser";
-            m.Id = Guid.NewGuid();
-            string stu = JsonConvert.SerializeObject(m);
-            HttpClient client = new HttpClient();
-            HttpContent content = new StringContent(stu);
-            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json") { CharSet = "utf-8" };
-            message = client.PostAsync(url, content).Result;
-            string s = message.Content.ReadAsStringAsync().Result;
-           return Convert.ToInt32(s); ;
-        }
-
+      
 
         //修改租户信息
         public IActionResult Updus()
