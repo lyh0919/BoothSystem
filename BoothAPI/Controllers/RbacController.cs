@@ -130,15 +130,15 @@ namespace BoothAPI.Controllers
         #region 成员
         //显示
         [HttpGet]
-        public MemPage GetAdmin(string deptId,int pageindex,int pagesize =2,string accName = "亚")
+        public MemPage GetAdmin(string deptId,int pageindex,int pagesize =2,string accName = "")
         {
             int count = 0;
-            var memlist = _rbac.GetAdmin(u => u.AccName.Contains(""),u => (DateTime)u.CreateTime,pageindex,pagesize,out count);
+            var memlist = _rbac.GetAdmin(u => u.AccName.Contains("")&u.DeptId.ToString()==deptId,u => (DateTime)u.CreateTime,pageindex,pagesize,out count);
 
 
             var list = from s in memlist
                        join d in _rbac.GetDept() on s.DeptId equals d.Id
-                       select new Member()
+                       select new Member() 
                        {
                            Id = s.Id,
                            AccNum = s.AccNum,
