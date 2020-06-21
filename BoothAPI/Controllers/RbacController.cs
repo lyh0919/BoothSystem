@@ -130,29 +130,29 @@ namespace BoothAPI.Controllers
         #region 成员
         //显示
         [HttpGet]
-        public List<RbacAdmin> GetAdmin(string accName,string deptId,int pageindex,int pagesize =2)
+        public MemPage GetAdmin(string deptId,int pageindex,int pagesize =2,string accName = "亚")
         {
             int count = 0;
-            return _rbac.GetAdmin(u => u.AccName==accName,u => (DateTime)u.CreateTime,pageindex,pagesize,out count);
+            var memlist = _rbac.GetAdmin(u => u.AccName.Contains(""),u => (DateTime)u.CreateTime,pageindex,pagesize,out count);
 
-            
 
-            //var list = from s in _rbac.GetAdmin(accName, deptId)
-            //           join d in _rbac.GetDept() on s.DeptId equals d.Id
-            //           select new Member()
-            //           {
-            //               Id=s.Id,
-            //               AccNum=s.AccNum,
-            //               AccName=s.AccName,
-            //               AccPass=s.AccPass,
-            //               AccPhone=s.AccPhone,
-            //               DeptName=d.DeptName,
-            //               CreateTime=s.CreateTime,
-            //               UpdateTime=s.UpdateTime,
-            //               IsEnable=s.IsEnable
-            //           };
-            //list.Count();
-            //return list.ToList();
+            var list = from s in memlist
+                       join d in _rbac.GetDept() on s.DeptId equals d.Id
+                       select new Member()
+                       {
+                           Id = s.Id,
+                           AccNum = s.AccNum,
+                           AccName = s.AccName,
+                           AccPass = s.AccPass,
+                           AccPhone = s.AccPhone,
+                           DeptName = d.DeptName,
+                           CreateTime = s.CreateTime,
+                           UpdateTime = s.UpdateTime,
+                           IsEnable = s.IsEnable
+                       };
+            MemPage memPage = new MemPage { Members=list.ToList(),Count=count};
+
+            return memPage;
         }
         //添加
         [HttpPost]
