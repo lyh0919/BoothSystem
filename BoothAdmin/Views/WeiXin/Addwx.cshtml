@@ -1,15 +1,15 @@
-﻿
+﻿@model BoothModel.Models.UserInfo
 @{
     Layout = null;
 }
 
-@model BoothAdmin.Controllers.WeiXinController
+    <!DOCTYPE html>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
 <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 <script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
-<!DOCTYPE html>
+
 
 <html>
 <head>
@@ -20,82 +20,96 @@
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body>
-    @using (Html.BeginForm("Add", "Addwx", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-    {
-        <div class="layui-form-item">
-            <label class="layui-form-label">会员昵称：</label>
-            <div class="layui-input-block">
-                <input type="text" name="Mem_Name" id="Mem_Name" lay-verify="title" autocomplete="off" placeholder="填写租户名称5-15个字" class="layui-input">
-            </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员昵称：</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" id="MemName" lay-verify="title" autocomplete="off" placeholder="填写租户名称5-15个字" class="layui-input">
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">微信账号：</label>
-            <div class="layui-input-block">
-                <input type="number" name="Mem_WX" id="Mem_WX" lay-verify="title" autocomplete="off" class="layui-input">
-            </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">微信账号：</label>
+        <div class="layui-input-block">
+            <input type="number" name="title" id="MemWX" lay-verify="title" autocomplete="off" class="layui-input">
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">联系电话：</label>
-            <div class="layui-input-block">
-                <input type="number" name="User_Phone" id="User_Phone" lay-verify="title" autocomplete="off" class="layui-input">
-            </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系电话：</label>
+        <div class="layui-input-block">
+            <input type="number" name="Phone" id="UserPhone" lay-verify="title" autocomplete="off" class="layui-input">
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">联系地址：</label>
-            <div class="layui-input-block">
-                <select id="Mem_Address1">
-                    <option>-选择省份-</option>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系地址：</label>
+        <div class="layui-input-block">
+            <select id="MemAddress1">
+                <option>-选择省份-</option>
+                <option>-安徽省-</option>
+                <option>-河南省-</option>
+                <option>-山西省-</option>
+                <option>-湖南省-</option>
+            </select>
+            <select id="MemAddress2">
+                <option>-选择市区-</option>
+                <option>-阜阳市-</option>
+                <option>-合肥市-</option>
+                <option>-郑州市-</option>
+                <option>-武汉市-</option>
+            </select>
+            <select id="MemAddress3">
+                <option>-选择县区-</option>
+                <option>-太和县-</option>
+                <option>-临泉县-</option>
+                <option>-奉贤区-</option>
+                <option>-朝阳区-</option>
+                <option>-奉城区-</option>
+            </select>
 
-                </select>
-                <select id="Mem_Address2">
-                    <option>-选择市区-</option>
-
-                </select>
-                <select id="Mem_Address3">
-                    <option>-选择县区-</option>
-
-                </select>
-
-            </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">状态</label>
-            <div class="layui-input-block">
-                <input id="Mem_State" type="radio" name="sex" value="1" title="开启" checked="" />开启
-                <input id="Mem_State" type="radio" name="sex" value="0" title="关闭" />关闭
-            </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="1" title="开启" checked="" />开启
+            <input type="radio" name="sex" value="0" title="关闭" />关闭
         </div>
+    </div>
 
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button type="submit" class="layui-btn" id="bt" onclick="addwx()">保存</button>
-                <button type="reset" class="layui-btn layui-btn-primary">取消</button>
-            </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" id="bt" onclick="addwx()">保存</button>
+            <button type="reset" class="layui-btn layui-btn-primary">取消</button>
         </div>
-    }
+    </div>
+
 </body>
 </html>
 <script>
+    $(function () {
+
+    });
     function addwx() {
         var obj = {};
-        obj.Mem_Name = $("#Mem_Name").val();
-        obj.Mem_WX = $("#Mem_WX").val();
+        obj.MemName = $("#MemName").val();
+        obj.MemWX = $("#MemWX").val();
         // 验证手机号
-        obj.User_Phone = $("#User_Phone").val();
-        if (!(/^1[3456789]\d{9}$/.test(obj.User_Phone))) {
-            alert("手机号码有误，请重填");
-            return false;
-        }
+        obj.UserPhone = $("#UserPhone").val();
+        //if (!(/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(obj.User_Phone))) {
+        //    alert("手机号码有误，请重填");
+        //    return false;
+        //}
+        //else {
+        //    obj.User_Phone = obj.User_Phone;
+        //}
         //地址
-        var Address = $("#Mem_Address1").val() + $("#Mem_Address2").val() + $("#Mem_Address3").val();
-        obj.Mem_Address = Address;
+        var Address = $("#MemAddress1").val() + $("#MemAddress2").val() + $("#MemAddress3").val();
+        obj.MemAddress = Address;
         //状态
-        obj.Mem_State = $("input[type='radio']:checked").val();
+        obj.MemState = $("input[type='radio']:checked").val();
         $.ajax({
             url: "/WeiXin/Addwx",
             data: obj,
             dataType: "json",
-            type: 'post',
+            type: "post",
             success: function (res) {
                 if (res > 1) {
                     alert("添加成功");

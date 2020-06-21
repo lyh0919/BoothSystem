@@ -40,6 +40,7 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
+        [HttpPost]
         //添加的方法
         public int addw(MemberInfoo m)
         {
@@ -111,6 +112,7 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
+        [HttpPost]
         //添加租户信息方法
         public int Addu(UserInfo m)
         {
