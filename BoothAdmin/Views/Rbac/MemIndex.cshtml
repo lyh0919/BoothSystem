@@ -57,7 +57,10 @@
         </table>
 
     </div>
-    <div id="demo"></div>
+    <div id="demo" style="text-align:center">
+        <button type="button" id="prev" onclick="Prev()" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">上一页</i></button>
+        <button type="button" id="next" onclick="Next()" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">下一页</i></button>
+    </div>
 
 </form>
 
@@ -65,22 +68,6 @@
 <script src="~/layuiadmin/layui/layui.js"></script>
 <script>
     
-
-    layui.use(['laypage', 'layer'], function () {
-        var laypage = layui.laypage
-            , layer = layui.layer;
-
-        laypage.render({
-            elem: 'demo',
-            count: 10,
-            limit:2,
-            theme: '#1E9FFF',
-            jump: function (obj) {
-
-            }
-        });
-
-    });
     //对表单重新渲染  复选框、下拉框等
     layui.use('form', function () {
         var form = layui.form;
@@ -89,20 +76,49 @@
     //页面加载
     $(function () {
         GetDept();//部门下拉框
-        AdminShow();
+        if (pageindex == 1) {
+            $('#prev').attr("disabled", true);
+        }
+        AdminShow(pageindex);
     });
+
     var accname = $("#accname").val();
     var deptid = $('select[name="dept"] option:selected').val();
 
-    //显示
+   
 
     var pageindex = 1;
     var pagesize = 2;
     var total = 0;
     var pages = Math.ceil(total / pagesize); //得到总页数
+    //上一页
+    function Prev() {
+        
+        $('#next').attr("disabled", false);
+        if (pageindex == 1) {
+            $('#prev').attr("disabled", true);
+        }
+        else {
+            pageindex = pageindex - 1;
+            AdminShow(pageindex);
+        }
+    }
+    //下一页
+    function Next() {
+        
+        $('#prev').attr("disabled", false);
+        if (pageindex == pages) {
+            $('#next').attr("disabled", true);
+        }
+        else {
+            pageindex = pageindex + 1;
+            AdminShow(pageindex);
+        }
+    }
 
-    function AdminShow() {
-        $.get('http://localhost:52229/api/rbac/getadmin?accName=' + accname + '&deptId=' + deptid + '&pageindex=' + pageindex, function (res) {
+    //显示
+    function AdminShow(pageindex) {
+        $.get('http://localhost:52229/api/rbac/getadmin?accName=' + accname + '&deptId=' + deptid + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
             total = res.count;
             $("#dt").empty();
             var html = "";
