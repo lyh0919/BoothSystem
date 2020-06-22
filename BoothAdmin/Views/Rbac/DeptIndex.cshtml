@@ -70,9 +70,9 @@
             alert(id);
             $.ajax({
                 url: "http://localhost:52229/api/rbac/deldept",
-                data: { ids: id },
+                data: { id: id },
                 dataType: "json",
-                type: "Delete",
+                type: "Get",
                 contentType: "application/json",
                 success: function (res) {
                     if (res > 0) {

@@ -35,10 +35,10 @@ namespace BoothAPI.Controllers
             return _rbac.AddDept(dept);
         }
         //部门删除
-        [HttpDelete]
-        public int DelDept(string ids)
+        [HttpGet]
+        public int DelDept(Guid id)
         {
-            return _rbac.DelDept(ids);
+            return _rbac.DelDept(id);
         }
 
         //部门显示
