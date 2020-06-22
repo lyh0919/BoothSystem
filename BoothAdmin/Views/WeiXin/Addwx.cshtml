@@ -104,6 +104,7 @@ function addwx() {
         m.MemAddress = Address;
         //状态
         m.MemState = $("input[name='sex']:checked").val();
+
         $.ajax({
             url: "http://localhost:52229/api/default/add",
             data: JSON.stringify(m),
@@ -113,6 +114,7 @@ function addwx() {
             success: function (res) {
                 if (res >0) {
                     alert("添加成功");
+
                   }
                 else {
                     alert("添加失败");

@@ -50,8 +50,8 @@ namespace IBoothService
         List<UserInfo> Uptus(Expression<Func<UserInfo, bool>> where);
 
          //根据id删除租户信息
-        
-        List<UserInfo> Delus(Expression<Func<UserInfo, bool>> where);
+         int Delus(Guid ids);
+
         //批量删除租户信息
         int DelAllUs(bool isSave = true, params UserInfo[] entitys);
 

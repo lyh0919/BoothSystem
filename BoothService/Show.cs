@@ -63,8 +63,6 @@ namespace BoothService
             var service = this.CreateService<MemberInfoo>();
             return service.Where(where).ToList();
         }
-
-
         //批量删除微信会员信息
         public int DelAll(bool isSave = true, params MemberInfoo[] entitys)
         {
@@ -85,12 +83,17 @@ namespace BoothService
             var service = this.CreateService<UserInfo>();
             return service.Add(m);
         }
+
         //根据id删除租户信息
-        public List<UserInfo> Delus(Expression<Func<UserInfo, bool>> where)
+       
+        public int Delus(Guid ids)
         {
-            var service = this.CreateService<UserInfo>();
-            return service.Where(where).ToList();
+            var service = this.CreateService<MemberInfoo>();
+            return service.Delete(ids, true);
         }
+       
+
+
         //修改租户
         public int UptUs(UserInfo m)
         {

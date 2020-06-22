@@ -22,7 +22,6 @@ namespace BoothAdmin.Controllers
         {
             string url = "http://localhost:52229/api/Default/ShowWeiXin";
             HttpClient client = new HttpClient();
-
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
             string s = httpResponse.Content.ReadAsStringAsync().Result;
             List<MemberInfoo> list = JsonConvert.DeserializeObject<List<MemberInfoo>>(s);
@@ -112,19 +111,18 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-          //根据id删除租户信息
         [HttpPost]
+        //根据id删除租户信息
         public int Delus(Guid id)
         {
             HttpResponseMessage message = null;
-            string url = "http://localhost:52229/api/default/Delus?id=" + id;
+            string url = "http://localhost:52229/api/default/Delus?ids=" + id;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json") { CharSet = "utf-8" });
             message = client.DeleteAsync(url).Result;
             string s = message.Content.ReadAsStringAsync().Result;
             return Convert.ToInt32(s);
         }
-
         public class LayUi
         {
             public string code { get; set; }

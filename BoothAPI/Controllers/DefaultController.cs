@@ -61,7 +61,6 @@ namespace BoothAPI.Controllers
         public int DelWx(Guid ids)
         {
             return _show.DelWx(ids);
-            
         }
 
         //批量删除微信会员信息
@@ -100,12 +99,16 @@ namespace BoothAPI.Controllers
         }
 
         //根据id删除租户信息
-        [HttpPost]
-        public List<UserInfo> Delus(Guid ids)
+        
+        [HttpDelete]
+        public int Delus(Guid ids)
         {
-            return _show.Delus(w => w.Id == ids);
-        }
-       
+            return _show.Delus(ids);
+         }
+        
+
+
+
         //批量删除租户信息
         [HttpPost]
         public int DelAllUs(bool isSave = true, params UserInfo[] entitys)
