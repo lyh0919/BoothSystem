@@ -24,5 +24,9 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
+        public IActionResult RecordIndex()
+        {
+            return View();
+        }
     }
 }

@@ -57,7 +57,7 @@
                 html += "<td>" + v.deptDesc + "</td>";
                 html += "<td>" + v.createTime + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
-                html += "<td><a href=' javascript:Upt(" + v.id + ")'>编辑&nbsp;<a href=' javascript: Del(" + v.id + ")'>删除</td>";
+                html += "<td><a href=' javascript:Upt(" + v.id + ")'>编辑&nbsp;<a href='#' onclick='Del(" + v.id + ")'>删除</td>";
                 html += "</tr>";
             });
             $("#dt").append(html);
