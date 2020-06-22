@@ -91,7 +91,7 @@
                             });
                             break;
                         case 'del':
-                            var delIndex = layer.confirm('真的删除id为' + data.UserName + "的信息吗?", function (delIndex) {
+                            var delIndex = layer.confirm('真的删除id为' + data.Id + "的信息吗?", function (delIndex) {
                                 $.ajax({
                                     url: '/WeiXin/Delus',
                                     type: "post",

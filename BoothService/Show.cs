@@ -45,10 +45,10 @@ namespace BoothService
 
         //根据id删除微信会员信息
        
-        public List<MemberInfoo> DelWx(Expression<Func<MemberInfoo, bool>> where)
+        public int DelWx(Guid ids)
         {
             var service = this.CreateService<MemberInfoo>();
-            return service.Where(where).ToList();
+            return service.Delete(ids,true);
         }
 
         //编辑微信会员信息

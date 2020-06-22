@@ -47,7 +47,7 @@ namespace BoothAdmin.Controllers
         public int Delwx(Guid id)
         {
            HttpResponseMessage message = null;
-            string url = "http://localhost:52229/api/default/Del?id=" + id;
+            string url = "http://localhost:52229/api/default/DelWx?ids=" + id;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json") { CharSet = "utf-8" });
             message = client.DeleteAsync(url).Result;

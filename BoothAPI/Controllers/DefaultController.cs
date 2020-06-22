@@ -57,10 +57,11 @@ namespace BoothAPI.Controllers
         }
 
         //根据id删除微信会员信息
-        [HttpPost]
-        public List<MemberInfoo> DelWx(Guid ids)
+        [HttpDelete]
+        public int DelWx(Guid ids)
         {
-            return _show.DelWx(w => w.Id == ids);
+            return _show.DelWx(ids);
+            
         }
 
         //批量删除微信会员信息
