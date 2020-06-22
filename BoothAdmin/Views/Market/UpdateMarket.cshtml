@@ -6,74 +6,176 @@
 
 <!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>UpdateMarket</title>
-</head>
-<body>
-
-<h4>MarketInfo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="UpdateMarket">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MarkName" class="control-label"></label>
-                <input asp-for="MarkName" class="form-control" />
-                <span asp-validation-for="MarkName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MarkPhone" class="control-label"></label>
-                <input asp-for="MarkPhone" class="form-control" />
-                <span asp-validation-for="MarkPhone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MarkAccName" class="control-label"></label>
-                <input asp-for="MarkAccName" class="form-control" />
-                <span asp-validation-for="MarkAccName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MarkAddress" class="control-label"></label>
-                <input asp-for="MarkAddress" class="form-control" />
-                <span asp-validation-for="MarkAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MarkSortId" class="control-label"></label>
-                <input asp-for="MarkSortId" class="form-control" />
-                <span asp-validation-for="MarkSortId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreateTime" class="control-label"></label>
-                <input asp-for="CreateTime" class="form-control" />
-                <span asp-validation-for="CreateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdateTime" class="control-label"></label>
-                <input asp-for="UpdateTime" class="form-control" />
-                <span asp-validation-for="UpdateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsEnable" class="control-label"></label>
-                <input asp-for="IsEnable" class="form-control" />
-                <span asp-validation-for="IsEnable" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<script src="~/layuiadmin/layui/layui.js"></script>
+<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+<script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
+@using (Html.BeginForm("UpdateMarket", "Market", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    <div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">市场名称:</label>
+        <div class="layui-input-block">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="text" name="title" id="MarkName" value="@Model.MarkName" lay-verify="title" autocomplete="off" placeholder="请输入市场名称" class="layui-input">
+        </div>
     </div>
-</div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">市场管理员:</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" id="MarkAccName" value="@Model.MarkAccName" lay-verify="title" autocomplete="off" placeholder="请输入市场管理员名称" class="layui-input">
+        </div>
+    </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">市场电话</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="phone" id="MarkPhone" value="@Model.MarkPhone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
 
-</body>
-</html>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联动选择框</label>
+        <div class="layui-input-inline">
+            <select name="province" id="MarkAddress1" onchange="ShowProvinces()">
+                <option value="">请选择你所在的省份</option>
+               
+                @*<option value="">请选择省</option>
+                <option value="浙江" selected="">浙江省</option>
+                <option value="你的工号">江西省</option>
+                <option value="你最喜欢的老师">福建省</option>*@
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="city" id="MarkAddress2" onchange="ShowCity()">
+                <option value="">请选择你所在的城市</option>
+                @*<option value="">请选择市</option>
+                <option value="杭州">杭州</option>
+                <option value="宁波" disabled="">宁波</option>
+                <option value="温州">温州</option>
+                <option value="温州">台州</option>
+                <option value="温州">绍兴</option>*@
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="area" id="MarkAddress3" onchange="ShowArea()">
+                <option>请选择你所在的区</option>
+                @*<option value="">请选择县/区</option>
+                <option value="西湖区">西湖区</option>
+                <option value="余杭区">余杭区</option>
+                <option value="拱墅区">临安市</option>*@
+            </select>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">单选框</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="1" title="开启" checked="">开启
+                <input type="radio" name="sex" value="0" title="关闭">关闭
+
+            </div>
+        </div>
+    </div>
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @*<html>
+        <head>
+            <meta name="viewport" content="width=device-width" />
+            <title>UpdateMarket</title>
+        </head>
+        <body>
+
+            <h4>MarketInfo</h4>
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="UpdateMarket">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Id" class="control-label"></label>
+                            <input asp-for="Id" class="form-control" />
+                            <span asp-validation-for="Id" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MarkName" class="control-label"></label>
+                            <input asp-for="MarkName" class="form-control" />
+                            <span asp-validation-for="MarkName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MarkPhone" class="control-label"></label>
+                            <input asp-for="MarkPhone" class="form-control" />
+                            <span asp-validation-for="MarkPhone" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MarkAccName" class="control-label"></label>
+                            <input asp-for="MarkAccName" class="form-control" />
+                            <span asp-validation-for="MarkAccName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MarkAddress" class="control-label"></label>
+                            <input asp-for="MarkAddress" class="form-control" />
+                            <span asp-validation-for="MarkAddress" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MarkSortId" class="control-label"></label>
+                            <input asp-for="MarkSortId" class="form-control" />
+                            <span asp-validation-for="MarkSortId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CreateTime" class="control-label"></label>
+                            <input asp-for="CreateTime" class="form-control" />
+                            <span asp-validation-for="CreateTime" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UpdateTime" class="control-label"></label>
+                            <input asp-for="UpdateTime" class="form-control" />
+                            <span asp-validation-for="UpdateTime" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="IsEnable" class="control-label"></label>
+                            <input asp-for="IsEnable" class="form-control" />
+                            <span asp-validation-for="IsEnable" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
+
+        </body>
+    </html>*@

@@ -11,8 +11,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    @*<link rel="stylesheet" href="/layui/css/layui.css" media="all">*@
-    <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+   <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -29,9 +28,7 @@
             </button>
         </script>
 
-        @*class="lay-filter=" component-form-element"*@
-        @*表格数据显示*@
-        <table id="demo" lay-filter="demo" class="layui-hide"></table>
+       <table id="demo" lay-filter="demo" class="layui-hide"></table>
         <script type="text/html" id="barDemo">
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -56,7 +53,7 @@
                         { field: 'id', title: 'ID', sort: true, fixed: 'left' }
                         , { field: 'memName', title: '昵称', sort: true }
                         , { field: 'memWx', title: '微信号' }
-                        , { field: 'memAddress', title: '联系电话', sort: true }
+                        , { field: 'userPhone', title: '联系电话', sort: true }
                         , { field: 'memState', title: '状态' }
                         , { field: 'isAllow', title: '是否允许访问', sort: true }
                         , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
@@ -89,7 +86,7 @@
                              });
                             break;
                         case 'del':
-                            var delIndex = layer.confirm('真的删除id为' + data.markName + "的信息吗?", function (delIndex) {
+                            var delIndex = layer.confirm('真的删除id为' + data.id + "的信息吗?", function (delIndex) {
                                 $.ajax({
                                     url: '/WeiXin/Delwx',
                                     type: "post",
@@ -142,17 +139,29 @@
 
 <script>
     /*  ========== 弹出编辑页面  button 事件 ==============*/
-    function uptwei() {
+    function uptwei(ids) {
         layui.use('layer', function () {
             layer.open({
                 type: 2,
-                content: ["/WeiXin/Updwx"],   //添加页，后台controller转发到指定页
+                content: ["/WeiXin/Updwx"], 
                 area: ["700px", "500px"],
                 title: ['用户编辑'],
                 fixed: false,
-                //maxmin: true,
                 shadeClose: true,
-                end: function () {  //刷新页面
+                success: function (ids) {
+                    //反填
+                    var ids = location.search.split("?")[1].split("=")[1];
+                    $("#id").val(ids);
+                    $.get("http://localhost:52229/api/default/uptwx?ids=", + $("#id").val(), function (res) {
+                        $("#MemName").val(res[0].MemName);
+                        $("#MemWX").val(res[0].MemWX);
+                        $("#UserPhone").val(res[0].UserPhone);
+                        $("#MemAddress").val(res[0].MemAddress);
+                        $("#MemState").val(res[0].MemState);
+                   })
+              },
+                end: function () {
+                    //刷新页面
                     location.reload();
                 }
             })

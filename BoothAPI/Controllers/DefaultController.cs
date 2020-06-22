@@ -25,7 +25,6 @@ namespace BoothAPI.Controllers
         public List<MemberInfoo> ShowWeiXins()
         {
             return _show.ShowWeiXin();
-            
         }
 
         [HttpGet]
@@ -53,14 +52,15 @@ namespace BoothAPI.Controllers
         [HttpPost]
         public int Add(MemberInfoo m)
         {
-           return _show.AddWx(m);
+            m.Id = Guid.NewGuid();
+            return _show.AddWx(m);
         }
 
         //根据id删除微信会员信息
-        [HttpPost]
-        public int Del(object id)
+        [HttpDelete]
+        public int DelWx(Guid ids)
         {
-            return _show.DelWx(id);
+            return _show.DelWx(ids);
         }
 
         //批量删除微信会员信息
@@ -74,9 +74,13 @@ namespace BoothAPI.Controllers
         [HttpPost]
         public int UptWx(MemberInfoo m)
         {
-            return _show.UpdateWx(m);
+           return _show.UpdateWx(m);
         }
-
+        //根据id 查询数据 修改
+        public List<MemberInfoo> UptWx(Guid ids)
+        {
+            return _show.Uptwx(w=>w.Id==ids);
+        }
 
         [HttpGet]
         //分页获取租户信息列表
@@ -95,11 +99,15 @@ namespace BoothAPI.Controllers
         }
 
         //根据id删除租户信息
-        [HttpPost]
-        public int Delus(object id)
+        
+        [HttpDelete]
+        public int Delus(Guid ids)
         {
-            return _show.Delus(id);
-        }
+            return _show.Delus(ids);
+         }
+        
+
+
 
         //批量删除租户信息
         [HttpPost]
@@ -109,13 +117,17 @@ namespace BoothAPI.Controllers
         }
 
         //编辑租户信息
-        [HttpPost]
+        
         public int UptUs(UserInfo m)
         {
-            return _show.UptUs(m);
+           return _show.UptUs(m);
         }
-
-
+        [HttpPost]
+        //根据id 查询数据 修改
+        public List<UserInfo> Uptus(Guid ids)
+        {
+            return _show.Uptus(w => w.Id == ids);
+        }
 
 
     }

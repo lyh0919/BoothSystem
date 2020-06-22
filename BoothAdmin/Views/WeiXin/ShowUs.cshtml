@@ -61,12 +61,9 @@
                         , { field: 'userName', title: '租户名称', sort: true }
                         , { field: 'userPhone', title: '联系方式' }
                         , { field: 'userState', title: '租赁状态', sort: true }
-
-
                         , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
                     ]]
-
-                    , parseData: function (res) { //res 即为原始返回的数据
+                       , parseData: function (res) { //res 即为原始返回的数据
                         console.log(res)
                         return {
                             "code": res.status, //解析接口状态
@@ -76,7 +73,6 @@
                         };
                     }
                 });
-
                 table.on('tool(demo)', function (obj) {
                     var data = obj.data;
                     json = JSON.stringify(data);
@@ -95,7 +91,7 @@
                             });
                             break;
                         case 'del':
-                            var delIndex = layer.confirm('真的删除id为' + data.markName + "的信息吗?", function (delIndex) {
+                            var delIndex = layer.confirm('真的删除id为' + data.id + "的信息吗?", function (delIndex) {
                                 $.ajax({
                                     url: '/WeiXin/Delus',
                                     type: "post",
@@ -154,7 +150,7 @@
         layui.use('layer', function () {
             layer.open({
                 type: 2,
-                content: ["/WeiXin/Updus"],   //添加页，后台controller转发到指定页
+                content: ["/WeiXin/Updus"],  
                 area: ["700px", "500px"],
                 title: ['用户编辑'],
                 fixed: false,
