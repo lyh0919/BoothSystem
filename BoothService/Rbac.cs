@@ -131,5 +131,16 @@ namespace BoothService
         }
         #endregion
 
+        /// <summary>
+        /// 联动
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public List<City> GetCity(Expression<Func<City, bool>> where)
+        {
+            var server = this.CreateService<City>();
+            return server.Where(where).ToList();
+        }
+
     }
 }

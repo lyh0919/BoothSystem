@@ -191,5 +191,15 @@ namespace BoothAPI.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// 联动
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<City> GetCity(int id)
+        {
+            return _rbac.GetCity(c => c.PId==id);
+        }
+
     }
 }

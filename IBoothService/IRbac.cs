@@ -45,5 +45,8 @@ namespace IBoothService
         int DelAdmin(object id);
 
         int UptAdmin(RbacAdmin role);
+
+
+        List<City> GetCity(Expression<Func<City, bool>> where);
     }
 }
