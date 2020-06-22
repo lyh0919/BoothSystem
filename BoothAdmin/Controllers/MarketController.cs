@@ -29,7 +29,8 @@ namespace BoothAdmin.Controllers
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
             string s = httpResponse.Content.ReadAsStringAsync().Result;
             List<MarketInfo> list = JsonConvert.DeserializeObject<List<MarketInfo>>(s);
-          
+            list = list.Skip((page - 1) * limit).Take(limit).ToList();
+
             int PageCount = (list == null || list.Count == 0) ? 0 : list.Count;
             int c = (int)Math.Ceiling((decimal)PageCount / limit);
             ViewBag.parper = (page <= 1) ? 1 : page - 1;
@@ -41,12 +42,13 @@ namespace BoothAdmin.Controllers
 
 
 
+
         public IActionResult AddMarket()
         {
             return View();
         }
 
-
+        [HttpPost]
         public int Add(MarketInfo m)
         {
             HttpResponseMessage message = null;
@@ -64,16 +66,59 @@ namespace BoothAdmin.Controllers
             return Convert.ToInt32(s);
 
         }
-       public IActionResult UpdateMarket(object id)
+
+   
+
+
+       public IActionResult UpdateMarket(Guid id)
         {
-            return View();
+            string url = "http://localhost:52229/api/Market/ShowDetial?id=" + id;
+            HttpClient client = new HttpClient();
+
+            HttpResponseMessage httpResponse = client.GetAsync(url).Result;
+            string s = httpResponse.Content.ReadAsStringAsync().Result;
+            List<MarketInfo> list = JsonConvert.DeserializeObject<List<MarketInfo>>(s);
+            return View(list.First());
         }
-
-
-        [HttpPost]
-        public ActionResult DelMarket(Object id)
+        
+      [HttpPost]
+      public int UpdateMarket(MarketInfo m)
         {
-            return View();
+            HttpResponseMessage message = null;
+            string url = "http://localhost:52229/api/Market/UpdateMarket";
+            MarketInfo model = new MarketInfo
+            {
+                CreateTime = DateTime.Now,
+                IsEnable = m.IsEnable,
+                MarkAccName = m.MarkAccName,
+                MarkAddress = m.MarkAddress,
+                MarkName = m.MarkName,
+                MarkPhone = m.MarkPhone,
+                MarkSortId = m.MarkSortId,
+                UpdateTime = m.UpdateTime
+            };
+            string stu = JsonConvert.SerializeObject(model);
+            HttpClient client = new HttpClient();
+            HttpContent content = new StringContent(stu);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json") { CharSet = "utf-8" };
+            message = client.PutAsync(url, content).Result;
+            string s = message.Content.ReadAsStringAsync().Result;
+            return Convert.ToInt32(s);
+        }
+        [HttpPost]
+        public int DelMarket(Guid id)
+        {
+            HttpResponseMessage message = null;
+            string url = "http://localhost:52229/api/Market/DelMarket?id=" + id;
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json") { CharSet = "utf-8" });
+            //HttpContent content = new StringContent(id);
+            //content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json") { CharSet = "utf-8" };
+            message = client.DeleteAsync(url).Result;
+            string s = message.Content.ReadAsStringAsync().Result;
+           
+         
+            return Convert.ToInt32(s);
         }
         public class LayUi
         {
