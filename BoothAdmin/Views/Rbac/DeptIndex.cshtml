@@ -57,7 +57,7 @@
                 html += "<td>" + v.deptDesc + "</td>";
                 html += "<td>" + v.createTime + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
-                html += "<td><a href=' javascript:Upt(" + v.id + ")'>编辑&nbsp;<a href='#' onclick='Del(" + v.id + ")'>删除</td>";
+                html += "<td><a href='#'  onclick=Upt('" + v.id + "')>编辑&nbsp;<a href='#' onclick=Del('" + v.id + "')>删除</td>";
                 html += "</tr>";
             });
             $("#dt").append(html);
@@ -70,10 +70,10 @@
             alert(id);
             $.ajax({
                 url: "http://localhost:52229/api/rbac/deldept",
-                data: { id: id },
+                data: { ids: id },
                 dataType: "json",
+                type: "Delete",
                 contentType: "application/json",
-                type: "delete",
                 success: function (res) {
                     if (res > 0) {
                         alert("删除成功");
@@ -160,6 +160,13 @@
                 , btn: ['编辑', '取消']
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
+                ,success: function () {
+                    $.get('http://localhost:52229/api/rbac/getdeptone?id=' + id, function (res) {
+                        $("#deptname").val(res.deptName);
+                        $("#deptdesc").val(res.deptDesc);
+
+                    });
+                }
                 , yes: function () {  //添加按钮
                     var dept = {};
                     dept.Id = id;
@@ -170,7 +177,7 @@
                         data: JSON.stringify(dept),
                         dataType: "json",
                         contentType: "application/json",
-                        type: "put",
+                        type: "Post",
                         success: function (res) {
                             if (res > 0) {
                                 alert("修改成功")
