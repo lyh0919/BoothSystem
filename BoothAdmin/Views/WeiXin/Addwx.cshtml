@@ -14,107 +14,106 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>addwx</title>
+    <title>添加微信会员表</title>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/layuiadmin/layui/layui.js"></script>
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="layui-form-item">
-        <label class="layui-form-label">会员昵称：</label>
-        <div class="layui-input-block">
-            <input type="text" name="title" id="MemName" lay-verify="title" autocomplete="off" placeholder="填写租户名称5-15个字" class="layui-input">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">会员昵称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" id="MemName" lay-verify="title" autocomplete="off" placeholder="填写租户名称5-15个字" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">微信账号：</label>
-        <div class="layui-input-block">
-            <input type="number" name="title" id="MemWX" lay-verify="title" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">微信账号：</label>
+            <div class="layui-input-block">
+                <input type="number" name="title" id="MemWX" lay-verify="title" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">联系电话：</label>
-        <div class="layui-input-block">
-            <input type="number" name="Phone" id="UserPhone" lay-verify="title" autocomplete="off" class="layui-input">
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系电话：</label>
+            <div class="layui-input-block">
+                <input type="number" name="Phone" id="UserPhone" lay-verify="title" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">联系地址：</label>
-        <div class="layui-input-block">
-            <select id="MemAddress1">
-                <option>-选择省份-</option>
-                <option>-安徽省-</option>
-                <option>-河南省-</option>
-                <option>-山西省-</option>
-                <option>-湖南省-</option>
-            </select>
-            <select id="MemAddress2">
-                <option>-选择市区-</option>
-                <option>-阜阳市-</option>
-                <option>-合肥市-</option>
-                <option>-郑州市-</option>
-                <option>-武汉市-</option>
-            </select>
-            <select id="MemAddress3">
-                <option>-选择县区-</option>
-                <option>-太和县-</option>
-                <option>-临泉县-</option>
-                <option>-奉贤区-</option>
-                <option>-朝阳区-</option>
-                <option>-奉城区-</option>
-            </select>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系地址：</label>
+            <div class="layui-input-block">
+                <select id="MemAddress1">
+                    <option>-选择省份-</option>
+                    <option>-安徽省-</option>
+                    <option>-河南省-</option>
+                    <option>-山西省-</option>
+                    <option>-湖南省-</option>
+                </select>
+                <select id="MemAddress2">
+                    <option>-选择市区-</option>
+                    <option>-阜阳市-</option>
+                    <option>-合肥市-</option>
+                    <option>-郑州市-</option>
+                    <option>-武汉市-</option>
+                </select>
+                <select id="MemAddress3">
+                    <option>-选择县区-</option>
+                    <option>-太和县-</option>
+                    <option>-临泉县-</option>
+                    <option>-奉贤区-</option>
+                    <option>-朝阳区-</option>
+                    <option>-奉城区-</option>
+                </select>
 
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">状态</label>
-        <div class="layui-input-block">
-            <input type="radio" name="sex" value="1" title="开启" checked="" />开启
-            <input type="radio" name="sex" value="0" title="关闭" />关闭
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="1" title="开启" checked="" />
+                <input type="radio" name="sex" value="0" title="关闭" />
+            </div>
         </div>
-    </div>
 
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button type="submit" class="layui-btn" id="bt" onclick="addwx()">保存</button>
-            <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="bt" onclick="addwx()">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+            </div>
         </div>
-    </div>
-
+</form>
 </body>
 </html>
 <script>
     $(function () {
-
+ //对表单重新渲染  复选框、下拉框等
+        layui.use('form', function () {
+            var form = layui.form;
+            form.render();
+        });
     });
-    function addwx() {
-        var obj = {};
-        obj.MemName = $("#MemName").val();
-        obj.MemWX = $("#MemWX").val();
-        // 验证手机号
-        obj.UserPhone = $("#UserPhone").val();
-        //if (!(/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(obj.User_Phone))) {
-        //    alert("手机号码有误，请重填");
-        //    return false;
-        //}
-        //else {
-        //    obj.User_Phone = obj.User_Phone;
-        //}
+    
+
+function addwx() {
+        var m = {};
+        m.MemName = $("#MemName").val();
+        m.MemWX = $("#MemWX").val();
+        m.UserPhone = $("#UserPhone").val();
         //地址
         var Address = $("#MemAddress1").val() + $("#MemAddress2").val() + $("#MemAddress3").val();
-        obj.MemAddress = Address;
+        m.MemAddress = Address;
         //状态
-        obj.MemState = $("input[type='radio']:checked").val();
+        m.MemState = $("input[name='sex']:checked").val();
         $.ajax({
-            url: "/WeiXin/Addwx",
-            data: obj,
+            url: "http://localhost:52229/api/default/add",
+            data: JSON.stringify(m),
             dataType: "json",
             type: "post",
+            contentType: "application/json",
             success: function (res) {
-                if (res > 1) {
+                if (res >0) {
                     alert("添加成功");
-
-                }
+                  }
                 else {
                     alert("添加失败");
                 }

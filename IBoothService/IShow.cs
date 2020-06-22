@@ -1,6 +1,7 @@
 ﻿using BoothModel.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace IBoothService
@@ -26,6 +27,8 @@ namespace IBoothService
 
         //编辑微信会员信息
         int UpdateWx(MemberInfoo m);
+        //根据id查询
+        List<MemberInfoo> Uptwx(Expression<Func<MemberInfoo, bool>> where);
 
         //根据id删除微信会员信息
         int DelWx(object id);
@@ -47,6 +50,7 @@ namespace IBoothService
         //根据id删除租户信息
         int Delus(object id);
 
+        
         //批量删除租户信息
         int DelAllUs(bool isSave = true, params UserInfo[] entitys);
 

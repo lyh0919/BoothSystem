@@ -4,6 +4,7 @@ using IBoothService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace BoothService
@@ -54,6 +55,13 @@ namespace BoothService
             var service = this.CreateService<MemberInfoo>();
             return service.Update(m);
         }
+        //根据id查询
+        public List<MemberInfoo> Uptwx(Expression<Func<MemberInfoo, bool>> where)
+        {
+            var service = this.CreateService<MemberInfoo>();
+            return service.Where(where).ToList();
+        }
+
 
         //批量删除微信会员信息
         public int DelAll(bool isSave = true, params MemberInfoo[] entitys)

@@ -25,7 +25,6 @@ namespace BoothAPI.Controllers
         public List<MemberInfoo> ShowWeiXins()
         {
             return _show.ShowWeiXin();
-            
         }
 
         [HttpGet]
@@ -53,7 +52,8 @@ namespace BoothAPI.Controllers
         [HttpPost]
         public int Add(MemberInfoo m)
         {
-           return _show.AddWx(m);
+            m.Id = Guid.NewGuid();
+            return _show.AddWx(m);
         }
 
         //根据id删除微信会员信息
@@ -74,9 +74,13 @@ namespace BoothAPI.Controllers
         [HttpPost]
         public int UptWx(MemberInfoo m)
         {
-            return _show.UpdateWx(m);
+           return _show.UpdateWx(m);
         }
-
+        //根据id 查询数据 修改
+        public List<MemberInfoo> UptWx(Guid ids)
+        {
+            return _show.Uptwx(w=>w.Id==ids);
+        }
 
         [HttpGet]
         //分页获取租户信息列表
@@ -112,6 +116,7 @@ namespace BoothAPI.Controllers
         [HttpPost]
         public int UptUs(UserInfo m)
         {
+            m.Id = Guid.NewGuid();
             return _show.UptUs(m);
         }
 

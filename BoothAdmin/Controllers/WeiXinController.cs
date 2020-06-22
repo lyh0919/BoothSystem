@@ -44,7 +44,7 @@ namespace BoothAdmin.Controllers
 
 
         //查询所有省份 用于绑定第一级下拉 
-        [HttpGet]
+    
         public IActionResult GetSheng()
         {
             return View();
