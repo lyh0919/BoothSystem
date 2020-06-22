@@ -21,6 +21,14 @@ namespace BoothAPI.Controllers
         }
 
         [HttpGet]
+        //获取微信会员信息列表(下拉)
+        public List<MemberInfoo> ShowWeiXins()
+        {
+            return _show.ShowWeiXin();
+            
+        }
+
+        [HttpGet]
         //分页获取微信会员信息列表
         public List<MemberInfoo> ShowWeiXin(int page = 1, int limit = 10)
         {
@@ -82,6 +90,7 @@ namespace BoothAPI.Controllers
         [HttpPost]
         public int AddUser(UserInfo m)
         {
+            m.Id = Guid.NewGuid();
             return _show.AddUser(m);
         }
 
