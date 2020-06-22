@@ -44,13 +44,15 @@ namespace BoothService
         }
 
         //根据id删除微信会员信息
-        public int DelWx(object id)
+       
+        public List<MemberInfoo> DelWx(Expression<Func<MemberInfoo, bool>> where)
         {
             var service = this.CreateService<MemberInfoo>();
-            return service.Delete(id);
+            return service.Where(where).ToList();
         }
-         //编辑微信会员信息
-         public int UpdateWx(MemberInfoo m)
+
+        //编辑微信会员信息
+        public int UpdateWx(MemberInfoo m)
         {
             var service = this.CreateService<MemberInfoo>();
             return service.Update(m);
@@ -84,18 +86,24 @@ namespace BoothService
             return service.Add(m);
         }
         //根据id删除租户信息
-        public int Delus(object id)
+        public List<UserInfo> Delus(Expression<Func<UserInfo, bool>> where)
         {
             var service = this.CreateService<UserInfo>();
-            return service.Delete(id);
+            return service.Where(where).ToList();
         }
-        //编辑微信租户信息
+        //修改租户
         public int UptUs(UserInfo m)
         {
             var service = this.CreateService<UserInfo>();
             return service.Update(m);
         }
-
+        //根据id编辑微信租户信息
+       
+        public List<UserInfo> Uptus(Expression<Func<UserInfo, bool>> where)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.Where(where).ToList();
+        }
         //批量删除租户信息
         public int DelAllUs(bool isSave = true, params UserInfo[] entitys)
         {
@@ -103,5 +111,8 @@ namespace BoothService
             return service.Delete(entitys);
         }
 
+       
+
+       
     }
 }

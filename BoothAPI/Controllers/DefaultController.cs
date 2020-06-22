@@ -58,9 +58,9 @@ namespace BoothAPI.Controllers
 
         //根据id删除微信会员信息
         [HttpPost]
-        public int Del(object id)
+        public List<MemberInfoo> DelWx(Guid ids)
         {
-            return _show.DelWx(id);
+            return _show.DelWx(w => w.Id == ids);
         }
 
         //批量删除微信会员信息
@@ -100,11 +100,11 @@ namespace BoothAPI.Controllers
 
         //根据id删除租户信息
         [HttpPost]
-        public int Delus(object id)
+        public List<UserInfo> Delus(Guid ids)
         {
-            return _show.Delus(id);
+            return _show.Delus(w => w.Id == ids);
         }
-
+       
         //批量删除租户信息
         [HttpPost]
         public int DelAllUs(bool isSave = true, params UserInfo[] entitys)
@@ -113,14 +113,17 @@ namespace BoothAPI.Controllers
         }
 
         //编辑租户信息
-        [HttpPost]
+        
         public int UptUs(UserInfo m)
         {
-            m.Id = Guid.NewGuid();
-            return _show.UptUs(m);
+           return _show.UptUs(m);
         }
-
-
+        [HttpPost]
+        //根据id 查询数据 修改
+        public List<UserInfo> Uptus(Guid ids)
+        {
+            return _show.Uptus(w => w.Id == ids);
+        }
 
 
     }

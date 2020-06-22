@@ -40,11 +40,23 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-        
 
+      
+        //根据id删除微信会员信息
+        [HttpPost]
+        public int Delwx(Guid id)
+        {
+           HttpResponseMessage message = null;
+            string url = "http://localhost:52229/api/default/Del?id=" + id;
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json") { CharSet = "utf-8" });
+            message = client.DeleteAsync(url).Result;
+            string s = message.Content.ReadAsStringAsync().Result;
+             return Convert.ToInt32(s);
+  }
 
         //查询所有省份 用于绑定第一级下拉 
-    
+
         public IActionResult GetSheng()
         {
             return View();
@@ -62,11 +74,7 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-        //删除微信会员信息
-        public ActionResult Delwx()
-        {
-            return View();
-        }
+       
 
         //租户列表视图
         public IActionResult ShowUs()
@@ -104,10 +112,17 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-        //删除租户信息
-        public IActionResult Delus()
+          //根据id删除租户信息
+        [HttpPost]
+        public int Delus(Guid id)
         {
-            return View();
+            HttpResponseMessage message = null;
+            string url = "http://localhost:52229/api/default/Delus?id=" + id;
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json") { CharSet = "utf-8" });
+            message = client.DeleteAsync(url).Result;
+            string s = message.Content.ReadAsStringAsync().Result;
+            return Convert.ToInt32(s);
         }
 
         public class LayUi

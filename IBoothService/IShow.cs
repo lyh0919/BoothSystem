@@ -31,7 +31,7 @@ namespace IBoothService
         List<MemberInfoo> Uptwx(Expression<Func<MemberInfoo, bool>> where);
 
         //根据id删除微信会员信息
-        int DelWx(object id);
+        List<MemberInfoo> DelWx(Expression<Func<MemberInfoo, bool>> where);
 
         //批量删除微信会员信息
         int DelAll(bool isSave = true, params MemberInfoo[] entitys);
@@ -46,11 +46,12 @@ namespace IBoothService
 
         //编辑租户信息
         int UptUs(UserInfo m);
+        //根据id查询
+        List<UserInfo> Uptus(Expression<Func<UserInfo, bool>> where);
 
-        //根据id删除租户信息
-        int Delus(object id);
-
+         //根据id删除租户信息
         
+        List<UserInfo> Delus(Expression<Func<UserInfo, bool>> where);
         //批量删除租户信息
         int DelAllUs(bool isSave = true, params UserInfo[] entitys);
 
