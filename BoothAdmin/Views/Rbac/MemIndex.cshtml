@@ -31,7 +31,7 @@
                             </select>
                         </div>
                     </div>
-                    <a class="layui-btn search_btn" onclick="searchData();"><i class="layui-icon layui-icon-search"></i> 查询</a>
+                    <a class="layui-btn search_btn" onclick="searchData()"><i class="layui-icon layui-icon-search"></i> 查询</a>
                 </div>
             </blockquote>
         </div>
@@ -55,10 +55,10 @@
             </tbody>
 
         </table>
-
+        <a href="#" onclick="Del()"></a>
     </div>
     <div id="demo" style="text-align:center">
-        <button type="button" id="prev" onclick="Prev()" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">上一页</i></button>
+        <button type="button" id="prev" onclick="Prev()"  class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">上一页</i></button>
         <button type="button" id="next" onclick="Next()" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">下一页</i></button>
     </div>
 
@@ -87,9 +87,9 @@
 
    
 
-    var pageindex = 1;
-    var pagesize = 2;
-    var total = 0;
+    var pageindex = 1;// 页码
+    var pagesize = 2;  //每页数据
+    var total = 0;//总数据
     var pages = Math.ceil(total / pagesize); //得到总页数
     //上一页
     function Prev() {
@@ -115,6 +115,11 @@
             AdminShow(pageindex);
         }
     }
+    function searchData() {
+        accname = $("#accname").val();
+        deptid = $('select[name="dept"] option:selected').val();
+        AdminShow();
+    }
 
     //显示
     function AdminShow(pageindex) {
@@ -131,7 +136,7 @@
                 html += "<td>" + v.createTime + "</td>";
                 html += "<td>" + v.updateTime + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
-                html += "<td><button type='button' onclick='Upt(" + v.id + ")' class='layui-btn layui-btn-sm'>编辑</button>&nbsp;<button type='button' onclick='Del(" + v.id + ")' class='layui-btn layui-btn-sm layui-btn-danger'>删除</button></td>";
+                html += '<td><a href="#" onclick=Upt("' + v.id + '")>编辑&nbsp;<a href="#" onclick=Del("' + v.id + '")>删除</td>';//onclick="Del('')
                 html += "</tr>";
             });
             $("#dt").append(html);
@@ -175,14 +180,15 @@
 
     //删除
     function Del(id) {
+        alert(id);
         if (confirm("确认删除吗")) {
-            alert(id);
+            
             $.ajax({
                 url: "http://localhost:52229/api/rbac/deladmin",
-                data: { id: id },
+                data: { "id": id },
                 dataType: "json",
-                contentType: "application/json",
-                type: "delete",
+                //contentType: "application/json",
+                type: "Post",
                 success: function (res) {
                     if (res > 0) {
                         alert("删除成功");
@@ -378,9 +384,21 @@
                         });
                     });
                     GetRole();
+                    $.get('http://localhost:52229/api/rbac/getadminone?id=' + id, function (res) {
+                        $("#adminnum").val(res.accNum);
+                        $("#adminname").val(res.accName);
+                        $("#accpass").val(res.accPass);
+                        $("#adminphone").val(res.accPhone);
+                        $("#deptids option[value='" + res.deptId + "']").attr("selected", true);
+                        $("#roleid option[value='" + res.roleId + "']").attr("selected", true);
+                        $("input[name='isenable']:checked").val();
+                        $("input:radio[name='isenable'][value=" + res.isEnable + "]").attr('checked', 'true');
+                        
+                    });
                 }
                 , yes: function () {  //添加按钮
                     var admin = {};
+                    admin.Id = id;
                     admin.AccNum = $("#adminnum").val();
                     admin.AccName = $("#adminname").val();
                     admin.AccPass = $("#accpass").val();
@@ -393,7 +411,7 @@
                         data: JSON.stringify(admin),
                         dataType: "json",
                         contentType: "application/json",
-                        type: "put",
+                        type: "Post",
                         success: function (res) {
                             if (res > 0) {
                                 alert("编辑成功")

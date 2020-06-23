@@ -15,7 +15,9 @@ namespace IBoothService
 
         int DelDept(object id);
 
-        int UptDept(RbacDeptPart dept);
+        int UptDept(RbacDeptPart dept, params string[] propertyNames);
+
+        RbacDeptPart GetDeptOne(Expression<Func<RbacDeptPart, bool>> where);
 
 
         //角色
@@ -26,6 +28,8 @@ namespace IBoothService
         int DelRole(object id);
 
         int UptRole(RbacRoleInfo role);
+
+        RbacRoleInfo GetRoleOne(Expression<Func<RbacRoleInfo, bool>> where);
 
         //权限反填
         List<RbacPower> GetPower();
@@ -45,6 +49,8 @@ namespace IBoothService
         int DelAdmin(object id);
 
         int UptAdmin(RbacAdmin role);
+
+        RbacAdmin GetAdminOne(Expression<Func<RbacAdmin, bool>> where);
 
 
         List<City> GetCity(Expression<Func<City, bool>> where);

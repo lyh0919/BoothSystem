@@ -79,6 +79,14 @@ namespace IBoothDataAccess
         int Update(T entity, bool isSave = true);
 
         /// <summary>
+        /// 修改实体，可修改指定属性
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        int Update(T model, params string[] propertyNames);
+
+        /// <summary>
         /// 批量修改 - 通过实体对象集合修改
         /// </summary>
         /// <param name="entitys">实体对象集合</param>

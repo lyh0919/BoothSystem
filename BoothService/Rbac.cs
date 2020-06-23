@@ -35,10 +35,16 @@ namespace BoothService
             return server.GetAll().ToList();
         }
         //部门修改
-        public int UptDept(RbacDeptPart dept)
+        public int UptDept(RbacDeptPart dept, params string[] propertyNames)
         {
             var server = this.CreateService<RbacDeptPart>();
-            return server.Update(dept);
+            return server.Update(dept, propertyNames);
+        }
+        //获取数据反填
+        public RbacDeptPart GetDeptOne(Expression<Func<RbacDeptPart, bool>> where)
+        {
+            var server = this.CreateService<RbacDeptPart>();
+            return server.FirstOrDefault(where);
         }
         #endregion
 
@@ -67,6 +73,12 @@ namespace BoothService
         {
             var server = this.CreateService<RbacRoleInfo>();
             return server.Update(role);
+        }
+        //获取数据反填
+        public RbacRoleInfo GetRoleOne(Expression<Func<RbacRoleInfo, bool>> where)
+        {
+            var server = this.CreateService<RbacRoleInfo>();
+            return server.FirstOrDefault(where);
         }
         #endregion
 
@@ -128,6 +140,12 @@ namespace BoothService
         {
             var server = this.CreateService<RbacAdmin>();
             return server.Update(admin);
+        }
+        //获取数据反填
+        public RbacAdmin GetAdminOne(Expression<Func<RbacAdmin, bool>> where)
+        {
+            var server = this.CreateService<RbacAdmin>();
+            return server.FirstOrDefault(where);
         }
         #endregion
 

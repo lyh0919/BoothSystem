@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using BoothAPI.ViewModel;
 using BoothModel.Models;
@@ -9,6 +10,7 @@ using IBoothService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using BoothModel;
 
 namespace BoothAPI.Controllers
 {
@@ -33,8 +35,8 @@ namespace BoothAPI.Controllers
             return _rbac.AddDept(dept);
         }
         //部门删除
-        [HttpDelete]
-        public int DelDept(object id)
+        [HttpGet]
+        public int DelDept(Guid id)
         {
             return _rbac.DelDept(id);
         }
@@ -47,14 +49,24 @@ namespace BoothAPI.Controllers
         }
 
         //部门修改
-        [HttpPut]
+        [HttpPost]
         public int UptDept(RbacDeptPart dept)
         {
+            
             dept.UpdateTime = DateTime.Now;
-            return _rbac.UptDept(dept);
+            string[] propertyNames = new string[] { };
+            propertyNames = ReflectHelper.GetProperties(dept);
+            return _rbac.UptDept(dept, propertyNames);
+        }
+        
+        //获取数据反填
+        [HttpGet]
+        public RbacDeptPart GetDeptOne(string id)
+        {
+            return _rbac.GetDeptOne(d => d.Id.ToString()==id);
         }
         #endregion
-        
+
         #region 角色
         //角色添加
         [HttpPost]
@@ -67,7 +79,7 @@ namespace BoothAPI.Controllers
             return _rbac.AddRole(role);
         }
         //角色删除
-        [HttpDelete]
+        [HttpPost]
         public int DelRole(object id)
         {
             return _rbac.DelDept(id);
@@ -81,11 +93,17 @@ namespace BoothAPI.Controllers
         }
 
         //角色修改
-        [HttpPut]
+        [HttpPost]
         public int UptRole(RbacRoleInfo role)
         {
             role.UpdateTime = DateTime.Now;
             return _rbac.UptRole(role);
+        }
+        //获取数据反填
+        [HttpGet]
+        public RbacRoleInfo GetRoleOne(string id)
+        {
+            return _rbac.GetRoleOne(r => r.Id.ToString() == id);
         }
         #endregion
 
@@ -148,7 +166,7 @@ namespace BoothAPI.Controllers
                 memlist = _rbac.GetAdmin(u => u.AccName.Contains(accName), u => (DateTime)u.CreateTime, pageindex, pagesize, out count);
             }
 
-
+            //成员显示
             var list = from s in memlist
                        join d in _rbac.GetDept() on s.DeptId equals d.Id
                        select new Member() 
@@ -177,17 +195,23 @@ namespace BoothAPI.Controllers
             return _rbac.AddAdmin(admin);
         }
         //删除
-        [HttpDelete]
-        public int DelAdmin(object id)
+        [HttpPost]
+        public int DelAdmin(string id)
         {
             return _rbac.DelAdmin(id);
 
         }
         //修改
-        [HttpPut]
+        [HttpPost]
         public int UptAdmin(RbacAdmin admin)
         {
             return _rbac.UptAdmin(admin);
+        }
+        //获取数据反填
+        [HttpGet]
+        public RbacAdmin GetAdminOne(string id)
+        {
+            return _rbac.GetAdminOne(a => a.Id.ToString() == id);
         }
         #endregion
 
