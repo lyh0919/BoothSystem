@@ -28,6 +28,7 @@ namespace BoothModel.Models
         public virtual DbSet<RbacRoleInfo> RbacRoleInfo { get; set; }
         public virtual DbSet<RecordInfo> RecordInfo { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
+        public virtual DbSet<City> City { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

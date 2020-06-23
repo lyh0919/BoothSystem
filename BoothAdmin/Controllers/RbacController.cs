@@ -20,5 +20,13 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
+        public IActionResult MemIndex()
+        {
+            return View();
+        }
+        public IActionResult RecordIndex()
+        {
+            return View();
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using Dapper;
+using System.Linq.Expressions;
 
 namespace BoothService
 {
@@ -27,6 +28,15 @@ namespace BoothService
         {
             var server = this.CreateService<MarketInfo>();
             return server.Delete(id);
+        }
+
+        public List<MarketInfo> ShowDetial(object id)
+        {
+            using (SqlConnection conn = new SqlConnection("server=192.168.1.130;database=BoothManage;uid=sa;pwd=123456;"))
+            {
+                string sql = "select * from MarketInfo where Id=" + id + "";
+                return conn.Query<MarketInfo>(sql).ToList();
+            }
         }
 
         public List<MarketInfo> ShowMarket()
@@ -52,5 +62,11 @@ namespace BoothService
         //    list = list.Skip((page - 1) * limit).Take(limit).ToList();
         //    return list;
         //}
+
+        public List<City> GetCity(Expression<Func<City, bool>> where)
+        {
+            var server = this.CreateService<City>();
+            return server.Where(where).ToList();
+        }
     }
 }

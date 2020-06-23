@@ -58,7 +58,7 @@
                 html += "<td>" + v.roleDesc + "</td>";
                 html += "<td>" + v.createTime + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
-                html += "<td><a href='/Rbac/PowerIndex?rolename=" + v.roleName + "&id=" + v.id + "' >设置权限</a>&nbsp;<a href='javascript:void(0);' onclick='Upt(" + v.id + ")'>编辑</a>&nbsp;<a href='javascript:void(0);' onclick='Del(" + v.id + ")'>删除</a></td>";
+                html += "<td><a href='/Rbac/PowerIndex?rolename=" + v.roleName + "&id=" + v.id + "' >设置权限</a>&nbsp;<a href='#' onclick=Upt('" + v.id + "')>编辑</a>&nbsp;<a href='#' onclick=Del('" + v.id + "')>删除</a></td>";
                 html += "</tr>";
             });
             $("#dt").append(html);
@@ -161,6 +161,13 @@
                 , btn: ['编辑', '取消']
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
+                , success: function () {
+                    $.get('http://localhost:52229/api/rbac/getroleone?id=' + id, function (res) {
+                        $("#rolename").val(res.roleName);
+                        $("#roledesc").val(res.roleDesc);
+
+                    });
+                }
                 , yes: function () {  //添加按钮
                     var role = {};
                     role.Id = id;
@@ -171,7 +178,7 @@
                         data: JSON.stringify(role),
                         dataType: "json",
                         contentType: "application/json",
-                        type: "put",
+                        type: "Post",
                         success: function (res) {
                             if (res > 0) {
                                 alert("修改成功")

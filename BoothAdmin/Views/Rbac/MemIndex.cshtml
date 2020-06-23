@@ -1,0 +1,434 @@
+﻿
+@{
+    ViewData["Title"] = "MemIndex";
+    Layout = null;
+}
+
+<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+<form class="layui-form">
+
+
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <h1>管理员管理</h1>
+        </div>
+        <div class="layui-card-body">
+            <blockquote class="layui-elem-quote role_search">
+                <div class="layui-inline">
+                    <a data-method="offset" data-type="auto" onclick="Add()" class="layui-btn layui-btn-normal newsAdd_btn">
+                        <i class="layui-icon layui-icon-add-1"></i>
+                        添加成员
+                    </a>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input id="accname" type="text" value="" placeholder="请输入姓名" class="layui-input search_input">
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">所属部门</label>
+                        <div class="layui-input-inline">
+                            <select name="dept" id="deptid"  lay-verify="required" lay-search="">
+                            </select>
+                        </div>
+                    </div>
+                    <a class="layui-btn search_btn" onclick="searchData()"><i class="layui-icon layui-icon-search"></i> 查询</a>
+                </div>
+            </blockquote>
+        </div>
+    </div>
+
+    <div>
+        <table class="layui-table">
+            <thead>
+                <tr>
+                    <th>账号</th>
+                    <th>姓名</th>
+                    <th>手机</th>
+                    <th>所属部门</th>
+                    <th>添加时间</th>
+                    <th>最后登录</th>
+                    <th>是否启用</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="dt">
+            </tbody>
+
+        </table>
+        <a href="#" onclick="Del()"></a>
+    </div>
+    <div id="demo" style="text-align:center">
+        <button type="button" id="prev" onclick="Prev()"  class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">上一页</i></button>
+        <button type="button" id="next" onclick="Next()" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">下一页</i></button>
+    </div>
+
+</form>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/layuiadmin/layui/layui.js"></script>
+<script>
+    
+    //对表单重新渲染  复选框、下拉框等
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+    });
+    //页面加载
+    $(function () {
+        GetDept();//部门下拉框
+        if (pageindex == 1) {
+            $('#prev').attr("disabled", true);
+        }
+        AdminShow(pageindex);
+    });
+
+    var accname = $("#accname").val();
+    var deptid = $('select[name="dept"] option:selected').val();
+
+   
+
+    var pageindex = 1;// 页码
+    var pagesize = 2;  //每页数据
+    var total = 0;//总数据
+    var pages = Math.ceil(total / pagesize); //得到总页数
+    //上一页
+    function Prev() {
+        
+        $('#next').attr("disabled", false);
+        if (pageindex == 1) {
+            $('#prev').attr("disabled", true);
+        }
+        else {
+            pageindex = pageindex - 1;
+            AdminShow(pageindex);
+        }
+    }
+    //下一页
+    function Next() {
+        
+        $('#prev').attr("disabled", false);
+        if (pageindex == pages) {
+            $('#next').attr("disabled", true);
+        }
+        else {
+            pageindex = pageindex + 1;
+            AdminShow(pageindex);
+        }
+    }
+    function searchData() {
+        accname = $("#accname").val();
+        deptid = $('select[name="dept"] option:selected').val();
+        AdminShow();
+    }
+
+    //显示
+    function AdminShow(pageindex) {
+        $.get('http://localhost:52229/api/rbac/getadmin?accName=' + accname + '&deptId=' + deptid + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
+            total = res.count;
+            $("#dt").empty();
+            var html = "";
+            $.each(res.members, function (i, v) {
+                html += "<tr>";
+                html += "<td>" + v.accNum + "</td>";/*isEnable*/
+                html += "<td>" + v.accName + "</td>";
+                html += "<td>" + v.accPhone + "</td>";
+                html += "<td>" + v.deptName + "</td>";
+                html += "<td>" + v.createTime + "</td>";
+                html += "<td>" + v.updateTime + "</td>";
+                html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
+                html += '<td><a href="#" onclick=Upt("' + v.id + '")>编辑&nbsp;<a href="#" onclick=Del("' + v.id + '")>删除</td>';//onclick="Del('')
+                html += "</tr>";
+            });
+            $("#dt").append(html);
+        });
+    }
+    //下拉框部门
+    function GetDept() {
+        $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+            $("#deptid").empty();
+            var html = "";
+            $.each(res, function (i, v) {
+                html += '<option value="' + v.id + '">' + v.deptName + '</option>';
+
+            });
+            $("#deptid").append(html);
+            //对表单重新渲染  复选框、下拉框等
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        });
+    }
+
+    //下拉框角色
+    function GetRole() {
+        $.get('http://localhost:52229/api/rbac/getrole', function (res) {
+            $("#roleid").empty();
+            var html = "";
+            $.each(res, function (i, v) {
+                html += '<option value="' + v.id + '">' + v.roleName + '</option>';
+
+            });
+            $("#roleid").append(html);
+            //对表单重新渲染  复选框、下拉框等
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        });
+    }
+
+    //删除
+    function Del(id) {
+        alert(id);
+        if (confirm("确认删除吗")) {
+            
+            $.ajax({
+                url: "http://localhost:52229/api/rbac/deladmin",
+                data: { "id": id },
+                dataType: "json",
+                //contentType: "application/json",
+                type: "Post",
+                success: function (res) {
+                    if (res > 0) {
+                        alert("删除成功");
+                        AdminShow();
+                    }
+                }
+            });
+        }
+    }
+
+
+
+    //跳转添加弹出层
+    function Add() {
+
+        var str = '<form class="layui-form">' +
+            '<div style="padding: 20px 100px;"><div class="layui-form-item">' +
+            '<label class= "layui-form-label" >管理员名称</label>' +
+            '<div class="layui-input-inline">' +
+            '<input type="text" id="adminnum"  lay-verify="required" placeholder="填写管理员名称" autocomplete="off" class="layui-input">' +
+            '</div>' +
+            '<label class= "layui-form-label" >管理员姓名</label>' +
+            '<div class="layui-input-inline">' +
+            '<input type="text" id="adminname"  lay-verify="required" placeholder="填写管理员姓名" autocomplete="off" class="layui-input">' +
+            '</div>' +
+            '<label class= "layui-form-label" >电话</label>' +
+            '<div class="layui-input-inline">' +
+            '<input type="text" id="adminphone"  lay-verify="required" placeholder="填写电话" autocomplete="off" class="layui-input">' +
+            '</div>' +
+            '<div class="layui-inline">' +
+            '<label class="layui-form-label">所属部门</label>' +
+            '<div class="layui-input-inline">' +
+            '<select id="deptids" name="deptid" lay-verify="required" lay-search="">' +
+
+            '</select>' +
+            '</div>' +
+            '<div class="layui-inline">' +
+            '<label class="layui-form-label">权限角色</label>' +
+            '<div class="layui-input-inline">' +
+            '<select id="roleid" name="roleid"  lay-verify="required" lay-search="">' +
+            '</select>' +
+            '</div>' +
+            '</div>' +
+            '<label class= "layui-form-label" >登录密码</label>' +
+            '<div class="layui-input-inline">' +
+            '<input type="password" id="accpass"  lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input">' +
+            '</div>' +
+            '<div class="layui-form-item">' +
+            '<label class="layui-form-label">状态</label>' +
+            '<div class="layui-input-block">' +
+            '<input type="radio" name="isenable" value="1" title="开启" checked="">' +
+            '<input type="radio" name="isenable" value="0" title="关闭">' +
+            '</div>' +
+            '</div>' +
+            '</div> ' +
+            '</form>';
+        layui.use('layer', function () { //独立版的layer无需执行这一句
+            //var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+            
+            
+            layer.open({
+
+                type: 1
+                ,title:'添加成员'
+                ,area:["600px","550px"]
+                , offset: 't' //具体配置参考：offset参数项
+                , content:
+                    str
+                , btn: ['添加','取消']
+                , btnAlign: 'c' //按钮居中
+                , shade: 0 //不显示遮罩
+                , success: function () {
+                    $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+                        $("#deptids").empty();
+                        var html = "";
+                        $.each(res, function (i, v) {
+                            html += '<option value="' + v.id + '">' + v.deptName + '</option>';
+
+                        });
+                        $("#deptids").append(html);
+                        //对表单重新渲染  复选框、下拉框等
+                        layui.use('form', function () {
+                            var form = layui.form;
+                            form.render();
+                        });
+                    });
+                    GetRole();
+                }
+                , yes: function () {  //添加按钮
+                    var admin = {};
+                    admin.AccNum = $("#adminnum").val();
+                    admin.AccName = $("#adminname").val();
+                    admin.AccPass = $("#accpass").val();
+                    admin.AccPhone = $("#adminphone").val();
+                    admin.DeptId = $('select[name="deptid"] option:selected').val();
+                    admin.RoleId = $('select[name="roleid"] option:selected').val();
+                    admin.IsEnable = $("input[name='isenable']:checked").val();
+                    $.ajax({
+                        url: "http://localhost:52229/api/rbac/addadmin",
+                        data: JSON.stringify(admin),
+                        dataType: "json",
+                        contentType: "application/json",
+                        type: "Post",
+                        success: function (res) {
+                            if (res > 0) {
+                                alert("添加成功")
+                                layer.closeAll();
+                                AdminShow();
+                            }
+                        }
+                    });
+                    
+                }
+                , btn2: function () {  //取消关闭
+                    layer.closeAll();
+                }
+                
+            });
+
+        });
+    }
+    //编辑
+    function Upt(id) {
+
+        var str = '<form class="layui-form">' +
+            '<div style="padding: 20px 100px;"><div class="layui-form-item">' +
+            '<label class= "layui-form-label" >管理员名称</label>' +
+            '<div class="layui-input-inline">' +
+            '<input type="text" id="adminnum"  lay-verify="required" placeholder="填写管理员名称" autocomplete="off" class="layui-input">' +
+            '</div>' +
+            '<label class= "layui-form-label" >管理员姓名</label>' +
+            '<div class="layui-input-inline">' +
+            '<input type="text" id="adminname"  lay-verify="required" placeholder="填写管理员姓名" autocomplete="off" class="layui-input">' +
+            '</div>' +
+            '<label class= "layui-form-label" >电话</label>' +
+            '<div class="layui-input-inline">' +
+            '<input type="text" id="adminphone"  lay-verify="required" placeholder="填写电话" autocomplete="off" class="layui-input">' +
+            '</div>' +
+            '<div class="layui-inline">' +
+            '<label class="layui-form-label">所属部门</label>' +
+            '<div class="layui-input-inline">' +
+            '<select id="deptids" name="deptid" lay-verify="required" lay-search="">' +
+
+            '</select>' +
+            '</div>' +
+            '<div class="layui-inline">' +
+            '<label class="layui-form-label">权限角色</label>' +
+            '<div class="layui-input-inline">' +
+            '<select id="roleid" name="roleid"  lay-verify="required" lay-search="">' +
+            '</select>' +
+            '</div>' +
+            '</div>' +
+            '<label class= "layui-form-label" >登录密码</label>' +
+            '<div class="layui-input-inline">' +
+            '<input type="password" id="accpass"  lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input">' +
+            '</div>' +
+            '<div class="layui-form-item">' +
+            '<label class="layui-form-label">状态</label>' +
+            '<div class="layui-input-block">' +
+            '<input type="radio" name="isenable" value="1" title="开启" checked="">' +
+            '<input type="radio" name="isenable" value="0" title="关闭">' +
+            '</div>' +
+            '</div>' +
+            '</div> ' +
+            '</form>';
+        layui.use('layer', function () { //独立版的layer无需执行这一句
+            //var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+            
+
+            layer.open({
+                type: 1
+                , title: '编辑部门'
+                , area: ["600px", "550px"]
+                , offset: 't' //具体配置参考：offset参数项
+                , content:
+                    str
+                , btn: ['编辑', '取消']
+                , btnAlign: 'c' //按钮居中
+                , shade: 0 //不显示遮罩
+                , success: function () {
+                    $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+                        $("#deptids").empty();
+                        var html = "";
+                        $.each(res, function (i, v) {
+                            html += '<option value="' + v.id + '">' + v.deptName + '</option>';
+
+                        });
+                        $("#deptids").append(html);
+                        //对表单重新渲染  复选框、下拉框等
+                        layui.use('form', function () {
+                            var form = layui.form;
+                            form.render();
+                        });
+                    });
+                    GetRole();
+                    $.get('http://localhost:52229/api/rbac/getadminone?id=' + id, function (res) {
+                        $("#adminnum").val(res.accNum);
+                        $("#adminname").val(res.accName);
+                        $("#accpass").val(res.accPass);
+                        $("#adminphone").val(res.accPhone);
+                        $("#deptids option[value='" + res.deptId + "']").attr("selected", true);
+                        $("#roleid option[value='" + res.roleId + "']").attr("selected", true);
+                        $("input[name='isenable']:checked").val();
+                        $("input:radio[name='isenable'][value=" + res.isEnable + "]").attr('checked', 'true');
+                        
+                    });
+                }
+                , yes: function () {  //添加按钮
+                    var admin = {};
+                    admin.Id = id;
+                    admin.AccNum = $("#adminnum").val();
+                    admin.AccName = $("#adminname").val();
+                    admin.AccPass = $("#accpass").val();
+                    admin.AccPhone = $("#adminphone").val();
+                    admin.DeptId = $('select[name="deptid"] option:selected').val();
+                    admin.RoleId = $('select[name="roleid"] option:selected').val();
+                    admin.IsEnable = $("input[name='isenable']:checked").val();
+                    $.ajax({
+                        url: "http://localhost:52229/api/rbac/uptadmin",
+                        data: JSON.stringify(admin),
+                        dataType: "json",
+                        contentType: "application/json",
+                        type: "Post",
+                        success: function (res) {
+                            if (res > 0) {
+                                alert("编辑成功")
+                                layer.closeAll();
+                                AdminShow();
+                            }
+                        }
+                    });
+
+                }
+                , btn2: function () {  //取消关闭
+                    layer.closeAll();
+                }
+            });
+
+        });
+    }
+
+</script>
+

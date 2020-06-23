@@ -15,17 +15,21 @@ namespace BoothAPI.Controllers
     public class MarketController : ControllerBase
     {
         private IMarketBll _marketBll;
-        public MarketController(IMarketBll marketBll)
+        private ICity _cityBll;
+        public MarketController(IMarketBll marketBll,ICity cityBll)
         {
             this._marketBll = marketBll;
+            this._cityBll = cityBll;
         }
 
+
+        [HttpPost]
         public int AddMarket(MarketInfo model)
         {
             return _marketBll.AddMarket(model);
         }
 
-        public int DelMarket(object id)
+        public int DelMarket(Guid id)
         {
             return _marketBll.DelMarket(id);
         }
@@ -37,12 +41,30 @@ namespace BoothAPI.Controllers
 
 
       
-        public List<MarketInfo> ShowMarket(int page = 1,int limit = 10)
+        public List<MarketInfo> ShowMarket()
         {
            List<MarketInfo> list= _marketBll.ShowMarket();
-            list = list.Skip((page - 1) * limit).Take(limit).ToList();
-
+          
             return list;
         }
-    }
+
+        public List<MarketInfo> ShowDetial(Guid id)
+        {
+            List<MarketInfo> list = _marketBll.ShowDetial(id);
+            return list;
+        }
+
+
+
+
+
+       
+
+
+        public List<City> GetCity(int id)
+        {
+            return _marketBll.GetCity(c => c.PId==id);
+        }
+
+    } 
 }

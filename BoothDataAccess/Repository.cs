@@ -119,9 +119,12 @@ namespace BoothDataAccess
         public int Update(T entity, bool isSave = true)
         {
             int flag = 0;
+            
             var entry = this._dbContext.Entry(entity);
+
             if (entry.State == EntityState.Detached)
             {
+                
                 entry.State = EntityState.Modified;
             }
             if (isSave)
@@ -130,6 +133,34 @@ namespace BoothDataAccess
             }
             return flag;
         }
+
+        /// <summary>
+		///  修改实体，可修改指定属性
+		/// </summary>
+		/// <param name="model"></param>
+		/// <param name="propertyName"></param>
+		/// <returns></returns>
+		public int Update(T entity, params string[] propertyNames)
+        {
+            int falg = 0;
+            //3.1.1 将对象添加到EF中
+            var entry = this._dbContext.Entry(entity);
+            
+            //3.1.3 循环被修改的属性名数组
+            foreach (string propertyName in propertyNames)
+            {
+                //将每个被修改的属性的状态设置为已修改状态；这样在后面生成的修改语句时，就只为标识为已修改的属性更新
+                entry.Property(propertyName).IsModified = true;
+            }
+            if (entry.State == EntityState.Detached)
+            {
+
+                entry.State = EntityState.Modified;
+            }
+            falg = this.SaveChanges();
+            return falg;
+        }
+
         //批量注释
         public void Update(bool isSave = true, params T[] entitys)
         {
