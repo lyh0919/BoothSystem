@@ -51,6 +51,11 @@ namespace BoothService
             return service.Delete(ids,true);
         }
 
+
+
+
+
+
         //编辑微信会员信息
         public int UpdateWx(MemberInfoo m)
         {
@@ -58,11 +63,14 @@ namespace BoothService
             return service.Update(m);
         }
         //根据id查询
-        public List<MemberInfoo> Uptwx(Expression<Func<MemberInfoo, bool>> where)
+        public MemberInfoo Uptwx(Expression<Func<MemberInfoo, bool>> where)
         {
             var service = this.CreateService<MemberInfoo>();
-            return service.Where(where).ToList();
+            return service.FirstOrDefault(where);
         }
+
+
+
         //批量删除微信会员信息
         public int DelAll(bool isSave = true, params MemberInfoo[] entitys)
         {
@@ -86,10 +94,10 @@ namespace BoothService
 
         //根据id删除租户信息
        
-        public int Delus(Guid ids)
+        public int Delus(object id)
         {
-            var service = this.CreateService<MemberInfoo>();
-            return service.Delete(ids, true);
+            var service = this.CreateService<UserInfo>();
+            return service.Delete(id);
         }
        
 

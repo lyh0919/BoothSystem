@@ -75,6 +75,7 @@ namespace BoothAdmin.Controllers
         }
        
 
+
         //租户列表视图
         public IActionResult ShowUs()
         {
@@ -116,13 +117,14 @@ namespace BoothAdmin.Controllers
         public int Delus(Guid id)
         {
             HttpResponseMessage message = null;
-            string url = "http://localhost:52229/api/default/Delus?ids=" + id;
+            string url = "http://localhost:52229/api/default/Delus?id=" + id;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json") { CharSet = "utf-8" });
             message = client.DeleteAsync(url).Result;
             string s = message.Content.ReadAsStringAsync().Result;
             return Convert.ToInt32(s);
         }
+        
         public class LayUi
         {
             public string code { get; set; }

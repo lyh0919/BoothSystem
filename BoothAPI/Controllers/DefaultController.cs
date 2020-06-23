@@ -70,6 +70,9 @@ namespace BoothAPI.Controllers
              return _show.DelAll(isSave = true, entitys); ;
         }
 
+
+
+
         //编辑微信会员信息
         [HttpPost]
         public int UptWx(MemberInfoo m)
@@ -77,10 +80,16 @@ namespace BoothAPI.Controllers
            return _show.UpdateWx(m);
         }
         //根据id 查询数据 修改
-        public List<MemberInfoo> UptWx(Guid ids)
+        [HttpGet]
+        public MemberInfoo UptWx(Guid ids)
         {
             return _show.Uptwx(w=>w.Id==ids);
         }
+
+
+
+
+
 
         [HttpGet]
         //分页获取租户信息列表
@@ -101,9 +110,9 @@ namespace BoothAPI.Controllers
         //根据id删除租户信息
         
         [HttpDelete]
-        public int Delus(Guid ids)
+        public int Delus(Guid id)
         {
-            return _show.Delus(ids);
+            return _show.Delus(id);
          }
         
 
