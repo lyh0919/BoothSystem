@@ -160,5 +160,17 @@ namespace BoothService
             return server.Where(where).ToList();
         }
 
+        public List<RecordInfo> GetRecord(Func<RecordInfo, bool> @where, Func<RecordInfo, DateTime> order, int pageIndex, int pageSize, out int count)
+        {
+            var server = this.CreateService<RecordInfo>();
+            return server.Where(where, order, pageIndex, pageSize, out count).ToList();
+        }
+
+        public int AddRecord(RecordInfo record)
+        {
+            var server = this.CreateService<RecordInfo>();
+            return server.Add(record);
+        }
+
     }
 }

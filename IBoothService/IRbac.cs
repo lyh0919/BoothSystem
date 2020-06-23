@@ -54,5 +54,10 @@ namespace IBoothService
 
 
         List<City> GetCity(Expression<Func<City, bool>> where);
+
+        //操作日志
+        List<RecordInfo> GetRecord(Func<RecordInfo, bool> @where, Func<RecordInfo, DateTime> order, int pageIndex, int pageSize, out int count);
+
+        int AddRecord(RecordInfo record);
     }
 }
