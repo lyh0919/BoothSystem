@@ -69,10 +69,10 @@ namespace BoothService
 
         }
         //修改
-        public int UptRole(RbacRoleInfo role)
+        public int UptRole(RbacRoleInfo role, params string[] propertyNames)
         {
             var server = this.CreateService<RbacRoleInfo>();
-            return server.Update(role);
+            return server.Update(role, propertyNames);
         }
         //获取数据反填
         public RbacRoleInfo GetRoleOne(Expression<Func<RbacRoleInfo, bool>> where)
@@ -106,7 +106,7 @@ namespace BoothService
 
         #region 成员
         //显示
-        public List<RbacAdmin> GetAdmin(Func<RbacAdmin, bool> @where, Func<RbacAdmin, DateTime> order, int pageIndex, int pageSize, out int count)
+        public List<RbacAdmin> GetAdmin(Func<RbacAdmin, bool> @where, Func<RbacAdmin, string> order, int pageIndex, int pageSize, out int count)
         {
             var server = this.CreateService<RbacAdmin>();
             return server.Where(where,order, pageIndex, pageSize, out count).ToList();
@@ -136,10 +136,10 @@ namespace BoothService
 
         }
         //修改
-        public int UptAdmin(RbacAdmin admin)
+        public int UptAdmin(RbacAdmin admin, params string[] propertyNames)
         {
             var server = this.CreateService<RbacAdmin>();
-            return server.Update(admin);
+            return server.Update(admin, propertyNames);
         }
         //获取数据反填
         public RbacAdmin GetAdminOne(Expression<Func<RbacAdmin, bool>> where)

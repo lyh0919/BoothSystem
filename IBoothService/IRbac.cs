@@ -27,7 +27,7 @@ namespace IBoothService
 
         int DelRole(object id);
 
-        int UptRole(RbacRoleInfo role);
+        int UptRole(RbacRoleInfo role, params string[] propertyNames);
 
         RbacRoleInfo GetRoleOne(Expression<Func<RbacRoleInfo, bool>> where);
 
@@ -42,13 +42,13 @@ namespace IBoothService
 
 
         //成员
-        List<RbacAdmin> GetAdmin(Func<RbacAdmin, bool> @where, Func<RbacAdmin, DateTime> order, int pageIndex, int pageSize, out int count);
+        List<RbacAdmin> GetAdmin(Func<RbacAdmin, bool> @where, Func<RbacAdmin, string> order, int pageIndex, int pageSize, out int count);
 
         int AddAdmin(RbacAdmin role);
 
         int DelAdmin(object id);
 
-        int UptAdmin(RbacAdmin role);
+        int UptAdmin(RbacAdmin role, params string[] propertyNames);
 
         RbacAdmin GetAdminOne(Expression<Func<RbacAdmin, bool>> where);
 

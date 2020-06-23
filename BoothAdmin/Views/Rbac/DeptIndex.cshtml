@@ -55,7 +55,7 @@
                 html += "<tr>";
                 html += "<td>" + v.deptName + "</td>";/*isEnable*/
                 html += "<td>" + v.deptDesc + "</td>";
-                html += "<td>" + v.createTime + "</td>";
+                html += "<td>" + dateFormat(v.createTime) + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
                 html += "<td><a href='#'  onclick=Upt('" + v.id + "')>编辑&nbsp;<a href='#' onclick=Del('" + v.id + "')>删除</td>";
                 html += "</tr>";
@@ -63,7 +63,14 @@
             $("#dt").append(html);
         });
     }
-
+    //时间转换
+    function dateFormat(datestr) {
+        var date = new Date(datestr);
+        var datestr = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" +
+            date.getDate() + " " + date.getHours() + ":" +
+            date.getMinutes() + ":" + date.getSeconds();
+        return datestr;
+    }
     //删除
     function Del(id) {
         if (confirm("确认删除吗")) {
