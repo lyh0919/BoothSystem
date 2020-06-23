@@ -82,7 +82,7 @@
                                 shadeClose: true,
                                 shade: 0.4,
                                 skin: 'layui-layer-rim',
-                                content: ["/WeiXin/Updwx?id=" + data.id, "no"],
+                                content: ["/WeiXin/Updwx?id=" + data.id],
                              });
                             break;
                         case 'del':
@@ -136,40 +136,5 @@
     }
 
 </script>
-
-<script>
-    /*  ========== 弹出编辑页面  button 事件 ==============*/
-    function uptwei(ids) {
-        layui.use('layer', function () {
-            layer.open({
-                type: 2,
-                content: ["/WeiXin/Updwx"], 
-                area: ["700px", "500px"],
-                title: ['用户编辑'],
-                fixed: false,
-                shadeClose: true,
-                success: function () {
-                    //反填
-                    var ids = location.search.split("?")[1].split("=")[1];
-                    $("#id").val(ids);
-                    $.get("http://localhost:52229/api/default/uptwx?ids=", + ids, function (res) {
-                        $("#MemName").val(res.memName);
-                        $("#MemWX").val(res.memWX);
-                        $("#UserPhone").val(res.userPhone);
-                        $("#MemAddress").val(res.memAddress);
-                        $("#MemState").val(res.memState);
-                   })
-              },
-                end: function () {
-                    //刷新页面
-                    location.reload();
-                }
-            })
-        })
-    }
-
-</script>
-
-
 
 
