@@ -34,14 +34,14 @@ namespace BoothAPI
 
             services.AddDbContext<BoothManageContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("BoothConnection")));
-            
+
             services.AddScoped<IBoothManageContext, BoothDataAccess.BoothManageContext>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
             services.AddScoped<IShow, Show>();
             services.AddScoped<IRbac, Rbac>();
             services.AddScoped<IMarketBll, MarketBll>();
             services.AddScoped<IRent, Rent>();
-
+            services.AddScoped<IRentData, RentData>();
 
             // 配置跨域处理，允许所有来源
             services.AddCors(options =>
