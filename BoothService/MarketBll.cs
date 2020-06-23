@@ -68,5 +68,6 @@ namespace BoothService
             var server = this.CreateService<City>();
             return server.Where(where).ToList();
         }
+
     }
 }

@@ -66,13 +66,11 @@ namespace BoothAPI.Controllers
 
         //查询所有省份 用于绑定第一级下拉 
         [HttpGet]
-        public List<City> GetSheng()
+        public List<City> GetSheng(int id)
         {
-            return _show.GetSheng();
+         return _show.GetSheng(c => c.PId == id); ;
         }
-
-        //根据省份id 查询该省的城市 用于二级联动
-       //根据城市id 查询该城市的县 用于三级联动
+ 
       //批量删除微信会员信息
         [HttpPost]
         public int DelAll(bool isSave = true, params MemberInfoo[] entitys)
@@ -124,6 +122,8 @@ namespace BoothAPI.Controllers
             UserInfo userin = _show.Uptus(w => w.Id == ids);
             return userin;
         }
+
+
 
 
 

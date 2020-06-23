@@ -19,11 +19,9 @@ namespace IBoothService
 
 
         //查询所有省份 用于绑定第一级下拉 
-        List<City> GetSheng();
+        List<City> GetSheng(Expression<Func<City, bool>> where);
 
-        //根据省份id 查询该省的城市 用于二级联动
-        //根据城市id 查询该城市的县 用于三级联动
-
+        
         //编辑微信会员信息
         int UpdateWx(MemberInfoo m);
         //根据id查询

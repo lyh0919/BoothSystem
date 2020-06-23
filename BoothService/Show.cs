@@ -47,20 +47,13 @@ namespace BoothService
             return service.FirstOrDefault(where);
         }
 
-
-
-
         //显示所有省份 用于绑定第一级下拉 
-        public List<City> GetSheng()
+        public List<City> GetSheng(Expression<Func<City, bool>> where)
         {
             var service = this.CreateService<City>();
-            return service.GetAll().ToList();
+            return service.Where(where).ToList();
         }
 
-        //根据省份id 查询该省的城市 用于二级联动
-        //根据城市id 查询该城市的县 用于三级联动
-
-       
          //批量删除微信会员信息
         public int DelAll(bool isSave = true, params MemberInfoo[] entitys)
         {
