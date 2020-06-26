@@ -1,0 +1,73 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DetialBoothAndUser</title>
+</head>
+<body>
+    <div style="float: left;padding-top:10px">
+        <div class="layui-inline">
+            <div style="float:left"><input class="layui-input" type="text" placeholder="请输入组户名或电话" id="txt_Name" style="width: 300px;height: 30px;border: aliceblue;" autocomplete="off" /></div>
+            <div style="float:left">
+                <button type="button" data-type="reload" class="layui-btn layui-btn-sm  layui-btn-normal" id="reloadBtn"> <i class="layui-icon">&#xe615;</i>查询</button>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding-top:100px">
+        @*class="lay-filter=" component-form-element"*@
+        @*表格数据显示*@
+        <table id="demo" class="layui-elem-field layui-field-title" style=""></table>
+
+        <script src="~/layuiadmin/layui/layui.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
+
+    </div>
+</body>
+</html>
+
+
+<script>
+    var id = window.location.search.split("?")[1];
+    $(function () {
+        ShowDetial()
+
+
+    });
+
+    function ShowDetial() {
+        $.get('http://localhost:52229/api/Market/ShowBooDetial', { id: id }, function (res) {
+            var str = "";
+            $.each(res, function (i, n) {
+                str += "<tr>";
+                str += "<td> " + n.booTitle + "</td>";
+                str += "<td> " + n.booNo + "</td>";
+                str += "<td> " + n.markName + "</td>";
+                str += "<td>￥ " + n.booRent + "</td>";
+                str += "<td> " + n.booDead + "个月</td>";
+                str += "<td> " + n.userName + "</td>";
+                str += "<td> " + n.updateTime + "</td>";
+                str += "<td> " + n.isEnable == "1" ? "使用中" : "未使用" + "</td>";
+                str += "<td><a href='#' class='layui-btn layui-btn-xs' lay-event='edit' onclick='Edit(" + n.id + ")' value=" + n.id + ">编辑</a> <a href='' class='layui-btn layui-btn-danger layui-btn-xs' lay-event='del' value=" + n.id + " onclick=Del(" + n.id + ") > 删除</a ><a href='' onclick='Detial(" + n.id + ")'>明细</a></td>";
+            });
+            $("#demo").empty();
+            $("#demo").append(str);
+
+        });
+    }
+
+    $("#reloadBtn").click(function () {
+        var txtName = $("#txt_Name").val();
+        $.get('http://localhost:52229/api/Market/', { name: txtName }, function (res) {
+            ShowDetial();
+        })
+
+    });
+</script>

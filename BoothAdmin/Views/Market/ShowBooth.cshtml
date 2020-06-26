@@ -1,0 +1,220 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    @*<link rel="stylesheet" href="/layui/css/layui.css" media="all">*@
+    <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div style="float: left;padding-top:10px">
+        <div class="layui-inline">
+            <div style="float:left"><input class="layui-input" type="text" placeholder="请输入市场名称" id="txt_Name" style="width: 300px;height: 30px;border: aliceblue;" autocomplete="off" /></div>
+            <div style="float:left">
+                <select name="conditionSelect" id="conditionSelect" style="width: 300px;height: 30px">
+                    <option value="">请选择</option>
+                    <option value="1">使用中</option>
+                    <option value="0">未使用</option>
+                </select>
+                <button type="button" data-type="reload" class="layui-btn layui-btn-sm  layui-btn-normal" id="reloadBtn"> <i class="layui-icon">&#xe615;</i>查询</button>
+            </div>
+        </div>
+    </div>
+    <div style="float:right;padding-top:40px">
+
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
+            <i class="layui-icon">&#xe654;</i>添加
+        </button>
+    </div>
+    <div style="padding-top:100px">
+        @*class="lay-filter=" component-form-element"*@
+        @*表格数据显示*@
+        <table id="demo" class="layui-elem-field layui-field-title" style=""></table>
+
+        <script src="~/layuiadmin/layui/layui.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
+        <script>
+            //layui.use('table', function () {
+            //    var table = layui.table;
+
+            //    //第一个实例
+            //    table.render({
+            //        elem: '#demo'
+            //        , height: 312
+            //        , url: '/Market/SelectMarket' //数据接口
+            //        , page: true //开启分页
+            //        , title: '市场数据表'
+            //        , totalRow: true
+            //        , cols: [[ //表头
+            //            { field: 'id', title: 'ID', sort: true, fixed: 'left', align: "center" }
+            //            , { field: 'markName', title: '市场名称', sort: true, align: "center" }
+            //            , { field: 'markPhone', title: '市场电话', align: "center" }
+            //            , { field: 'markAccName', title: '市场管理员', sort: true, align: "center" }
+            //            , { field: 'markAddress', title: '地址', align: "center" }
+            //            , { field: 'markSortId', title: '排序', sort: true }
+
+            //            , { field: 'isEnable', title: '状态', width: 135, sort: true, align: "center", templet: function (d) { if (d.isEnable == '1') { return '开启' } else { return '关闭' } } }
+            //            , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150, align: "center" }
+            //        ]]
+
+            //        , parseData: function (res) { //res 即为原始返回的数据
+            //            console.log(res)
+            //            return {
+            //                "code": res.status, //解析接口状态
+            //                "msg": res.nessage, //解析提示文本
+            //                "count": res.total, //解析数据长度
+            //                "data": res.data.Item //解析数据列表
+            //            };
+            //        }
+            //    });
+
+            //    table.on('tool(demo)', function (obj) {
+            //        var data = obj.data;
+            //        json = JSON.stringify(data);
+            //        switch (obj.event) {
+            //            case 'edit':
+            //                var index = layer.open({
+            //                    type: 2,
+            //                    title: "编辑修改页面",
+            //                    area: ["1000px", "600px"],
+            //                    fix: false,
+            //                    maxmin: true,
+            //                    shadeClose: true,
+            //                    shade: 0.4,
+            //                    skin: 'layui-layer-rim',
+            //                    content: ["/Market/UpdateMarket?id=" + data.id, "no"],
+
+            //                });
+            //                break;
+            //            case 'del':
+            //                var delIndex = layer.confirm('真的删除id为' + data.markName + "的信息吗?", function (delIndex) {
+
+            //                    $.ajax({
+            //                        url: '/Market/DelMarket',
+            //                        type: "post",
+            //                        data: { id: data.id },
+            //                        success: function (suc) {
+            //                            if (suc > 0) {
+            //                                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+            //                                layer.close(delIndex);
+            //                                console.log(delIndex);
+            //                                layer.msg("删除成功");
+            //                            } else {
+            //                                layer.msg("删除失败");
+            //                            }
+            //                        }
+            //                    });
+            //                    layer.close(delIndex);
+            //                });
+            //                break;
+            //        }
+            //    });
+
+
+            //});
+        </script>
+    </div>
+
+
+</body>
+</html>
+<script>
+
+     $(function () {
+
+        Show();
+
+    });
+    function Show() {
+
+        $.get('http://localhost:52229/api/Market/ShowBooth', function (res) {
+            var str = "";
+            $.each(res, function (i, n) {
+                str += "<tr>";
+                str += "<td> " + n.booTitle + "</td>";
+                str += "<td> " + n.booNo + "</td>";
+                str += "<td> " + n.markName + "</td>";
+                str += "<td>￥ " + n.booRent + "</td>";
+                str += "<td> " + n.booDead + "个月</td>";
+                str += "<td> " + n.userName + "</td>";
+                str += "<td> " + n.updateTime + "</td>";
+                str += "<td> " + n.isEnable == "1" ? "使用中" : "未使用" + "</td>";
+                str += "<td><a href='#' class='layui-btn layui-btn-xs' lay-event='edit' onclick='Edit(" + n.id + ")' value=" + n.id + ">编辑</a> <a href='' class='layui-btn layui-btn-danger layui-btn-xs' lay-event='del' value=" + n.id + " onclick=Del(" + n.id + ") > 删除</a ><a href='' onclick='Detial(" + n.id + ")'>明细</a></td>";
+            });
+            $("#demo").empty();
+            $("#demo").append(str);
+        })
+    }
+
+    /*  ========== 添加弹出层父页面  button 事件 ==============*/
+    function useradd() {
+        layui.use('layer', function () {
+            layer.open({
+                type: 2,
+                content:'/Market/AddBoo'
+                ,   //添加页，后台controller转发到指定页
+                area: ["1000px", "600px"],
+                btn:['添加','取消']
+               , title: ['摊位添加'],
+                fixed: false,
+                //maxmin: true,
+                shadeClose: true
+               , end: function () {  //刷新页面
+                    location.reload();
+                }
+            })
+        })
+    }
+    function Search() {
+        var txtName = $("#txt_Name").val();
+        var selectid = document.getElementById("AreaId").value;
+        if (txtName == null) {
+            txtName = "";
+        }
+        if (selectid == null) {
+            selectid == ""
+        }
+
+        $.ajax({
+            url: "http://localhost:52229/api/market/SearchMarket?name=" + txtName + "&isable=" + selectid,
+            dataType: "json",
+            type: "get",
+            success: function () {
+                location.reload();
+            }
+        })
+    }
+
+    function Edit(id) {
+        location.href = "/Market/EditBoo?Id=" + id;
+    }
+
+    function Del(id) {
+        $.get('http://localhost:52229/api/market/DelBooth', { id: id }, function (res) {
+            if (res >= 1) {
+                alert("删除成功");
+            }
+            else {
+                alert("删除失败")
+            }
+        })
+    }
+
+    function Detial(UserId) {
+        location.href = "/Marktet/DetialBoothAndUser?Id=" + id;
+    }
+</script>
+
+
+
+

@@ -11,13 +11,14 @@ using System.Linq.Expressions;
 
 namespace BoothService
 {
-  public  class MarketBll:Base,IMarketBll
+    public class MarketBll : Base, IMarketBll
     {
+
         public MarketBll(IRepositoryFactory repositoryFactory, IBoothManageContext mydbcontext) : base(repositoryFactory, mydbcontext)
         {
 
         }
-
+        #region 添加市场
         public int AddMarket(MarketInfo model)
         {
             var server = this.CreateService<MarketInfo>();
@@ -30,14 +31,7 @@ namespace BoothService
             return server.Delete(id);
         }
 
-        public List<MarketInfo> ShowDetial(object id)
-        {
-            using (SqlConnection conn = new SqlConnection("server=192.168.1.130;database=BoothManage;uid=sa;pwd=123456;"))
-            {
-                string sql = "select * from MarketInfo where Id=" + id + "";
-                return conn.Query<MarketInfo>(sql).ToList();
-            }
-        }
+
 
         public List<MarketInfo> ShowMarket()
         {
@@ -51,17 +45,7 @@ namespace BoothService
             return server.Update(model);
         }
 
-        //public List<MarketInfo> ShowMarket(int page = 1, int limit = 10)
-        //{
-        //    List<MarketInfo> list = null;
-        //    using (SqlConnection conn=new SqlConnection("server=192.168.1.130;database=BoothManage;uid=sa;pwd=123456;"))
-        //    {
-        //        string sql = "select * from MarketInfo";
-        //   list=    conn.Query<MarketInfo>(sql).ToList();
-        //    }
-        //    list = list.Skip((page - 1) * limit).Take(limit).ToList();
-        //    return list;
-        //}
+
 
         public List<City> GetCity(Expression<Func<City, bool>> where)
         {
@@ -69,5 +53,27 @@ namespace BoothService
             return server.Where(where).ToList();
         }
 
+        public List<MarketInfo> GetMarketInfo(Expression<Func<MarketInfo, bool>> where)
+        {
+            var server = this.CreateService<MarketInfo>();
+            return server.Where(where).ToList();
+        }
+
+        public List<MarketInfo> SearchMarket(Expression<Func<MarketInfo, bool>> name)
+        {
+            var server = this.CreateService<MarketInfo>();
+            return server.Where(name).ToList();
+        }
+
+
+
+        public List<UserInfo> ShowUserInfo()
+        {
+            var server = this.CreateService<UserInfo>();
+            return server.GetAll().ToList();
+        }
+
+     
+        #endregion
     }
 }

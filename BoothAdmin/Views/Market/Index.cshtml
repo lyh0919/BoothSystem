@@ -16,19 +16,41 @@
 
 </head>
 <body>
-    <div class="layui-fluid">
+    <div style="float: left;padding-top:10px">
+        <div class="layui-inline">
+            <div style="float:left"><input class="layui-input" type="text" placeholder="请输入市场名称" id="txt_Name" style="width: 300px;height: 30px;border: aliceblue;" autocomplete="off" /></div>
+            <div style="float:left;">
+                <select name="conditionSelect" id="conditionSelect" style="width: 300px;height: 30px">
+                    <option value="">请选择</option>
+                    <option value="1">使用中</option>
+                    <option value="0">未使用</option>
+                </select>
+                <button type="button" data-type="reload" class="layui-btn layui-btn-sm  layui-btn-normal" id="reloadBtn"> <i class="layui-icon">&#xe615;</i>查询</button>
+            </div>
+
+        </div>
+
+    </div>
+    <div style="float:right;padding-top:40px">
 
         <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
             <i class="layui-icon">&#xe654;</i>添加
         </button>
 
+    </div>
+    <div class="layui-fluid" style="width:90%">
+
         @*class="lay-filter=" component-form-element"*@
         @*表格数据显示*@
-        <table id="demo" lay-filter="demo" class="layui-hide"></table>
-        <script type="text/html" id="barDemo">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-        </script>
+        <div style="padding-top:80px">
+            <table id="demo" lay-filter="demo" class="layui-hide"></table>
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                <a class="layui-btn layui-btn-normal">查看详情</a>
+
+            </script>
+        </div>
 
         <script src="~/layuiadmin/layui/layui.js"></script>
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -46,19 +68,25 @@
                     , title: '市场数据表'
                     , totalRow: true
                     , cols: [[ //表头
-                        { field: 'id', title: 'ID', sort: true, fixed: 'left',align:"center" }
-                        , { field: 'markName', title: '市场名称', sort: true,align:"center" }
-                        , { field: 'markPhone', title: '市场电话',align:"center" }
-                        , { field: 'markAccName', title: '市场管理员', sort: true,align:"center" }
-                        , { field: 'markAddress', title: '地址',align:"center" }
+                        //{ field: 'id', title: 'ID', sort: true, fixed: 'left', align: "center" }
+                        { field: 'markName', title: '市场名称', sort: true, align: "center" }
+                        , { field: 'markPhone', title: '市场电话', align: "center" }
+                        , { field: 'markAccName', title: '市场管理员', sort: true, align: "center" }
+                        , { field: 'markAddress', title: '地址', align: "center" }
                         , { field: 'markSortId', title: '排序', sort: true }
-
-                        , { field: 'isEnable', title: '状态', width: 135, sort: true ,align:"center",templet: function(d){if(d.isEnable == '1'){return '开启'}else{return '关闭'}}}
-                        , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150,align:"center" }
+                        , { field: 'isEnable', title: '状态', width: 135, sort: true, align: "center", templet: function (d) { if (d.isEnable == '1') { return '开启' } else { return '关闭' } } }
+                        , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150, align: "center" }
                     ]]
-
+                    , id: 'testReload'
+                    , limit: 10
                     , parseData: function (res) { //res 即为原始返回的数据
-                        console.log(res)
+                        var result;
+                        if (this.page.curr) {
+                            result = res.data.slice(this.limit * (this.page.curr) - 1, this.limit * this.page.curr)
+                        }
+                        else {
+                            result = res.data.slice(0, this.limit);
+                        }
                         return {
                             "code": res.status, //解析接口状态
                             "msg": res.nessage, //解析提示文本
@@ -68,6 +96,7 @@
                     }
                 });
 
+                //调用button按钮事件
                 table.on('tool(demo)', function (obj) {
                     var data = obj.data;
                     json = JSON.stringify(data);
@@ -87,7 +116,8 @@
                             });
                             break;
                         case 'del':
-                            var delIndex = layer.confirm('真的删除id为' + data.MemName + "的信息吗?", function (delIndex) {
+                            var delIndex = layer.confirm('真的删除id为' + data.markName + "的信息吗?", function (delIndex) {
+
                                 $.ajax({
                                     url: '/Market/DelMarket',
                                     type: "post",
@@ -108,9 +138,30 @@
                             break;
                     }
                 });
+                //查询方法
 
+                $("#reloadBtn").click(function (ev) {
+                    console.info("reload");
 
+                    var txtName = $("#txt_Name").val();
+                    if (txtName == null) {
+                        txtName = "";
+                    }
+
+                    var conditionSelect = $("#conditionSelect option:selected").val();
+                    alert(conditionSelect);
+
+                    table.reload('testReload', {
+                        url: '/Market/SearchMarket'
+                        , where: {
+                            name: txtName,
+                            isables: conditionSelect
+                        }
+                    });
+
+                });
             });
+
         </script>
     </div>
 </body>
@@ -131,7 +182,8 @@
                     location.reload();
                 }
             })
-        })
+        });
     }
+
 
 </script>
