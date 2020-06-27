@@ -160,16 +160,36 @@ namespace BoothService
             return server.Where(where).ToList();
         }
 
+        //显示操作日志列表
         public List<RecordInfo> GetRecord(Func<RecordInfo, bool> @where, Func<RecordInfo, DateTime> order, int pageIndex, int pageSize, out int count)
         {
             var server = this.CreateService<RecordInfo>();
-            return server.Where(where, order, pageIndex, pageSize, out count).ToList();
+            return server.Where(where, order, pageIndex, pageSize, out count,true).ToList();
+        }
+        //获取全部成员
+        public List<RbacAdmin> GetAdminAll()
+        {
+            var server = this.CreateService<RbacAdmin>();
+            return server.GetAll().ToList();
         }
 
+        //添加日志表
         public int AddRecord(RecordInfo record)
         {
             var server = this.CreateService<RecordInfo>();
             return server.Add(record);
+        }
+        //查询需要删除的
+        public RecordInfo GetRecordeOne(Expression<Func<RecordInfo, bool>> where)
+        {
+            var server = this.CreateService<RecordInfo>();
+            return server.FirstOrDefault(where);
+        }
+        //批量删除
+        public int DelRecord(List<RecordInfo> entitys)
+        {
+            var server = this.CreateService<RecordInfo>();
+            return server.Delete(entitys);
         }
 
     }

@@ -74,7 +74,7 @@
                     </li>
                     <li class="layui-nav-item" lay-unselect>
                         <a href="javascript:;">
-                            <cite>贤心</cite>
+                            <cite><span id="accname">贤心</span></cite>
                         </a>
                         <dl class="layui-nav-child">
 
@@ -106,10 +106,10 @@
                             </a>
                             <dl class="layui-nav-child">
                                 <dd data-name="console" class="layui-this">
-                                    <a lay-href="">系统首页</a>
+                                    <a lay-href="/Booth/HomePage">系统首页</a>
                                 </dd>
                                 <dd data-name="console">
-                                    <a lay-href="">账户设置</a>
+                                    <a lay-href="/Booth/Set">账户设置</a>
                                 </dd>
                             </dl>
                         </li>
@@ -232,7 +232,7 @@
             <div class="layadmin-body-shade" layadmin-event="shade"></div>
         </div>
     </div>
-
+    <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/layuiadmin/layui/layui.js"></script>
     <script>
         layui.config({
@@ -240,6 +240,14 @@
         }).extend({
             index: 'lib/index' //主入口模块
         }).use('index');
+
+        
+        var accname = localStorage["Admin"]
+        $("#accname").html(accname);
+
+        //$(function () {
+        //    this.location.href = "/Booth/HomePage";
+        //});
     </script>
 </body>
 </html>

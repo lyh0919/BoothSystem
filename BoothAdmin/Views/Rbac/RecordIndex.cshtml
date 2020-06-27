@@ -100,17 +100,24 @@
         <div class="layui-card-body">
             <blockquote class="layui-elem-quote role_search">
                 <div class="layui-inline">
-                    <div class="layui-input-inline">
-                        <input id="accname" type="text" value="" placeholder="请输入操作人员" class="layui-input search_input">
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">操作人</label>
+                        <div class="layui-input-inline">
+                            <select name="admin" id="adminid" lay-verify="required" lay-search="">
+                            </select>
+                        </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">操作日期</label>
                         <div class="layui-input-inline">
-                            <select name="dept" id="deptid" lay-verify="required" lay-search="">
-                            </select>
+                            <input type="text" class="layui-input" id="datetime" placeholder="请选择">
                         </div>
                     </div>
                     <a class="layui-btn search_btn" onclick="searchData()"><i class="layui-icon layui-icon-search"></i> 查询</a>
+                    <div class="layui-inline">
+                        <a class="layui-btn layui-btn-danger batchDel" onclick="DelAny()"><i class="layui-icon layui-icon-delete"></i> 批量删除</a>
+                    </div>
                 </div>
             </blockquote>
         </div>
@@ -120,6 +127,7 @@
         <table class="layui-table">
             <thead>
                 <tr>
+                    <td><input lay-skin="primary" type="checkbox" id="checkall" name="type" lay-filter="allChoose" value="checkall" /></td>
                     <th>编号</th>
                     <th>操作者</th>
                     <th>操作日期</th>
@@ -131,7 +139,6 @@
             </tbody>
 
         </table>
-        <a href="#" onclick="Del()"></a>
     </div>
     <div id="demo" style="text-align:center">
         <button type="button" id="prev" onclick="Prev()" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">上一页</i></button>
@@ -145,25 +152,32 @@
 <script src="~/layuiadmin/layui/layui.js"></script>
 <script>
 
-    //对表单重新渲染  复选框、下拉框等
-    layui.use('form', function () {
-        var form = layui.form;
-        form.render();
+    //日期框
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //常规用法
+        laydate.render({
+            elem: '#datetime'
+        });
     });
+
+
+    
     //页面加载
     $(function () {
-        
+        GetAdmin();
         if (pageindex == 1) {
             $('#prev').attr("disabled", true);
         }
-        accname = $("#accname").val();
-        deptid = $('select[name="dept"] option:selected').val();
-        AdminShow(pageindex);
+        datetime = $("#accname").val();
+        adminid = $('select[name="admin"] option:selected').val();
+        RecordShow(pageindex);
 
     });
 
-    var accname = $("#accname").val();
-    var deptid = $('select[name="dept"] option:selected').val();
+    var datetime = $("#datetime").val();
+    var adminid = $('select[name="admin"] option:selected').val();
 
 
 
@@ -197,34 +211,109 @@
         }
 
     }
+    //查询
     function searchData() {
-        accname = $("#accname").val();
-        accname = decodeURI(accname);
-        deptid = $('select[name="dept"] option:selected').val();
+        datetime = $("#accname").val();
+        //accname = decodeURI(accname);
+        adminid = $('select[name="dept"] option:selected').val();
         AdminShow(1);
     }
 
     //显示
-    function AdminShow(pageindex) {
-        $.get('http://localhost:52229/api/rbac/getadmin?accName=' + accname + '&deptId=' + deptid + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
+    function RecordShow(pageindex) {
+        $.get('http://localhost:52229/api/rbac/getrecord?accid=' + adminid + '&datetime=' + datetime + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
             total = res.count;
             pages = Math.ceil(total / pagesize);
+            console.log(res.recordList);
             $("#dt").empty();
             var html = "";
-            $.each(res.members, function (i, v) {
+            $.each(res.recordList, function (i, v) {
                 html += "<tr>";
-                html += "<td>" + v.accNum + "</td>";/*isEnable*/
+                html += '<td><input type="checkbox" name="rec" lay-skin="primary" value="' + v.id + '"  /></td>';
+                html += "<td>" + v.id + "</td>";
                 html += "<td>" + v.accName + "</td>";
-                html += "<td>" + v.accPhone + "</td>";
-                html += "<td>" + v.deptName + "</td>";
-                html += "<td>" + dateFormat(v.createTime) + "</td>";
                 html += "<td>" + dateFormat(v.updateTime) + "</td>";
-                html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
-                html += '<td><a href="#" onclick=Upt("' + v.id + '")>编辑&nbsp;<a href="#" onclick=Del("' + v.id + '")>删除</td>';//onclick="Del('')
+                html += "<td>" + v.ipAddress + "</td>";
+                html += "<td>" + v.record + "</td>";
                 html += "</tr>";
             });
             $("#dt").append(html);
             $("#page").html("当前" + pageindex + "页/共" + pages + "页");
+            //对表单重新渲染  复选框、下拉框等
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        });
+    }
+    //全选/全不选
+    layui.use(['form', 'jquery'], function () {
+        var form = layui.form;
+        var $ = layui.jquery;
+        //点击全选, 勾选
+        form.on('checkbox(allChoose)', function (data) {
+            var child = $("input[name='rec']");
+            child.each(function (index, item) {
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+    });
+    //批删
+    function DelAny() {
+        var chk_value = [];
+        $('input[name="rec"]:checked').each(function () {
+            chk_value.push($(this).val());
+        });
+        alert(chk_value);
+
+        if (chk_value.length != 0) {
+            var ids = chk_value.join(',');
+            alert(ids);
+            $.post('http://localhost:52229/api/rbac/delrecord?ids=' + ids, function (res) {
+                if (res > 0) {
+                    alert("删除成功");
+                    AdminShow(1);
+                }
+            });
+            //$.ajax({
+            //    url: "http://localhost:52229/api/rbac/delrecord",
+            //    data: { "ids": ids },
+            //    dataType: "json",
+            //    type: "Post",
+            //    //contentType: "application/json",
+            //    contentType: "application/x-www-form-urlencoded",
+            //    success: function (res) {
+            //        if (res > 0) {
+            //            alert("删除成功");
+            //            AdminShow(1);
+            //        }
+            //    }
+            //});
+        }
+        else {
+            alert("请选择权限");
+        }
+    }
+
+    //下拉成员
+    function GetAdmin() {
+        $.get('http://localhost:52229/api/rbac/getadminall', function (res) {
+
+            $("#adminid").empty();
+            var html = "";
+            html += '<option value="undefined">请选择</option>';
+            $.each(res, function (i, v) {
+
+                html += '<option value="' + v.id + '">' + v.accName + '</option>';
+
+            });
+            $("#adminid").append(html);
+            //对表单重新渲染  复选框、下拉框等
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
         });
     }
     //时间转换
@@ -235,3 +324,5 @@
             date.getMinutes() + ":" + date.getSeconds();
         return datestr;
     }
+
+</script>

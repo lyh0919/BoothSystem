@@ -180,7 +180,7 @@
                     dept.DeptName = $("#deptname").val();
                     dept.DeptDesc = $("#deptdesc").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/uptdept",
+                        url: "http://localhost:52229/api/rbac/uptadmin",
                         data: JSON.stringify(dept),
                         dataType: "json",
                         contentType: "application/json",

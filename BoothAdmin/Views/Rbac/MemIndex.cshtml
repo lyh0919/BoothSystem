@@ -413,7 +413,11 @@
                         $("#roleid option[value='" + res.roleId + "']").attr("selected", true);
                         $("input[name='isenable']:checked").val();
                         $("input:radio[name='isenable'][value=" + res.isEnable + "]").attr('checked', 'true');
-                        
+                        //对表单重新渲染  复选框、下拉框等
+                        layui.use('form', function () {
+                            var form = layui.form;
+                            form.render();
+                        });
                     });
                 }
                 , yes: function () {  //添加按钮

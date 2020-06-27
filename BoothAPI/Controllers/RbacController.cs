@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using BoothModel;
+using System.Net;
+using BoothService;
 
 namespace BoothAPI.Controllers
 {
@@ -22,6 +24,23 @@ namespace BoothAPI.Controllers
         {
             _rbac = rbac;
         }
+        //获取IP地址
+        [HttpGet]
+        public string GetIP()
+        {
+            string ipaddr = "";
+            string hostName = Dns.GetHostName();//本机名   
+            //System.Net.IPAddress[] addressList = Dns.GetHostByName(hostName).AddressList;
+            //会警告GetHostByName()已过期，我运行时且只返回了一个IPv4的地址   
+            System.Net.IPAddress[] addressList = Dns.GetHostAddresses(hostName);
+            //会返回所有地址，包括IPv4和IPv6   
+            foreach (IPAddress ip in addressList)  
+            {
+                ipaddr = ip.ToString();  
+            }
+            return ipaddr;
+         }
+
         #region 部门
         //部门添加
         [HttpPost]
@@ -228,6 +247,65 @@ namespace BoothAPI.Controllers
         public List<City> GetCity(int id)
         {
             return _rbac.GetCity(c => c.PId==id);
+        }
+
+        //操作列表
+        [HttpGet]
+        public RecordPage GetRecord(string accid,string datetime,int pageindex,int pagesize=2)
+        {
+            int count = 0;
+
+            List<RecordInfo> recordlist = new List<RecordInfo>();
+
+
+            if (accid != "undefined")//判断是否有效
+            {
+                recordlist = _rbac.GetRecord(r => r.AccId.ToString() == accid & r.UpdateTime.Equals(datetime), r => r.UpdateTime, pageindex, pagesize, out count);
+
+            }
+            else if (datetime != "undefined")
+            {
+                recordlist = _rbac.GetRecord(r => r.UpdateTime.ToString().Contains(datetime), r => r.UpdateTime, pageindex, pagesize, out count);
+            }
+            else
+            {
+                recordlist = _rbac.GetRecord(r => r.AccId.ToString().Contains(""), r => r.UpdateTime, pageindex, pagesize, out count);
+            }
+
+            //成员显示
+            var list = from s in recordlist
+                       join d in _rbac.GetAdminAll() on s.AccId equals d.Id
+                       select new RecordView()
+                       {
+                           Id = s.Id,
+                           IpAddress = s.IpAddress,
+                           Record = s.Record,
+                           AccName = d.AccName,
+                           UpdateTime = s.UpdateTime,
+                           AccId = s.AccId
+                           
+                       };
+            RecordPage recordPage = new RecordPage { RecordList = list.ToList(), Count = count };
+
+            return recordPage;
+        }
+        //获取全部成员
+        public List<RbacAdmin> GetAdminAll()
+        {
+            return _rbac.GetAdminAll();
+        }
+        //批量删除
+        [HttpPost]
+        public int DelRecord(string ids)
+        {
+            string[] id = ids.Split(',');
+            List<RecordInfo> records = new List<RecordInfo>();
+            foreach (var item in id)
+            {
+                records.Add(_rbac.GetRecordeOne(r => r.Id.ToString() == item)); 
+            }
+            
+            return _rbac.DelRecord(records);
         }
 
     }

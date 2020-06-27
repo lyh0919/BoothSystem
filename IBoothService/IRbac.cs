@@ -43,12 +43,14 @@ namespace IBoothService
 
         //成员
         List<RbacAdmin> GetAdmin(Func<RbacAdmin, bool> @where, Func<RbacAdmin, string> order, int pageIndex, int pageSize, out int count);
+        //全部
+        List<RbacAdmin> GetAdminAll();
 
         int AddAdmin(RbacAdmin role);
 
         int DelAdmin(object id);
 
-        int UptAdmin(RbacAdmin role, params string[] propertyNames);
+        int UptAdmin(RbacAdmin admin, params string[] propertyNames);
 
         RbacAdmin GetAdminOne(Expression<Func<RbacAdmin, bool>> where);
 
@@ -58,6 +60,11 @@ namespace IBoothService
         //操作日志
         List<RecordInfo> GetRecord(Func<RecordInfo, bool> @where, Func<RecordInfo, DateTime> order, int pageIndex, int pageSize, out int count);
 
+        RecordInfo GetRecordeOne(Expression<Func<RecordInfo, bool>> where);
+
         int AddRecord(RecordInfo record);
+
+        //批量删除
+        int DelRecord(List<RecordInfo> entitys);
     }
 }

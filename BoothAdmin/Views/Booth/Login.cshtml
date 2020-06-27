@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>摊位管理系统</title>
+
+ 
+    <link href="~/style.css" rel="stylesheet" />
+
+    <script src="~/jquery.min.js"></script>
+    <script src="~/vector.js"></script>
+
+</head>
+<body>
+
+    <div id="container">
+        <div id="output">
+            <div class="containerT">
+                <h1>摊位管理系统</h1>
+                <form class="form" id="entry_form">
+                    <input type="text" placeholder="用户名" id="username">
+                    <input type="password" placeholder="密码" id="userpass">
+                    <button type="button" id="login">登录</button>
+                    <div id="prompt" class="prompt"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    $(function(){
+        Victor("container", "output");   //登录背景函数
+        $("#entry_name").focus();
+        $(document).keydown(function(event){
+            if(event.keyCode==13){
+                $("#entry_btn").click();
+            }
+        });
+    });
+    $("#login").click(function () {
+        var username = $("#username").val();
+        var userpass = $("#userpass").val();
+        $.get('http://localhost:52229/api/boothsys/login?username=' + username + '&userpass=' + userpass, function (res) {
+            //alert(res.accNum);
+            if (res.accNum == username) {
+                localStorage["Admin"] = res.accName;
+                localStorage["AdminId"] = res.id;
+                location.href = "/Booth/Index";
+            }
+            else {
+                alert("账号或密码错误");
+            }
+            
+        });
+    });
+    
+
+</script>
+
+</body>
+</html>
+
+
