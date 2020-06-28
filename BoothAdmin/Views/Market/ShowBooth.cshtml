@@ -38,7 +38,7 @@
     <div style="padding-top:100px">
         @*class="lay-filter=" component-form-element"*@
         @*表格数据显示*@
-        <table id="demo" class="layui-elem-field layui-field-title" style=""></table>
+        <table id="demo" class="layui-table" style=""></table>
 
         <script src="~/layuiadmin/layui/layui.js"></script>
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -140,16 +140,18 @@
         $.get('http://localhost:52229/api/Market/ShowBooth', function (res) {
             var str = "";
             $.each(res, function (i, n) {
+                console.log(n);
                 str += "<tr>";
+                str += "<td>" + n.id + "</td>";
                 str += "<td> " + n.booTitle + "</td>";
                 str += "<td> " + n.booNo + "</td>";
                 str += "<td> " + n.markName + "</td>";
-                str += "<td>￥ " + n.booRent + "</td>";
-                str += "<td> " + n.booDead + "个月</td>";
+                str += "<td> "+"￥" + n.booRent + "</td>";
+                str += "<td> " + n.booDead + "个月"+"</td>";
                 str += "<td> " + n.userName + "</td>";
-                str += "<td> " + n.updateTime + "</td>";
+                str += "<td> " +timeFormatter( n.updateTime) + "</td>";
                 str += "<td> " + n.isEnable == "1" ? "使用中" : "未使用" + "</td>";
-                str += "<td><a href='#' class='layui-btn layui-btn-xs' lay-event='edit' onclick='Edit(" + n.id + ")' value=" + n.id + ">编辑</a> <a href='' class='layui-btn layui-btn-danger layui-btn-xs' lay-event='del' value=" + n.id + " onclick=Del(" + n.id + ") > 删除</a ><a href='' onclick='Detial(" + n.id + ")'>明细</a></td>";
+                str += "<td><a href='#' class='layui-btn layui-btn-xs' lay-event='edit' onclick=Edit('" + n.id + "')>编辑</a> <a href='#' class='layui-btn layui-btn-danger layui-btn-xs' lay-event='del'  onclick=Del('" + n.id + "') > 删除</a ><a href='/Market/DetialBoothAndUser?id=" + n.id + "'>明细</a></td>";
             });
             $("#demo").empty();
             $("#demo").append(str);
@@ -163,10 +165,8 @@
                 type: 2,
                 content:'/Market/AddBoo'
                 ,   //添加页，后台controller转发到指定页
-                area: ["1000px", "600px"],
-                btn:['添加','取消']
-               , title: ['摊位添加'],
-                fixed: false,
+                area: ["1000px", "600px"]              
+               , fixed: false,
                 //maxmin: true,
                 shadeClose: true
                , end: function () {  //刷新页面
@@ -200,18 +200,23 @@
     }
 
     function Del(id) {
-        $.get('http://localhost:52229/api/market/DelBooth', { id: id }, function (res) {
-            if (res >= 1) {
-                alert("删除成功");
-            }
-            else {
-                alert("删除失败")
-            }
-        })
+        if (confirm("请确认删除吗？")) {
+            $.get('http://localhost:52229/api/market/DelBooth', { id: id }, function (res) {
+                if (res >= 1) {
+                    alert("删除成功");
+                }
+                else {
+                    alert("删除失败")
+                }
+            })
+        }
     }
 
-    function Detial(UserId) {
-        location.href = "/Marktet/DetialBoothAndUser?Id=" + id;
+       function timeFormatter(value) {
+        //parseInt(value.replace("/Date(", "").replace(")/", "").split("+")[0])
+        var da = new Date(value);
+        return da.getFullYear() + "-" + (da.getMonth() + 1) + "-" + da.getDate()/* + " " + da.getHours() + ":" + da.getMinutes() + ":" + da.getSeconds()*/;
+
     }
 </script>
 

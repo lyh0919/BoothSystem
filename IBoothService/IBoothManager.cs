@@ -15,7 +15,7 @@ namespace IBoothService
 
         int DelBoo(object id);
 
-        int UptBoo(BooInfo model);
+        int UptBoo(BooInfo model,string[] propertyNames);
 
         //    List<MarketInfo> ShowDetial(object id);
 
@@ -34,7 +34,7 @@ namespace IBoothService
 
         int AddBooAucalInfo(BooAucalnfo model);
         int DelBooAucalInfo(object id);
-        int UpdateBooAucal(BooAucalnfo model);
+        int UpdateBooAucal(BooAucalnfo model,string[] propertyNames);
         List<BooAucalnfo> ShowBooAucalInfo();
         List<BooAucalnfo> SearchBooAucal(Expression<Func<BooAucalnfo, bool>> name);
         List<BooAucalnfo> SearchBooAucalId(Expression<Func<BooAucalnfo, bool>> id);

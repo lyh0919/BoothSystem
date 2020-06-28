@@ -42,7 +42,7 @@ namespace BoothAdmin.Controllers
         }
 
 
-        public ActionResult SearchMarket(string name="",string isables="1")
+        public ActionResult SearchMarket(string name="",string isables="")
         {
             string url = "http://localhost:52229/api/market/SearchMarket?name=" + name + "&isable=" + isables;
             HttpClient client = new HttpClient();
@@ -163,18 +163,51 @@ namespace BoothAdmin.Controllers
             return View();
         }
 
+        [HttpPost]
+        public int AddBoos(BooInfo m)
+        {
+            HttpResponseMessage message = null;
+            string url = "http://localhost:52229/api/Market/AddBooth";
+            m.Id = Guid.NewGuid();
+            m.CreateTime = DateTime.Now;
+            m.UpdateTime = DateTime.Now;
+            m.LessId =new Guid("660dc4a7-f34d-4176-b5b1-0334ccca9224");
+         
+            m.IsEnable = "1";
+            string stu = JsonConvert.SerializeObject(m);
+            HttpClient client = new HttpClient();
+            HttpContent content = new StringContent(stu);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json") { CharSet = "utf-8" };
+            message = client.PostAsync(url, content).Result;
+            string s = message.Content.ReadAsStringAsync().Result;
+            return Convert.ToInt32(s);
 
+        }
         public IActionResult EditBoo(Guid id)
         {
-            ViewBag.MarketShow = SearchMarket("","");
+            
+            ViewBag.MarketShow = ShowMarket();
             string url = "http://localhost:52229/api/Market/ShowBooDetial?id=" + id;
             HttpClient client = new HttpClient();
 
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
             string s = httpResponse.Content.ReadAsStringAsync().Result;
-            List<MarketInfo> list = JsonConvert.DeserializeObject<List<MarketInfo>>(s);
+            List<BooInfo> list = JsonConvert.DeserializeObject<List<BooInfo>>(s);
             return View(list.First());
             
+        }
+
+
+
+        public List<MarketInfo> ShowMarket()
+        {
+            string url = "http://localhost:52229/api/Market/ShowMarket";
+            HttpClient client = new HttpClient();
+
+            HttpResponseMessage httpResponse = client.GetAsync(url).Result;
+            string s = httpResponse.Content.ReadAsStringAsync().Result;
+            List<MarketInfo> list = JsonConvert.DeserializeObject<List<MarketInfo>>(s);
+            return list;
         }
         #endregion
 
@@ -189,7 +222,7 @@ namespace BoothAdmin.Controllers
 
 
 
-        #region
+        #region   摊位竞拍管理
         public IActionResult BooAucalInfoShow()
         {
             return View();
@@ -207,7 +240,8 @@ namespace BoothAdmin.Controllers
 
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
             string s = httpResponse.Content.ReadAsStringAsync().Result;
-            List<MarketInfo> list = JsonConvert.DeserializeObject<List<MarketInfo>>(s);
+            List<BooAucalnfo> list = JsonConvert.DeserializeObject<List<BooAucalnfo>>(s);
+            
             return View(list.First());
         }
 

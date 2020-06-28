@@ -14,7 +14,7 @@ namespace BoothAPI.ViewModel
         public int? BooArea { get; set; }
         public int? BooLen { get; set; }
         public int? BooWid { get; set; }
-        public byte[] BooLabel { get; set; }
+        public string BooLabel { get; set; }
         public decimal? BooRent { get; set; }
         public int? BooDead { get; set; }
         public Guid? LessId { get; set; }

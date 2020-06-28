@@ -20,14 +20,14 @@
 </head>
 <body>
 
-    <h4>添加摊位</h4>
+    <h4>修改摊位</h4>
     <hr />
     <form>
         <div>
             <div class="layui-form-item">
                 <label class="layui-form-label">摊位标题:</label>
                 <div class="layui-input-block">
-                    <input type="hidden" value="@Model.Id" />
+                    <input type="hidden" value="@Model.Id" id="markid" />
                     <input type="text" name="title" id="BooTitle" lay-verify="title" autocomplete="off" value="@Model.BooTitle" class="layui-input">
                 </div>
             </div>
@@ -44,7 +44,7 @@
                         <select id="MarkId" name="MarkId">
                             @foreach (var item in ViewBag.MarketShow)
                             {
-                                if (ViewBag.MarketShow.Id == item.Id)
+                                if (Model.MarkId == item.Id)
                                 {
                                     <option value="@item.Id" selected="selected">@item.MarkName</option>
                                 }
@@ -70,6 +70,14 @@
                     <label class="layui-form-label">摊位长度</label>
                     <div class="layui-input-inline">
                         <input type="number" name="BooLen" id="BooLen" value="@Model.BooLen" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">摊位宽度</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="BooWid" id="BooWid" placeholder="填写摊位宽度" value="@Model.BooWid" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -107,29 +115,11 @@
 </html>
 
 <script>
-    //$(function () {
-    //    ShowMarket();
-    //});
 
-    //function ShowMarket() {
-    //    $.get('http://localhost:52229/api/market/ShowMarket', function (res) {
-    //        $("#MarkId").empty();
-    //        var html = "";
-    //        $.each(res, function (i, v) {
-    //            html += '<option value="' + v.id + '">' + v.markName + '</option>';
-
-    //        });
-
-    //        $("#MarkId").append(html);
-    //        layui.use('form', function () {
-    //            var form = layui.form;
-    //            form.render();
-    //        });
-    //    });
-    //}
 
     function UpdateBooth() {
         var obj = {};
+        obj.Id = $("#markid").val();
         obj.BooTitle = $("#BooTitle").val();
         if (obj.BooTitle == "") {
             alert("标题不能为空");
@@ -141,17 +131,17 @@
             return;
         }
         obj.MarkId = $("#MarkId option:selected").val();
-        obj.BooArea = $("#BooArea").val();
+        obj.BooArea = parseInt($("#BooArea").val());
          if (obj.BooArea=="") {
             alert("面积不能为空");
             return;
         }
-        obj.BooLen = $("#BooLen").val();
+        obj.BooLen = parseInt($("#BooLen").val());
         if (obj.BooLen=="") {
             alert("长度不能为空");
             return;
         }
-        obj.BooWid = $("#BooWid").val();
+        obj.BooWid = parseInt($("#BooWid").val());
           if (obj.BooWid=="") {
             alert("宽度不能为空");
             return;
@@ -161,18 +151,35 @@
             alert("描述不能为空");
             return;
         }
-        obj.BooRent = $("#BooRent").val();
+        obj.BooRent = parseFloat($("#BooRent").val());
         if (obj.BooRent=="") {
             alert("租金不能为空");
             return;
         }
-        obj.BooDead = $("#BooDead").val();
+        obj.BooDead = parseInt($("#BooDead").val());
          if (obj.BooDead=="") {
             alert("租期不能为空");
             return;
         }
-        $.post('http://localhost:52229/api/market/UpdateBooth', { obj: obj }, function (success) {
-            if (success >= 1) alert('添加成功'); else { alert('添加失败'); }
+        //obj.CreateTime = Date.now;
+        //   obj.UpdateTime = new Date();
+            //obj.LessId ="660dc4a7-f34d-4176-b5b1-0334ccca9224";          
+            //obj.IsEnable = "1";
+
+        $.ajax({
+            url: "http://localhost:52229/api/market/updatebooth",
+            dataType: "json",
+            type: "post",
+            data: JSON.stringify(obj),
+            contentType: "application/json",
+            success: function (success) {
+                if (success >= 1)
+                    alert('修改成功');
+                location.href = "/Market/ShowBooth";
+                else {
+                    alert('修改失败');
+                }
+            }
         });
     }
 

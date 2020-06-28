@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BoothAPI.ViewModel;
+using BoothModel;
 using BoothModel.Models;
 using IBoothService;
 using Microsoft.AspNetCore.Cors;
@@ -104,6 +105,9 @@ namespace BoothAPI.Controllers
             return _boothManager.AddBoo(model);
         }
 
+
+
+
         //删除方法
         public int DelBooth(Guid id)
         {
@@ -111,11 +115,15 @@ namespace BoothAPI.Controllers
         }
 
         //修改某一条数据
+        [HttpPost]
         public int UpdateBooth(BooInfo model)
         {
-            model.CreateTime = DateTime.Now;
+          
+         
             model.UpdateTime = DateTime.Now;
-            return _boothManager.UptBoo(model);
+            string[] propertyNames = new string[] { };
+            propertyNames = ReflectHelper.GetProperties(model);
+            return _boothManager.UptBoo(model,propertyNames);
         }
 
 
@@ -129,6 +137,8 @@ namespace BoothAPI.Controllers
                          join b in _marketBll.ShowUserInfo() on s.LessId equals b.Id
                          select new BooAndMarket
                          {
+                             Id=s.Id,
+                             CreateTime=s.CreateTime,
                              BooTitle = s.BooTitle,
                              BooNo = s.BooNo,
                              MarkName = a.MarkName,
@@ -152,10 +162,13 @@ namespace BoothAPI.Controllers
             return list;
         }
 
+
+
+
         //调用的查询方法
-        public List<BooInfo> SearchBooInfo(string name, string isable)
+        public List<BooInfo> SearchBooInfo(string name)
         {
-            List<BooInfo> list = _boothManager.SearchBoo(s => s.BooTitle.Contains(name) & s.IsEnable.Equals(isable));
+            List<BooInfo> list = _boothManager.SearchBoo(s => s.BooTitle.Contains(name));
             return list;
         }
         //调用了查询详情的方法
@@ -168,7 +181,14 @@ namespace BoothAPI.Controllers
         }
 
         #endregion
-
+        #region  出租明细历史
+        public List<BooAndMarket> ShowDetialBoothAndUser(Guid id)
+        {
+            List<BooAndMarket> list = ShowBooth();
+            list = list.Where(s => s.Id.Equals(id)).ToList();
+            return list;
+        }
+        #endregion
 
         #region 显示用户
 
@@ -180,17 +200,26 @@ namespace BoothAPI.Controllers
         #endregion
 
 
-        #region 出租明细历史
+        #region 摊位竞拍管理
 
         public int AddBooAcucal(BooAucalnfo model)
         {
-
+            model.Id = Guid.NewGuid();
+            model.WinnerUser = "660dc4a7-f34d-4176-b5b1-0334ccca9224";
+            model.FinishPrice = 4000;
+            model.OrderState = "1";
+            model.CashMoneyState = "1";
+            model.BooAucaState = "1";
             return _boothManager.AddBooAucalInfo(model);
         }
 
         public int UpdateBooAucal(BooAucalnfo model)
         {
-            return _boothManager.UpdateBooAucal(model);
+         
+            string[] propertyNames = new string[] { };
+            propertyNames = ReflectHelper.GetProperties(model);
+            return _boothManager.UpdateBooAucal(model, propertyNames);
+           
         }
 
         public int DeleteBooAucal(Guid id)
@@ -206,6 +235,7 @@ namespace BoothAPI.Controllers
                          join b in _marketBll.ShowUserInfo() on a.LessId equals b.Id
                          select new BooAucalInfoAndUser
                          {
+                             Id=s.Id,
                              BooTitle = a.BooTitle,
                              CreateTime = s.CreateTime,
                              EndTime = s.EndTime,
@@ -228,7 +258,21 @@ namespace BoothAPI.Controllers
         public List<BooAucalnfo> ShowDetialOne(Guid id)
         {
             List<BooAucalnfo> list = _boothManager.SearchBooAucalId(s => s.Id.Equals(id));
-            return list;
+            var lists = (from s in list
+                         select new BooAucalnfo
+                         {
+                             Id = s.Id,
+                             BooId = s.BooId,
+                             CreateTime = Convert.ToDateTime(string.Format("{0:yyyy/MM/dd}", s.CreateTime.ToString())),
+                             EndTime = Convert.ToDateTime(string.Format("{0:yyyy/MM/dd}", s.EndTime.ToString())),
+                             CashMoney = s.CashMoney,
+                             MarkUpMoney = s.MarkUpMoney,
+                             StartMoney = s.StartMoney,
+                             ResMoney = s.ResMoney,
+                             DefTime = Convert.ToDateTime(string.Format("{0:yyyy/MM/dd}", s.DefTime.ToString()))
+                         }).ToList();
+
+            return lists;
         }
 
         public List<BooAucalnfo> SearchBooAucal(string name, string isable, string markid)
@@ -250,6 +294,24 @@ namespace BoothAPI.Controllers
         }
 
         #endregion
-    
-  } 
+
+
+        #region  竞拍明细
+        public List<BooAucalInfoAndUser> ShowOrder(Guid id)
+        {
+            List<BooAucalInfoAndUser> list = ShowAll();
+            list=list.Where(s => s.Id.Equals(id)).ToList();
+            return list;
+
+        }
+
+        public List<BooAucalInfoAndUser> SearchOrder(string name)
+        {
+            List<BooAucalInfoAndUser> list = ShowAll();
+            list = list.Where(s => s.UserName.Contains(name)).ToList();
+            return list;
+        }
+        #endregion 
+
+    }
 }

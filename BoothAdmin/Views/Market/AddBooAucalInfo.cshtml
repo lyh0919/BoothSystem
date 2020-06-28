@@ -21,7 +21,7 @@
 
     <h4>添加摊位</h4>
     <hr />
-    <form>
+    <form class="layui-form">
         <div>
             <div class="layui-form-item">
                 <div class="layui-form-item">
@@ -36,7 +36,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">竞拍开始时间:</label>
                 <div class="layui-input-block">
-                    <input type="datetime" name="CreateTime" id="CreateTime" lay-verify="title" autocomplete="off" placeholder="请选择日期和时间" class="layui-input">
+                    <input type="text" name="CreateTime" id="CreateTime"  autocomplete="off" placeholder="请选择日期和时间" class="layui-input">
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">竞拍结束时间：</label>
                     <div class="layui-input-inline">
-                        <input type="number" name="EndTime" id="EndTime" placeholder="请选择日期和时间" autocomplete="off" class="layui-input">
+                        <input type="text" name="EndTime" id="EndTime" placeholder="请选择日期和时间" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">保证金</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="CashMoney" id="CashMoney" placeholder="填写保证金" autocomplete="off" class="layui-input">
+                        <input type="number" name="CashMoney" id="CashMoney" placeholder="填写保证金" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">起拍价</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="StartMoney" id="StartMoney" placeholder="请写起拍价" autocomplete="off" class="layui-input">
+                        <input type="number" name="StartMoney" id="StartMoney" placeholder="请写起拍价" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">加价幅度</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="MarkUpMoney" id="MarkUpMoney" placeholder="请写加价幅度" autocomplete="off" class="layui-input">
+                        <input type="number" name="MarkUpMoney" id="MarkUpMoney" placeholder="请写加价幅度" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">保留价</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="ResMoney" id="ResMoney" autocomplete="off" class="layui-input">
+                        <input type="number" name="ResMoney" id="ResMoney" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">延迟周期</label>
                     <div class="layui-input-inline">
-                        <input type="date" name="DefTime" id="DefTime" autocomplete="off" class="layui-input">
+                        <input type="text" name="DefTime" id="DefTime" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -96,6 +96,25 @@
 </body>
 </html>
 <script>
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#CreateTime'
+            , type: 'datetime'
+        });
+        laydate.render({
+            elem: '#EndTime'
+            , type: 'datetime'
+        });
+        laydate.render({
+            elem: '#DefTime'
+            , type: 'datetime'
+        });
+    });
+
     $(function () {
         ShowMarket();
     });
@@ -116,43 +135,61 @@
             });
         });
     }
+    function datetimeFormat(stringTypeDate){  
+        var da = new Date(stringTypeDate);
+        return da.getFullYear() + "-" + (da.getMonth() + 1) + "-" + da.getDate() + " " + da.getHours() + ":" + da.getMinutes() + ":" + da.getSeconds();
+
+    }
 
     function AddBooths() {
         var obj = {};
-        obj.CreateTime = $("#CreateTime").val();
+        obj.CreateTime = new Date($("#CreateTime").val());
         if (obj.CreateTime == "") {
             alert("开始时间不能为空");
             return;
         }
-        obj.EndTime = $("#EndTime").val();
+        obj.EndTime = new Date($("#EndTime").val());
         if (obj.EndTime == "") {
             alert("结束时间不能为空");
             return;
         }
         obj.BooId = $("#BooId option:selected").val();
-        obj.CashMoney = $("#CashMoney").val();
+        obj.CashMoney =parseFloat($("#CashMoney").val());
         if (obj.CashMoney == "") {
             alert("保证金不能为空");
             return;
         }
-        obj.StartMoney = $("#StartMoney").val();
+        obj.StartMoney =parseFloat($("#StartMoney").val());
         if (obj.StartMoney == "") {
             alert("开始价格不能为空");
             return;
         }
-        obj.MarkUpMoney = $("#MarkUpMoney").val();
+        obj.MarkUpMoney = parseFloat($("#MarkUpMoney").val());
         if (obj.MarkUpMoney == "") {
             alert("加价幅度不能为空");
             return;
         }
-        obj.ResMoney = $("#ResMoney").val();
+         obj.DefTime = new Date($("#DefTime").val());
+        obj.ResMoney = parseFloat($("#ResMoney").val());
         if (obj.ResMoney == "") {
             alert("加价幅度不能为空");
             return;
         }
-
-        $.post('http://localhost:52229/api/market/AddBooAcucal', { obj: obj }, function (success) {
-            if (success >= 1) alert('添加成功'); else { alert('添加失败'); }
+       
+    
+        $.ajax({
+            url: "http://localhost:52229/api/market/AddBooAcucal",
+            dataType: "json",
+            type: "post",
+            data: JSON.stringify(obj),
+            contentType: "application/json;charset=utf-8",
+            success: function (success) {
+                if (success >= 1)
+                    alert('添加成功');
+                else {
+                    alert('添加失败');
+                }
+            }
         });
     }
 

@@ -22,7 +22,7 @@
 
     <h4>添加摊位</h4>
     <hr />
-    <form>
+    <form class="layui-form">
         <div>
             <div class="layui-form-item">
                 <label class="layui-form-label">摊位标题:</label>
@@ -63,6 +63,14 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
+                    <label class="layui-form-label">摊位宽度</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="BooWid" id="BooWid" placeholder="填写摊位宽度" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
                     <label class="layui-form-label">摊位标签</label>
                     <div class="layui-input-inline">
                         <input type="text" name="BooLabel" id="BooLabel" placeholder="填写摊位标签，最多5个。用,隔开" autocomplete="off" class="layui-input">
@@ -73,7 +81,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">摊位租金</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="BooRent" id="BooRent" autocomplete="off" class="layui-input">
+                        <input type="number" name="BooRent" id="BooRent" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -160,8 +168,39 @@
             alert("租期不能为空");
             return;
         }
-        $.post('http://localhost:52229/api/market/AddBooth', { obj: obj }, function (success) {
-            if (success >= 1) alert('添加成功'); else { alert('添加失败'); }
+      
+        //$.post('', { obj: obj }, function (success) {
+        //    if (success >= 1) alert('添加成功'); else { alert('添加失败'); }
+        //});
+        console.log(obj);
+        //$.ajax({
+        //    url: "http://localhost:52229/api/market/AddBooth",
+        //    dataType: "json",
+        //    type: "get",
+        //    data: JSON.stringify(obj),
+        //    contentType: "application/json",
+        //    success: function (success) {
+        //        if (success >= 1)
+        //            alert('添加成功');
+        //        else {
+        //            alert('添加失败');
+        //        }
+        //    }
+        //});
+
+        $.ajax({
+            url: "/market/AddBoos",
+            data: obj,
+            dataType: "json",
+            type: "post",
+            success: function (res) {
+                if (res >= 1) {
+                    alert("添加成功");
+                }
+                else {
+                    alert("添加失败");
+                }
+            }
         });
     }
 

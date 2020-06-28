@@ -30,7 +30,7 @@
                     <option value="1">使用中</option>
                     <option value="0">未使用</option>
                 </select>
-                <button type="button" data-type="reload" class="layui-btn layui-btn-sm  layui-btn-normal" id="reloadBtn"> <i class="layui-icon">&#xe615;</i>查询</button>
+                <button type="button" data-type="reload" class="layui-btn layui-btn-sm  layui-btn-normal" onclick="Search()"> <i class="layui-icon">&#xe615;</i>查询</button>
             </div>
         </div>
     </div>
@@ -43,7 +43,20 @@
     <div style="padding-top:100px">
         @*class="lay-filter=" component-form-element"*@
         @*表格数据显示*@
-        <table id="demo" class="layui-table" style=""></table>
+        <table id="demo" class="layui-table">
+            <tr>
+                <td>编号</td>
+                <td>摊位名称</td>
+                <td>竞拍时间</td>
+                <td>参与人数</td>
+                <td>中标用户</td>
+                <td>成交价格</td>
+                <td>订单</td>
+                <td>保证金</td>
+                <td>状态</td>
+                <td>操作</td>
+            </tr>
+        </table>
 
         <script src="~/layuiadmin/layui/layui.js"></script>
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -63,21 +76,22 @@
     });
     function Show() {
 
-        $.get('http://localhost:52229/api/Market/ShowBooth', function (res) {
+        $.get('http://localhost:52229/api/Market/ShowAll', function (res) {
             var str = "";
             $.each(res, function (i, n) {
                 str += "<tr>";
-                str += "<td> " + n.BooTitle + "</td>";
-                str += "<td> " + n.CreateTime + "至" + n.EndTime + "</td>";
-                str += "<td> " + n.Count + "</td>";
-                str += "<td>￥ " + n.UserName + "</td>";
-                str += "<td> " + n.FinishPrice + "个月</td>";
-                str += "<td> " + n.OrderState=="1"?"已支付":"待支付" + "</td>";
-                str += "<td> " + n.CashMoneyState=="1"?"已缴纳":"未缴纳" + "</td>";
-                str += "<td> " + n.BooAucaState == "1" ? "进行中" : "已结束" + "</td>";
-                str += "<td><a href='#' class='layui-btn layui-btn-xs' lay-event='edit' onclick='Edit(" + n.id + ")' value=" + n.id + ">编辑</a> <a href='' class='layui-btn layui-btn-danger layui-btn-xs' lay-event='del' value=" + n.id + " onclick=Del(" + n.id + ") > 删除</a ><a href='' onclick='Detial(" + n.id + ")'>明细</a></td>";
-            });
-            $("#demo").empty();
+                str += "<td>" + n.id + "</td>";
+                str += "<td> " + n.booTitle + "</td>";
+                str += "<td> " +timeFormatter( n.createTime )+ "至" + timeFormatter(n.endTime )+ "</td>";
+                str += "<td> " + n.count + "</td>";
+                str += "<td> " + n.userName + "</td>";
+                str += "<td> " + n.finishPrice + "</td>";
+                str += "<td> " + (n.orderState=="1"?"已支付":"待支付") + "</td>";
+                str += "<td> " + (n.cashMoneyState=="1"?"已缴纳":"未缴纳") + "</td>";
+                str += "<td> " + (n.booAucaState == "1" ? "进行中" : "已结束") + "</td>";
+               str += "<td><a href='#' class='layui-btn layui-btn-xs' lay-event='edit' onclick=Edit('" + n.id + "')>编辑</a> <a href='#' class='layui-btn layui-btn-danger layui-btn-xs' lay-event='del'  onclick=Del('" + n.id + "') > 删除</a ><a href='/Market/DetialBooAucalAndBoo?id=" + n.id + "'>明细</a></td>";
+           });
+            $("#demo tr:gt(0)").empty();
             $("#demo").append(str);
         })
     }
@@ -142,18 +156,24 @@
     }
 
     function Del(id) {
-        $.get('http://localhost:52229/api/market/DeleteBooAucal', { id: id }, function (res) {
+        if (confirm("请确认删除吗？")) {
+              $.get('http://localhost:52229/api/market/DeleteBooAucal', { id: id }, function (res) {
             if (res >= 1) {
                 alert("删除成功");
+                Show();
             }
             else {
                 alert("删除失败")
             }
-        })
+        });
+        }
     }
 
-    function Detial(UserId) {
-        location.href = "/Marktet/DetialBooAucalAndBoo?Id=" + id;
+    function timeFormatter(value) {
+        //parseInt(value.replace("/Date(", "").replace(")/", "").split("+")[0])
+        var da = new Date(value);
+        return da.getFullYear() + "-" + (da.getMonth() + 1) + "-" + da.getDate()/* + " " + da.getHours() + ":" + da.getMinutes() + ":" + da.getSeconds()*/;
+
     }
 </script>
 

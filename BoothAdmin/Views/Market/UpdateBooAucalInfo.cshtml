@@ -19,7 +19,7 @@
 </head>
 <body>
 
-    <h4>添加摊位</h4>
+    <h4>修改竞拍</h4>
     <hr />
     <form>
         <div>
@@ -27,11 +27,13 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">选择摊位</label>
                     <div class="layui-input-inline">
-                        <select id="BooId" name="BooId" onchange="ShowMarket()">
+                        <input type="hidden" id="Ids" value="@Model.Id" />
+                        <select id="BooId" name="BooId">
                             <option>选择竞拍摊位</option>
+
                             @foreach (var item in ViewBag.ShowBooInfo)
                             {
-                                if (ViewBag.ShowBooInfo.Id == item.Id)
+                                if (Model.BooId == item.Id)
                                 {
                                     <option value="@item.Id" selected="selected">@item.BooTitle</option>
                                 }
@@ -46,8 +48,8 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">竞拍开始时间:</label>
-                <div class="layui-input-block">
-                    <input type="datetime" name="CreateTime" id="CreateTime" lay-verify="title" value="@Model.CreateTime" autocomplete="off" placeholder="请选择日期和时间" class="layui-input">
+                <div class="layui-input-inline">
+                    <input type="datetime" name="CreateTime" id="CreateTime"  value="@Model.CreateTime" autocomplete="off" placeholder="yyyy-MM-dd" class="layui-input">
                 </div>
             </div>
 
@@ -55,7 +57,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">竞拍结束时间：</label>
                     <div class="layui-input-inline">
-                        <input type="number" name="EndTime" id="EndTime" placeholder="请选择日期和时间" value="@Model.EndTime" autocomplete="off" class="layui-input">
+                        <input type="datetime" name="EndTime" id="EndTime" placeholder="yyyy-MM-dd" value="@Model.EndTime" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -63,7 +65,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">保证金</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="CashMoney" id="CashMoney" placeholder="填写保证金" value="@Model.CashMoney" autocomplete="off" class="layui-input">
+                        <input type="number" name="CashMoney" id="CashMoney" placeholder="填写保证金" value="@Model.CashMoney" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -71,7 +73,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">起拍价</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="StartMoney" id="StartMoney" placeholder="请写起拍价" value="@Model.StartMoney" autocomplete="off" class="layui-input">
+                        <input type="number" name="StartMoney" id="StartMoney" placeholder="请写起拍价" value="@Model.StartMoney" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -79,7 +81,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">加价幅度</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="MarkUpMoney" id="MarkUpMoney" placeholder="请写加价幅度" value="@Model.MarkUpMoney" autocomplete="off" class="layui-input">
+                        <input type="number" name="MarkUpMoney" id="MarkUpMoney" placeholder="请写加价幅度" value="@Model.MarkUpMoney" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -87,7 +89,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">保留价</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="ResMoney" id="ResMoney" autocomplete="off" value="@Model.ResMoney" class="layui-input">
+                        <input type="number" name="ResMoney" id="ResMoney" autocomplete="off" value="@Model.ResMoney" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -95,7 +97,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">延迟周期</label>
                     <div class="layui-input-inline">
-                        <input type="date" name="DefTime" id="DefTime" autocomplete="off" value="@Model.DefTime" class="layui-input">
+                        <input type="datetime" name="DefTime" id="DefTime" autocomplete="off" value="@Model.DefTime" placeholder="yyyy-MM-dd" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -109,30 +111,18 @@
 
 
 <script>
-    //$(function () {
-    //    ShowMarket();
-    //});
 
-    //function ShowMarket() {
-    //    $.get('http://localhost:52229/api/market/ShowBooInfo', function (res) {
-    //        $("#BooId").empty();
-    //        var html = "";
-    //        $.each(res, function (i, v) {
-    //            html += '<option value="' + v.id + '">' + v.booTitle + '</option>';
-
-    //        });
-
-    //        $("#BooId").append(html);
-    //        layui.use('form', function () {
-    //            var form = layui.form;
-    //            form.render();
-    //        });
-    //    });
-    //}
+    var form;   
+    layui.use(['laydate', 'form'], function () {
+        var laydate = layui.laydate;
+        form = layui.form;      //只有执行了这一步，部分表单元素才会自动修饰成功
+    });
 
     function UptBooths() {
         var obj = {};
+        obj.Id = $("#Ids").val();
         obj.CreateTime = $("#CreateTime").val();
+       
         if (obj.CreateTime == "") {
             alert("开始时间不能为空");
             return;
@@ -143,29 +133,46 @@
             return;
         }
         obj.BooId = $("#BooId option:selected").val();
-        obj.CashMoney = $("#CashMoney").val();
+        obj.CashMoney =parseFloat($("#CashMoney").val());
         if (obj.CashMoney == "") {
             alert("保证金不能为空");
             return;
         }
-        obj.StartMoney = $("#StartMoney").val();
+        obj.StartMoney =parseFloat($("#StartMoney").val());
         if (obj.StartMoney == "") {
             alert("开始价格不能为空");
             return;
         }
-        obj.MarkUpMoney = $("#MarkUpMoney").val();
+        obj.MarkUpMoney = parseFloat($("#MarkUpMoney").val());
         if (obj.MarkUpMoney == "") {
             alert("加价幅度不能为空");
             return;
         }
-        obj.ResMoney = $("#ResMoney").val();
+         obj.DefTime = $("#DefTime").val();
+        obj.ResMoney = parseFloat($("#ResMoney").val());
         if (obj.ResMoney == "") {
             alert("加价幅度不能为空");
             return;
         }
+       
 
-        $.post('http://localhost:52229/api/market/UpdateBooAucal', { obj: obj }, function (success) {
-            if (success >= 1) alert('添加成功'); else { alert('添加失败'); }
+        //$.post('http://localhost:52229/api/market/UpdateBooAucal', { obj: obj }, function (success) {
+        //    if (success >= 1) alert('添加成功'); else { alert('添加失败'); }
+        //});
+
+         $.ajax({
+            url: "http://localhost:52229/api/market/UpdateBooAucal",
+            dataType: "json",
+            type: "post",
+            data: JSON.stringify(obj),
+            contentType: "application/json;charset=utf-8",
+            success: function (success) {
+                if (success >= 1)
+                    alert('修改成功');
+                else {
+                    alert('修改失败');
+                }
+            }
         });
     }
 

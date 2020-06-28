@@ -59,10 +59,10 @@ namespace BoothService
 
 
 
-        public int UptBoo(BooInfo model)
+        public int UptBoo(BooInfo model,string[] propertyNames)
         {
             var server = this.CreateService<BooInfo>();
-            return server.Update(model);
+            return server.Update(model, propertyNames);
         }
         #endregion
 
@@ -79,10 +79,10 @@ namespace BoothService
             return server.GetAll().ToList();
         }
 
-        public int UpdateBooAucal(BooAucalnfo model)
+        public int UpdateBooAucal(BooAucalnfo model,string[] propertyNames)
         {
             var server = this.CreateService<BooAucalnfo>();
-            return server.Update(model);
+            return server.Update(model,propertyNames);
         }
         public List<BooAucalnfo> SearchBooAucal(Expression<Func<BooAucalnfo, bool>> name)
         {
