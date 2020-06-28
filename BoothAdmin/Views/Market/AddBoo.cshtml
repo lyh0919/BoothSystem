@@ -1,0 +1,209 @@
+﻿@model BoothModel.Models.BooInfo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/layuiadmin/layui/layui.js"></script>
+<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+<script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/layuiadmin/layui/layui.js"></script>
+    <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+</head>
+<body>
+
+    <h4>添加摊位</h4>
+    <hr />
+    <form class="layui-form">
+        <div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">摊位标题:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" id="BooTitle" lay-verify="title" autocomplete="off" placeholder="请输入摊位标题" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">摊位编号:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="BooNo" id="BooNo" lay-verify="title" autocomplete="off" placeholder="请输入摊位编号,不能重复" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属市场</label>
+                    <div class="layui-input-inline">
+                        <select id="MarkId" name="MarkId" onchange="ShowMarket()">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">摊位面积</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="BooArea" id="BooArea" placeholder="填写摊位面积" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">摊位长度</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="BooLen" id="BooLen" placeholder="填写摊位长度" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">摊位宽度</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="BooWid" id="BooWid" placeholder="填写摊位宽度" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">摊位标签</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="BooLabel" id="BooLabel" placeholder="填写摊位标签，最多5个。用,隔开" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">摊位租金</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="BooRent" id="BooRent" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">摊位期限</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="BooDead" id="BooDead" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="layui-btn layui-btn-warm layui-btn-radius" onclick="AddBooths()" style="margin-right:600px">添加</button>
+        </div>
+
+    </form>
+
+</body>
+</html>
+
+
+<script>
+    $(function () {
+        ShowMarket();
+    });
+
+    function ShowMarket() {
+        $.get('http://localhost:52229/api/market/ShowMarket', function (res) {
+            $("#MarkId").empty();
+            var html = "";
+            $.each(res, function (i, v) {
+                html += '<option value="' + v.id + '">' + v.markName + '</option>';
+
+            });
+
+            $("#MarkId").append(html);
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        });
+    }
+
+    function AddBooths() {
+            var obj = {};
+        obj.BooTitle = $("#BooTitle").val();
+        if (obj.BooTitle == "") {
+            alert("标题不能为空");
+            return;
+        }
+        obj.BooNo = $("#BooNo").val();
+        if (obj.BooNo=="") {
+            alert("编号不能为空");
+            return;
+        }
+        obj.MarkId = $("#MarkId option:selected").val();
+        obj.BooArea = $("#BooArea").val();
+         if (obj.BooArea=="") {
+            alert("面积不能为空");
+            return;
+        }
+        obj.BooLen = $("#BooLen").val();
+        if (obj.BooLen=="") {
+            alert("长度不能为空");
+            return;
+        }
+        obj.BooWid = $("#BooWid").val();
+          if (obj.BooWid=="") {
+            alert("宽度不能为空");
+            return;
+        }
+        obj.BooLabel = $("#BooLabel").val();
+         if (obj.BooLabel=="") {
+            alert("描述不能为空");
+            return;
+        }
+        obj.BooRent = $("#BooRent").val();
+        if (obj.BooRent=="") {
+            alert("租金不能为空");
+            return;
+        }
+        obj.BooDead = $("#BooDead").val();
+         if (obj.BooDead=="") {
+            alert("租期不能为空");
+            return;
+        }
+      
+        //$.post('', { obj: obj }, function (success) {
+        //    if (success >= 1) alert('添加成功'); else { alert('添加失败'); }
+        //});
+        console.log(obj);
+        //$.ajax({
+        //    url: "http://localhost:52229/api/market/AddBooth",
+        //    dataType: "json",
+        //    type: "get",
+        //    data: JSON.stringify(obj),
+        //    contentType: "application/json",
+        //    success: function (success) {
+        //        if (success >= 1)
+        //            alert('添加成功');
+        //        else {
+        //            alert('添加失败');
+        //        }
+        //    }
+        //});
+
+        $.ajax({
+            url: "/market/AddBoos",
+            data: obj,
+            dataType: "json",
+            type: "post",
+            success: function (res) {
+                if (res >= 1) {
+                    alert("添加成功");
+                }
+                else {
+                    alert("添加失败");
+                }
+            }
+        });
+    }
+
+
+
+</script>

@@ -13,14 +13,14 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>AddMarket</title>
+
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/layuiadmin/layui/layui.js"></script>
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body>
 
-    <h4>MarketInfo</h4>
+
     <hr />
     <form>
         <div>
@@ -47,44 +47,6 @@
             </div>
 
             <div class="layui-form-item">
-                @*<label class="layui-form-label">联动选择框</label>
-        <div class="layui-input-inline">
-            <select name="MarkAddress1" id="MarkAddress1" onchange="ShowProvince()">
-                <option value="">请选择你所在的省份</option>
-               @{
-
-                   foreach (var item in ViewBag.Provinces)
-                   {
-                       <option value="@item.PId">@item.CityName</option>
-                   }
-               }
-                <option value="">请选择省</option>
-                    <option value="浙江" selected="">浙江省</option>
-                    <option value="你的工号">江西省</option>
-                    <option value="你最喜欢的老师">福建省</option>
-            </select>
-        </div>
-        <div class="layui-input-inline">
-            <select name="MarkAddress2" id="MarkAddress2" onchange="ShowCity()">
-                <option value="">请选择你所在的城市</option>
-                <option value="">请选择市</option>
-                    <option value="杭州">杭州</option>
-                    <option value="宁波" disabled="">宁波</option>
-                    <option value="温州">温州</option>
-                    <option value="温州">台州</option>
-                    <option value="温州">绍兴</option>
-            </select>
-        </div>
-        <div class="layui-input-inline">
-            <select name="MarkAddress3" id="MarkAddress3" onchange="ShowArea()">
-                <option>请选择你所在的区</option>
-                <option value="">请选择县/区</option>
-                    <option value="西湖区">西湖区</option>
-                    <option value="余杭区">余杭区</option>
-                    <option value="拱墅区">临安市</option>
-            </select>
-        </div>*@
-
                 <div class="layui-form-item">
                     <label class="layui-form-label">地址</label>
                     <div class="layui-input-inline">
@@ -119,17 +81,22 @@
 
 
 <script>
-    
-////对表单重新渲染  复选框、下拉框等
-//    layui.use('form', function () {
-//        var form = layui.form;
-//        form.render();
+
+    ////对表单重新渲染  复选框、下拉框等
+    //    layui.use('form', function () {
+    //        var form = layui.form;
+    //        form.render();
     //    });
 
     $(function () {
         GetCity();
     });
-     function GetCity() {
+
+
+
+
+
+    function GetCity() {
         $.get('http://localhost:52229/api/market/getcity?id=1', function (res) {
             $("#quiz1").empty();
             var html = "";
@@ -215,7 +182,7 @@
         else {
             obj.MarkPhone = obj.MarkPhone;
         }
-        var Address = $("#MarkAddress1").val() + $("#MarkAddress2").val() + $("#MarkAddress3").val();
+        var Address = $("#quiz1 option:selected").text() + " " + $("#quiz2 option:selected").text() + " " + $("#quiz3  option:selected").text();
         obj.MarkAddress = Address;
 
         obj.IsEnable = $("input[type='radio']:checked").val();
@@ -237,69 +204,4 @@
 
     }
 
-    function ShowProvinces() {
-        $.ajax({
-            url: "/Market/ShowProvince",
-            dataType: "json",
-            type: "get",
-            success: function (res) {
-              
-                var obj = "";
-                $.each(res, function (i, n) {
-                   
-                    obj += "<option id=" + n.pId + ">" + n.cityName + "</option>"
-
-                });
-               
-                //  $("#MarkAddress1").appendTo("<option value="">请选择你所在的省</option>");
-                $("#MarkAddress1").append(obj);
-              
-            }
-
-        })
-    }
-
-    function ShowProvince() {
-        var code = $("#MarkAddress1").val();
-        $.ajax({
-            url: "/Market/ShowCity?id=" + code,
-          
-            dataType: "json",
-            type: "get",
-            success: function (res) {
-                var obj = "";
-                $.each(res, function (i, n) {
-                      alert(n);
-                    obj += "<option id=" + n.pId + ">" + n.cityName + "</option>"
-
-                });
-              
-                //  $("#MarkAddress2").appendTo("<option value="">请选择你所在的城市</option>");
-                $("#MarkAddress2").append(obj);
-              
-            }
-
-        });
-    }
-
-    function ShowCity() {
-        var code = $("#MarkAddress2").val();
-        $.ajax({
-            url: "/Market/ShowArea?id=" + code,
-         
-            dataType: "json",
-            type: "get",
-            success: function (res) {
-                var obj = "";
-                $.each(res, function (i, n) {
-                    obj += "<option id=" + n.pId + ">" + n.cityName + "</option>"
-
-                });
-      
-                //  $("#MarkAddress2").appendTo("<option value="">请选择你所在的区</option>");
-                $("#MarkAddress3").append(obj);
-            }
-
-        });
-    }
 </script>
