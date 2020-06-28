@@ -47,7 +47,7 @@ namespace BoothService
             return service.FirstOrDefault(where);
         }
 
-        //显示所有省份 用于绑定第一级下拉 
+        //显示所有省份  
         public List<City> GetSheng(Expression<Func<City, bool>> where)
         {
             var service = this.CreateService<City>();
@@ -55,11 +55,20 @@ namespace BoothService
         }
 
          //批量删除微信会员信息
-        public int DelAll(bool isSave = true, params MemberInfoo[] entitys)
+        public int DelAll(List<MemberInfoo> entitys)
         {
             var service = this.CreateService<MemberInfoo>();
             return service.Delete(entitys);
         }
+
+        //根据会员名称和账户查询
+         public List<MemberInfoo> SeleWx(Expression<Func<MemberInfoo, bool>> where)
+        {
+            var service = this.CreateService<MemberInfoo>();
+            return service.Where(where).ToList();
+        }
+
+
 
         /// <summary>
         /// /////////租户页//////////////////////////////////////////////////////////
@@ -97,12 +106,28 @@ namespace BoothService
             return service.FirstOrDefault(where);
         }
         //批量删除租户信息
-        public int DelAllUs(bool isSave = true, params UserInfo[] entitys)
+        public int DelAllUs(List<UserInfo> entitys)
         {
             var service = this.CreateService<UserInfo>();
             return service.Delete(entitys);
         }
+       
+        //显示所有省份  
+        public List<City> GetCity(Expression<Func<City, bool>> where)
+        {
+            var service = this.CreateService<City>();
+            return service.Where(where).ToList();
+        }
 
-      
+        //根据名称查询租户信息
+        public List<UserInfo> SeleUs(Expression<Func<UserInfo, bool>> where)
+        {
+            var service = this.CreateService<UserInfo>();
+            return service.Where(where).ToList();
+        }
+
+
+
+
     }
 }

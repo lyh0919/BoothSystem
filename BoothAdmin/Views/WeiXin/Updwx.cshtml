@@ -35,7 +35,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">联系电话：</label>
             <div class="layui-input-block">
-                <input type="text" name="UserPhone" id="UserPhone" lay-verify="title" autocomplete="off" class="layui-input">
+                <input type="text" name="MemPhone" id="MemPhone" lay-verify="title" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -93,12 +93,13 @@
         });
         var id = this.location.search.replace("?id=","");
         $.get('http://localhost:52229/api/default/uptwx?ids=' + id, function (res) {
+           
             $("#MemName").val(res.memName);
             $("#MemWX").val(res.memWx);
-            $("#UserPhone").val(res.userPhone);
-
+            $("#MemPhone").val(res.memPhone);
             $("#MemAddress").val(res.memAddress);
-            $("#MemState").val(res.memState);
+            $("input[name='sex']:checked").val();
+            $("input:radio[name='sex'][value=" + res.memState + "]").attr('checked', 'true');
         })
 
     });

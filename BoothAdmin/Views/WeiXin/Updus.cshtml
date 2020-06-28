@@ -23,13 +23,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">租户名称：</label>
             <div class="layui-input-block">
-                <input type="text" name="MemName" id="MemName" lay-verify="title" autocomplete="off" placeholder="填写租户名称5-15个字" class="layui-input">
+                <input type="text" name="UserName" id="UserName" lay-verify="title" autocomplete="off" placeholder="填写租户名称5-15个字" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">关联会员：</label>
             <div class="layui-input-block">
-                <input type="text" name="memid" id="memid" lay-verify="title" autocomplete="off" class="layui-input">
+                <input type="text" name="MemerId" id="MemerId" lay-verify="title" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -104,23 +104,24 @@
         });
         var id = this.location.search.replace("?id=", "");
         $.get('http://localhost:52229/api/default/uptus?ids=' + id, function (res) {
-            $("#MemName").val(res.memName);
+            $("#UserName").val(res.userName);
             $("#MemerId").val(res.memerId);
             $("#UserPhone").val(res.userPhone);
-
-            $("#MemAddress").val(res.memAddress);
-            $("#MemState").val(res.memState);
+            $("#MemAddress").val(res.memAddress1);
+            $("input[name='sex']:checked").val();
+            $("input:radio[name='sex'][value=" + res.memState + "]").attr('checked', 'true');
         })
  }
 
     function uptus() {
         var m = {};
         m.UserName = $("#UserName").val();
-        m.MemerId = $('select[name="memid"] option:selected').val();
+        m.MemerId = $('select[name="memerId"] option:selected').val();
         m.UserPhone = $("#UserPhone").val();
         //地址
-        var Address = $("#MemAddress1").val() + $("#MemAddress2").val() + $("#MemAddress3").val();
-        m.UserAddress = Address;
+        //var Address = $("#MemAddress1").val() + $("#MemAddress2").val() + $("#MemAddress3").val();
+       // m.UserAddress = Address;
+        m.UserAddress =$("#MemAddress1").val()
         //状态
         m.UserState = $("input[name='sex']:checked").val();
         $.ajax({

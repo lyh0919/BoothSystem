@@ -129,12 +129,7 @@
     $(function () {
         GetCity();
     });
-    
-
-        
-
-
-    function GetCity() {
+     function GetCity() {
         $.get('http://localhost:52229/api/market/getcity?id=1', function (res) {
             $("#quiz1").empty();
             var html = "";

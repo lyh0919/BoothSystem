@@ -51,18 +51,6 @@ namespace BoothService
             return server.Update(model);
         }
 
-        //public List<MarketInfo> ShowMarket(int page = 1, int limit = 10)
-        //{
-        //    List<MarketInfo> list = null;
-        //    using (SqlConnection conn=new SqlConnection("server=192.168.1.130;database=BoothManage;uid=sa;pwd=123456;"))
-        //    {
-        //        string sql = "select * from MarketInfo";
-        //   list=    conn.Query<MarketInfo>(sql).ToList();
-        //    }
-        //    list = list.Skip((page - 1) * limit).Take(limit).ToList();
-        //    return list;
-        //}
-
         public List<City> GetCity(Expression<Func<City, bool>> where)
         {
             var server = this.CreateService<City>();

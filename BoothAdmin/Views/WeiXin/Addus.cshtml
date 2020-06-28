@@ -40,34 +40,21 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">联系地址：</label>
-            <div class="layui-input-block">
-                <select id="MemAddress1">
-                    <option>-选择省份-</option>
-                    <option>-安徽省-</option>
-                    <option>-河南省-</option>
-                    <option>-山西省-</option>
-                    <option>-湖南省-</option>
+            <label class="layui-form-label">联系地址</label>
+            <div class="layui-input-inline">
+                <select id="memAddress1" name="demo1"  lay-filter="city1" lay-search="">
                 </select>
-                <select id="MemAddress2">
-                    <option>-选择市区-</option>
-                    <option>-阜阳市-</option>
-                    <option>-合肥市-</option>
-                    <option>-郑州市-</option>
-                    <option>-武汉市-</option>
+            </div>
+            <div class="layui-input-inline">
+                <select id="memAddress2" name="demo2" lay-filter="city2" lay-search="">
                 </select>
-                <select id="MemAddress3">
-                    <option>-选择县区-</option>
-                    <option>-太和县-</option>
-                    <option>-临泉县-</option>
-                    <option>-奉贤区-</option>
-                    <option>-朝阳区-</option>
-                    <option>-奉城区-</option>
+            </div>
+            <div class="layui-input-inline">
+                <select id="memAddress3" name="demo3" lay-filter="city3" lay-search="">
                 </select>
-
             </div>
         </div>
-        <div class="layui-form-item">
+ <div class="layui-form-item">
             <label class="layui-form-label">状态</label>
             <div class="layui-input-block">
                 <input type="radio" name="sex" value="1" title="开启" checked="" />
@@ -87,8 +74,18 @@
 <script>
     $(function () {
         GetMem();
+        GetCity();
+   });
+    layui.use('form', function () {
+        var form = layui.form;
+        form.on('select(city1)', function (res) {
+            GetCity1(res);
+        });
+        form.on('select(city2)', function (res) {
+            GetCity2(res);
+        });
     });
-
+    //关联会员
     function GetMem() {
         $.get('http://localhost:52229/api/default/showweixins', function (res) {
             $("#memid").empty();
@@ -104,7 +101,7 @@
             });
         });
     }
-
+    //租户表的添加
     function addus() {
         var m = {};
         m.UserName = $("#UserName").val();
@@ -134,6 +131,65 @@
             }
         })
     }
+    //显示省
+    function GetCity() {
+        $.get('http://localhost:52229/api/default/getcity?id=1', function (res) {
+            $("#memAddress1").empty();
+            var html = "";
+            $.each(res, function (i, v) {
+                html += '<option value="' + v.id + '">' + v.cityName + '</option>';
+           });
+            $("#memAddress1").append(html);
+            //对表单重新渲染  复选框、下拉框等
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        });
+    }
+    //显示市
+    function GetCity1(res) {
+     var id = res.value;
+        $.get('http://localhost:52229/api/default/getcity?id=' + id, function (res) {
+            $("#memAddress2").empty();
+            var html = "";
+            $.each(res, function (i, v) {
+                html += '<option value="' + v.id + '">' + v.cityName + '</option>';
+            });
+            $("#memAddress2").append(html);
+            //对表单重新渲染  复选框、下拉框等
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        });
+    }
+    //显示县
+      function GetCity2(res) {
+          var id = res.value;
+        $.get('http://localhost:52229/api/default/getcity?id=' + id, function (res) {
+            $("#memAddress3").empty();
+            var html = "";
+            $.each(res, function (i, v) {
+                html += '<option value="' + v.id + '">' + v.cityName + '</option>';
+             });
+            $("#memAddress3").append(html);
+            //对表单重新渲染  复选框、下拉框等
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        });
+    }
+
+
+
+
+
+
+
+
+
 </script>
 
 

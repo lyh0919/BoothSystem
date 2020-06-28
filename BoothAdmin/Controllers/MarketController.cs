@@ -39,11 +39,7 @@ namespace BoothAdmin.Controllers
             return Json(new LayUi { code = "0", msg = "", count = PageCount.ToString(), data = list });
             
         }
-
-
-
-
-        public IActionResult AddMarket()
+         public IActionResult AddMarket()
         {
             return View();
         }
@@ -66,11 +62,7 @@ namespace BoothAdmin.Controllers
             return Convert.ToInt32(s);
 
         }
-
-   
-
-
-       public IActionResult UpdateMarket(Guid id)
+        public IActionResult UpdateMarket(Guid id)
         {
             string url = "http://localhost:52229/api/Market/ShowDetial?id=" + id;
             HttpClient client = new HttpClient();

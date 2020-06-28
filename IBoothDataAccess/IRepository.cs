@@ -55,7 +55,7 @@ namespace IBoothDataAccess
         /// </summary>
         /// <param name="entitys">实体对象集合</param>
         /// <param name="isSave">是否执行</param>
-        int Delete(bool isSave = true, params T[] entitys);
+        int Delete(List<T> entitys,bool isSave = true);
 
         /// <summary>
         /// 删除 - 通过主键ID删除

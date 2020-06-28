@@ -15,13 +15,8 @@ namespace BoothAPI.Controllers
     public class MarketController : ControllerBase
     {
         private IMarketBll _marketBll;
-        private ICity _cityBll;
-        public MarketController(IMarketBll marketBll,ICity cityBll)
-        {
-            this._marketBll = marketBll;
-            this._cityBll = cityBll;
-        }
-
+      
+      
 
         [HttpPost]
         public int AddMarket(MarketInfo model)
@@ -39,8 +34,6 @@ namespace BoothAPI.Controllers
             return _marketBll.UptMarket(model);
         }
 
-
-      
         public List<MarketInfo> ShowMarket()
         {
            List<MarketInfo> list= _marketBll.ShowMarket();
@@ -53,15 +46,7 @@ namespace BoothAPI.Controllers
             List<MarketInfo> list = _marketBll.ShowDetial(id);
             return list;
         }
-
-
-
-
-
-       
-
-
-        public List<City> GetCity(int id)
+         public List<City> GetCity(int id)
         {
             return _marketBll.GetCity(c => c.PId==id);
         }

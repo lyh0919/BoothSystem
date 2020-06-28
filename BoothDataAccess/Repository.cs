@@ -76,7 +76,7 @@ namespace BoothDataAccess
         }
 
         //批量删除
-        public int Delete(bool isSave = true, params T[] entitys)
+        public int Delete(List<T> entitys, bool isSave = true)
         {
             int flag = 0;
             this._dbSet.RemoveRange(entitys);

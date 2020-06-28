@@ -37,11 +37,6 @@
     $(function () {
         GetCity();
     });
-    
-
-        
-
-
     function GetCity() {
         $.get('http://localhost:52229/api/rbac/getcity?id=1', function (res) {
             $("#quiz1").empty();
@@ -65,8 +60,7 @@
             var html = "";
             $.each(res, function (i, v) {
                 html += '<option value="' + v.id + '">' + v.cityName + '</option>';
-
-            });
+           });
             $("#quiz2").append(html);
             //对表单重新渲染  复选框、下拉框等
             layui.use('form', function () {
