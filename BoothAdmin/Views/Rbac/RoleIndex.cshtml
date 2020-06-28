@@ -29,6 +29,7 @@
             <tr>
                 <th>角色名称</th>
                 <th>角色描述</th>
+                <th>成员数量</th>
                 <th>添加时间</th>
                 <th>状态</th>
                 <th>操作</th>
@@ -47,7 +48,7 @@
     $(function () {
         RoleShow();
     });
-
+    //显示列表
     function RoleShow() {
         $.get('http://localhost:52229/api/rbac/getrole', function (res) {
             $("#dt").empty();
@@ -56,6 +57,7 @@
                 html += "<tr>";
                 html += "<td>" + v.roleName + "</td>";/*isEnable*/
                 html += "<td>" + v.roleDesc + "</td>";
+                html += "<td>" + v.peopleCount + "</td>";
                 html += "<td>" + dateFormat(v.createTime) + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
                 html += "<td><a href='/Rbac/PowerIndex?rolename=" + v.roleName + "&id=" + v.id + "' >设置权限</a>&nbsp;<a href='#' onclick=Upt('" + v.id + "')>编辑</a>&nbsp;<a href='#' onclick=Del('" + v.id + "')>删除</a></td>";

@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using BoothModel;
-using System.Net;
 using BoothService;
 
 namespace BoothAPI.Controllers
@@ -24,22 +23,7 @@ namespace BoothAPI.Controllers
         {
             _rbac = rbac;
         }
-        //获取IP地址
-        [HttpGet]
-        public string GetIP()
-        {
-            string ipaddr = "";
-            string hostName = Dns.GetHostName();//本机名   
-            //System.Net.IPAddress[] addressList = Dns.GetHostByName(hostName).AddressList;
-            //会警告GetHostByName()已过期，我运行时且只返回了一个IPv4的地址   
-            System.Net.IPAddress[] addressList = Dns.GetHostAddresses(hostName);
-            //会返回所有地址，包括IPv4和IPv6   
-            foreach (IPAddress ip in addressList)  
-            {
-                ipaddr = ip.ToString();  
-            }
-            return ipaddr;
-         }
+        
 
         #region 部门
         //部门添加
@@ -61,9 +45,25 @@ namespace BoothAPI.Controllers
 
         //部门显示
         [HttpGet]
-        public List<RbacDeptPart> GetDept()
+        public List<DeptPeo> GetDept()
         {
-            return _rbac.GetDept();
+            List<DeptPeo> deptlist = new List<DeptPeo>();
+            foreach (var item in _rbac.GetDept())
+            {
+                DeptPeo dept = new DeptPeo() 
+                {
+                    Id=item.Id,
+                    DeptName=item.DeptName,
+                    DeptDesc = item.DeptDesc,
+                    CreateTime = item.CreateTime,
+                    IsEnable=item.IsEnable,
+                    PeopleCount = _rbac.GetAdminCount(a => a.DeptId == item.Id)
+                };
+                deptlist.Add(dept);
+            }
+            
+
+            return deptlist;
         }
 
         //部门修改
@@ -105,9 +105,25 @@ namespace BoothAPI.Controllers
 
         //角色显示
         [HttpGet]
-        public List<RbacRoleInfo> GetRole()
+        public List<RolePeo> GetRole()
         {
-            return _rbac.GetRole();
+            List<RolePeo> rolelist = new List<RolePeo>();
+            foreach (var item in _rbac.GetRole())
+            {
+                RolePeo role = new RolePeo()
+                {
+                    Id = item.Id,
+                    RoleName = item.RoleName,
+                    RoleDesc = item.RoleDesc,
+                    CreateTime = item.CreateTime,
+                    IsEnable = item.IsEnable,
+                    PeopleCount = _rbac.GetAdminCount(a => a.RoleId == item.Id)
+                };
+                rolelist.Add(role);
+            }
+
+
+            return rolelist;
         }
 
         //角色修改
@@ -127,6 +143,7 @@ namespace BoothAPI.Controllers
         }
         #endregion
 
+        #region 权限
         //权限反填
         [HttpGet]
         public List<RbacPower> GetPower()
@@ -139,21 +156,23 @@ namespace BoothAPI.Controllers
         {
             string[] pow = powId.Split(',');
             List<RbacPowerAndRole> raps = new List<RbacPowerAndRole>();
-            foreach (var rp in _rbac.GetRolePower(roleId)) 
+            if (_rbac.GetRolePower(roleId) != null)
             {
-                foreach (var item in pow)
-                {
-                    if (!rp.PowerId.Equals(item))
-                    {
-                        RbacPowerAndRole rap = new RbacPowerAndRole();
-                        rap.Id = Guid.NewGuid();
-                        rap.RoleId = roleId;
-                        rap.PowerId = item;
-                        raps.Add(rap);
-                    }
-                }
+                _rbac.DelRolePower(_rbac.GetRolePower(roleId));
             }
-            
+
+            foreach (var item in pow)
+            {
+
+                RbacPowerAndRole rap = new RbacPowerAndRole();
+                rap.Id = Guid.NewGuid();
+                rap.RoleId = roleId;
+                rap.PowerId = item;
+                raps.Add(rap);
+
+            }
+
+
             return _rbac.AddRolePow(raps);
         }
 
@@ -164,6 +183,8 @@ namespace BoothAPI.Controllers
 
             return _rbac.GetRolePower(roleId);
         }
+        #endregion
+
 
         #region 成员
         //显示
@@ -263,7 +284,7 @@ namespace BoothAPI.Controllers
                 recordlist = _rbac.GetRecord(r => r.AccId.ToString() == accid & r.UpdateTime.Equals(datetime), r => r.UpdateTime, pageindex, pagesize, out count);
 
             }
-            else if (datetime != "undefined")
+            else if (datetime != null)
             {
                 recordlist = _rbac.GetRecord(r => r.UpdateTime.ToString().Contains(datetime), r => r.UpdateTime, pageindex, pagesize, out count);
             }
@@ -289,7 +310,7 @@ namespace BoothAPI.Controllers
 
             return recordPage;
         }
-        //获取全部成员
+        //获取全部成员绑定下拉框
         public List<RbacAdmin> GetAdminAll()
         {
             return _rbac.GetAdminAll();

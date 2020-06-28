@@ -245,9 +245,22 @@
         var accname = localStorage["Admin"]
         $("#accname").html(accname);
 
-        //$(function () {
-        //    this.location.href = "/Booth/HomePage";
-        //});
+        $(function () {
+            var admin = {};
+            admin.Id = localStorage["AdminId"];
+            $.ajax({
+                url: "http://localhost:52229/api/rbac/uptadmin",
+                data: JSON.stringify(admin),
+                dataType: "json",
+                contentType: "application/json",
+                type: "Post",
+                success: function (res) {
+                    if (res > 0) {
+                        alert("欢迎光临");
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>

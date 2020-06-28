@@ -4,92 +4,9 @@
     Layout = null;
 }
 
-@*<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
-    <form class="layui-form">
-        <div class="layui-form-item">
-            <label class="layui-form-label">地址</label>
-            <div class="layui-input-inline">
-                <select id="quiz1" name="demo1" onchange="GetCity1()">
-
-
-                </select>
-            </div>
-            <div class="layui-input-inline">
-                <select id="quiz2" name="demo2" onchange="GetCity2()">
-
-
-                </select>
-            </div>
-            <div class="layui-input-inline">
-                <select id="quiz3" name="demo3">
-
-
-                </select>
-            </div>
-        </div>
-    </form>
-
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/layuiadmin/layui/layui.js"></script>
-    <script>
-        $(function () {
-            GetCity();
-        });
-
-        function GetCity() {
-            $.get('http://localhost:52229/api/rbac/getcity?id=1', function (res) {
-                $("#quiz1").empty();
-                var html = "";
-                $.each(res, function (i, v) {
-                    html += '<option value="' + v.id + '">' + v.cityName + '</option>';
-
-                });
-                $("#quiz1").append(html);
-                //对表单重新渲染  复选框、下拉框等
-                layui.use('form', function () {
-                    var form = layui.form;
-                    form.render();
-                });
-            });
-        }
-        function GetCity1() {
-            var id = $('select[name="demo1"] option:selected').val();
-            $.get('http://localhost:52229/api/rbac/getcity?id=' + id, function (res) {
-                $("#quiz2").empty();
-                var html = "";
-                $.each(res, function (i, v) {
-                    html += '<option value="' + v.id + '">' + v.cityName + '</option>';
-
-                });
-                $("#quiz2").append(html);
-                //对表单重新渲染  复选框、下拉框等
-                layui.use('form', function () {
-                    var form = layui.form;
-                    form.render();
-                });
-            });
-        }
-
-        function GetCity2() {
-            var id = $('select[name="demo2"] option:selected').val();
-            $.get('http://localhost:52229/api/rbac/getcity?id=' + id, function (res) {
-                $("#quiz3").empty();
-                var html = "";
-                $.each(res, function (i, v) {
-                    html += '<option value="' + v.id + '">' + v.cityName + '</option>';
-
-                });
-                $("#quiz3").append(html);
-                //对表单重新渲染  复选框、下拉框等
-                layui.use('form', function () {
-                    var form = layui.form;
-                    form.render();
-                });
-            });
-        }
-    </script>*@
 
 <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+
 <form class="layui-form">
 
 
@@ -163,16 +80,18 @@
     });
 
 
-    
+
     //页面加载
     $(function () {
         GetAdmin();
         if (pageindex == 1) {
             $('#prev').attr("disabled", true);
         }
-        datetime = $("#accname").val();
+        datetime = $("#datetime").val();
         adminid = $('select[name="admin"] option:selected').val();
         RecordShow(pageindex);
+
+
 
     });
 
@@ -194,7 +113,7 @@
         }
         else {
             pageindex = pageindex - 1;
-            AdminShow(pageindex);
+            RecordShow(pageindex);
         }
 
     }
@@ -207,16 +126,16 @@
         }
         else {
             pageindex = pageindex + 1;
-            AdminShow(pageindex);
+            RecordShow(pageindex);
         }
 
     }
     //查询
     function searchData() {
-        datetime = $("#accname").val();
+        datetime = $("#datetime").val();
         //accname = decodeURI(accname);
-        adminid = $('select[name="dept"] option:selected').val();
-        AdminShow(1);
+        adminid = $('select[name="admin"] option:selected').val();
+        RecordShow(1);
     }
 
     //显示

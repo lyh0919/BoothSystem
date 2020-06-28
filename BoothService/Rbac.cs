@@ -88,7 +88,12 @@ namespace BoothService
             var server = this.CreateService<RbacPower>();
             return server.GetAll().ToList();
         }
-
+        //批量删除权限
+        public int DelRolePower(List<RbacPowerAndRole> entitys)
+        {
+            var server = this.CreateService<RbacPowerAndRole>();
+            return server.Delete(entitys);
+        }
         //设置权限
         public int AddRolePow(List<RbacPowerAndRole> raps)
         {
@@ -106,20 +111,21 @@ namespace BoothService
 
         #region 成员
         //显示
-        public List<RbacAdmin> GetAdmin(Func<RbacAdmin, bool> @where, Func<RbacAdmin, string> order, int pageIndex, int pageSize, out int count)
+        public List<RbacAdmin> GetAdmin(Expression<Func<RbacAdmin, bool>> where, Expression<Func<RbacAdmin, string>> order, int pageIndex, int pageSize, out int count)
         {
             var server = this.CreateService<RbacAdmin>();
             return server.Where(where,order, pageIndex, pageSize, out count).ToList();
 
 
-            //if (deptId == "")
-            //{
-            //    return (from s in admin where s.AccName.Contains(accName) select s).ToList();
-            //}
-            //else
-            //{
-            //    return (from s in admin where s.AccName.Contains(accName) & s.DeptId.Equals(deptId) select s).ToList();
-            //}
+
+        }
+        //查询条数
+        public int GetAdminCount(Expression<Func<RbacAdmin, bool>> where)
+        {
+            var server = this.CreateService<RbacAdmin>();
+            return server.Count(where);
+
+
 
         }
         //添加
@@ -161,7 +167,7 @@ namespace BoothService
         }
 
         //显示操作日志列表
-        public List<RecordInfo> GetRecord(Func<RecordInfo, bool> @where, Func<RecordInfo, DateTime> order, int pageIndex, int pageSize, out int count)
+        public List<RecordInfo> GetRecord(Expression<Func<RecordInfo, bool>> @where, Expression<Func<RecordInfo, DateTime>> order, int pageIndex, int pageSize, out int count)
         {
             var server = this.CreateService<RecordInfo>();
             return server.Where(where, order, pageIndex, pageSize, out count,true).ToList();

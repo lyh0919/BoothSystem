@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
 using System.Text;
 
@@ -50,6 +51,22 @@ namespace BoothModel
 
 
             return propertyNames;
+        }
+
+        //获取IP地址
+        public string GetIP()
+        {
+            string HostName = Dns.GetHostName(); //得到主机名
+            IPHostEntry IpEntry = Dns.GetHostEntry(HostName); //通过主机名去获取全部ip信息
+            string ip = ""; //获取Ipv4
+            foreach (var item in IpEntry.AddressList)
+            {
+                ip = item.ToString();
+            }
+
+
+            return ip;
+
         }
     }
 }

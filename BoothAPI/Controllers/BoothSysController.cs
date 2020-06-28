@@ -100,7 +100,7 @@ namespace BoothAPI.Controllers
                     propertyNames = ReflectHelper.GetProperties(admin);
                     _rbac.UptAdmin(admin, propertyNames);
                 }
-
+                //但会url显示
                 return "http://localhost:52229/img/"+ filenames; 
             }
             catch (Exception)
