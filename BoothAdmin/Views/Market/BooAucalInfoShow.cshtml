@@ -1,0 +1,180 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    @*<link rel="stylesheet" href="/layui/css/layui.css" media="all">*@
+    <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    <div style="float: left;padding-top:10px">
+        <div class="layui-inline">
+            <div style="float:left"><input class="layui-input" type="text" placeholder="请输入市场名称" id="txt_Name" style="width: 300px;height: 30px;border: aliceblue;" autocomplete="off" /></div>
+            <div style="float:left">           
+                <select name="conditionSelect" id="conditionSelect" style="width: 300px;height: 30px">
+                    <option value="">请选择</option>
+                    <option value="1">使用中</option>
+                    <option value="0">未使用</option>
+                </select>
+                <button type="button" data-type="reload" class="layui-btn layui-btn-sm  layui-btn-normal" onclick="Search()"> <i class="layui-icon">&#xe615;</i>查询</button>
+            </div>
+        </div>
+    </div>
+    <div style="float:right;padding-top:40px">
+
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
+            <i class="layui-icon">&#xe654;</i>添加
+        </button>
+    </div>
+    <div style="padding-top:100px">
+        @*class="lay-filter=" component-form-element"*@
+        @*表格数据显示*@
+        <div style="padding-left:20px">
+            <table id="demo" class="layui-table">
+                <tr>
+                    <td>编号</td>
+                    <td>摊位名称</td>
+                    <td>竞拍时间</td>
+                    <td>参与人数</td>
+                    <td>中标用户</td>
+                    <td>成交价格</td>
+                    <td>订单</td>
+                    <td>保证金</td>
+                    <td>状态</td>
+                    <td>操作</td>
+                </tr>
+            </table>
+        </div>
+        <script src="~/layuiadmin/layui/layui.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
+
+    </div>
+</body>
+</html>
+
+
+<script>
+
+    $(function () {
+
+        Show();
+      
+    });
+    function Show() {
+
+        $.get('http://localhost:52229/api/Market/ShowAll', function (res) {
+            var str = "";
+            $.each(res, function (i, n) {
+                str += "<tr>";
+                str += "<td>" + n.id + "</td>";
+                str += "<td> " + n.booTitle + "</td>";
+                str += "<td> " +timeFormatter( n.createTime )+ "至" + timeFormatter(n.endTime )+ "</td>";
+                str += "<td> " + n.count + "</td>";
+                str += "<td> " + n.userName + "</td>";
+                str += "<td> " + n.finishPrice + "</td>";
+                str += "<td> " + (n.orderState=="1"?"已支付":"待支付") + "</td>";
+                str += "<td> " + (n.cashMoneyState=="1"?"已缴纳":"未缴纳") + "</td>";
+                str += "<td> " + (n.booAucaState == "1" ? "进行中" : "已结束") + "</td>";
+               str += "<td><a href='#' class='layui-btn layui-btn-xs' lay-event='edit' onclick=Edit('" + n.id + "')>编辑</a> <a href='#' class='layui-btn layui-btn-danger layui-btn-xs' lay-event='del'  onclick=Del('" + n.id + "') > 删除</a ><a href='/Market/DetialBooAucalAndBoo?id=" + n.id + "'>明细</a></td>";
+           });
+            $("#demo tr:gt(0)").empty();
+            $("#demo").append(str);
+        })
+    }
+
+    /*  ========== 添加弹出层父页面  button 事件 ==============*/
+    function useradd() {
+        layui.use('layer', function () {
+            layer.open({
+                type: 2,
+                content: '/Market/AddBooAucalInfo'
+                ,   //添加页，后台controller转发到指定页
+                area: ["1000px", "600px"]
+
+                ,title: ['摊位添加'],
+                fixed: false,
+                //maxmin: true,
+                shadeClose: true
+                , end: function () {  //刷新页面
+                    location.reload();
+                }
+            })
+        })
+    }
+    //查询方法
+    function Search() {
+        var txtName = $("#txt_Name").val();
+      
+        var selectid = $("#conditionSelect option:selected").val();
+        if (txtName == null) {
+            txtName = "";
+        }
+        if (selectid == null) {
+            selectid == ""
+        }
+
+        $.ajax({
+            url: "http://localhost:52229/api/market/SearchBooAucal?name=" + txtName + "&isable=" + selectid,
+            dataType: "json",
+            type: "get",
+            success: function (res) {
+                var str = "";
+                $.each(res, function (i, n) {
+                    str += "<tr>";
+                    str += "<td>" + n.id + "</td>";
+                    str += "<td> " + n.booTitle + "</td>";
+                    str += "<td> " + timeFormatter(n.createTime) + "至" + timeFormatter(n.endTime) + "</td>";
+                    str += "<td> " + n.count + "</td>";
+                    str += "<td> " + n.userName + "</td>";
+                    str += "<td> " + n.finishPrice + "</td>";
+                    str += "<td> " + (n.orderState == "1" ? "已支付" : "待支付") + "</td>";
+                    str += "<td> " + (n.cashMoneyState == "1" ? "已缴纳" : "未缴纳") + "</td>";
+                    str += "<td> " + (n.booAucaState == "1" ? "进行中" : "已结束") + "</td>";
+                    str += "<td><a href='#' class='layui-btn layui-btn-xs' lay-event='edit' onclick=Edit('" + n.id + "')>编辑</a> <a href='#' class='layui-btn layui-btn-danger layui-btn-xs' lay-event='del'  onclick=Del('" + n.id + "') > 删除</a ><a href='/Market/DetialBooAucalAndBoo?id=" + n.id + "'>明细</a></td>";
+                });
+            $("#demo tr:gt(0)").empty();
+            $("#demo").append(str);
+              
+            }
+        })
+    }
+
+    function Edit(id) {
+        location.href = "/Market/UpdateBooAucalInfo?Id=" + id;
+    }
+
+    function Del(id) {
+        if (confirm("请确认删除吗？")) {
+              $.get('http://localhost:52229/api/market/DeleteBooAucal', { id: id }, function (res) {
+            if (res >= 1) {
+                alert("删除成功");
+                Show();
+            }
+            else {
+                alert("删除失败")
+            }
+        });
+        }
+    }
+
+    function timeFormatter(value) {
+        //parseInt(value.replace("/Date(", "").replace(")/", "").split("+")[0])
+        var da = new Date(value);
+        return da.getFullYear() + "-" + (da.getMonth() + 1) + "-" + da.getDate()/* + " " + da.getHours() + ":" + da.getMinutes() + ":" + da.getSeconds()*/;
+
+    }
+</script>
+

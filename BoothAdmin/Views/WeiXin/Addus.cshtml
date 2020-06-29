@@ -124,10 +124,12 @@
             success: function (res) {
                 if (res > 0) {
                     alert("添加成功");
-
+                    //刷新页面
+                    location.reload();
                 }
                 else {
                     alert("添加失败");
+                    
                 }
             }
         })

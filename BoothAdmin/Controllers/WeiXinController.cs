@@ -16,7 +16,6 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-        
         //显示微信会员信息
         public ActionResult ShowWeiXin(int page = 1, int limit = 10)
         {
@@ -39,10 +38,7 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-
-      
-        //根据id删除微信会员信息
-        [HttpPost]
+         //根据id删除微信会员信息
         public int Delwx(Guid id)
         {
            HttpResponseMessage message = null;
@@ -53,6 +49,13 @@ namespace BoothAdmin.Controllers
             string s = message.Content.ReadAsStringAsync().Result;
              return Convert.ToInt32(s);
   }
+         //修改微信会员信息
+        public IActionResult Updwx()
+        {
+            return View();
+        }
+
+
 
         //查询所有省份 用于绑定第一级下拉 
 
@@ -62,25 +65,20 @@ namespace BoothAdmin.Controllers
         }
 
         //根据省份id 查询该省的城市 用于二级联动
+         //根据城市id 查询该城市的县 用于三级联动
 
-
-        //根据城市id 查询该城市的县 用于三级联动
-
-
-
-        //修改微信会员信息
-        public IActionResult Updwx()
-        {
-            return View();
-        }
        
+       
+/// <summary>
+/// /////////////////租户页面/////////////////////////////////////////////////
+/// </summary>
+/// <returns></returns>
 
         //租户列表视图
         public IActionResult ShowUs()
         {
             return View();
         }
-
         //显示租户信息
         public ActionResult ShowUser(int page = 1, int limit = 10)
         {
@@ -104,25 +102,24 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-      
-
-        //修改租户信息
-        public IActionResult Updus()
-        {
-            return View();
-        }
-        [HttpPost]
         //根据id删除租户信息
         public int Delus(Guid id)
         {
             HttpResponseMessage message = null;
-            string url = "http://localhost:52229/api/default/Delus?ids=" + id;
+            string url = "http://localhost:52229/api/default/Delus?id=" + id;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json") { CharSet = "utf-8" });
             message = client.DeleteAsync(url).Result;
             string s = message.Content.ReadAsStringAsync().Result;
             return Convert.ToInt32(s);
         }
+         //修改租户信息
+        public IActionResult Updus()
+        {
+            return View();
+        }
+      
+        
         public class LayUi
         {
             public string code { get; set; }

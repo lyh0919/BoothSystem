@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace BoothModel.Models
+namespace BoothAPI.ViewModel
 {
-    public partial class BooInfo
+    public class BooAndMarket
     {
         public Guid Id { get; set; }
         public string BooTitle { get; set; }
@@ -19,5 +21,10 @@ namespace BoothModel.Models
         public DateTime? CreateTime { get; set; }
         public DateTime? UpdateTime { get; set; }
         public string IsEnable { get; set; }
+
+        public string MarkName { get; set; }
+        public string MarkPhone { get; set; }
+        public Guid Uid { get; set; }
+        public string UserName { get; set; }
     }
 }

@@ -34,20 +34,7 @@ namespace BoothAPI.Controllers
             List<MemberInfoo> list = _show.ShowWeiXin();
             return list.Skip((page-1)*limit).Take(limit).ToList();
         }
-
-        //查询所有省份 用于绑定第一级下拉 
-        [HttpGet]
-        public List<City> GetSheng()
-        {
-           return _show.GetSheng(); 
-        }
-
-        //根据省份id 查询该省的城市 用于二级联动
-       
-
-        //根据城市id 查询该城市的县 用于三级联动
-       
-
+        
         //微信会员添加 
         [HttpPost]
         public int Add(MemberInfoo m)
@@ -62,27 +49,44 @@ namespace BoothAPI.Controllers
         {
             return _show.DelWx(ids);
         }
+        //编辑微信会员信息
+        [HttpPost]
+        public int UptWx(MemberInfoo m)
+        {
+            m.Id = Guid.NewGuid();
+            return _show.UpdateWx(m);
+        }
+        //根据id 查询数据 修改
+        [HttpGet]
+        public MemberInfoo UptWx(Guid ids)
+        {
+            MemberInfoo memberInfoo = _show.Uptwx(w => w.Id == ids);
+            return memberInfoo;
+        }
 
-        //批量删除微信会员信息
+        //查询所有省份 用于绑定第一级下拉 
+        [HttpGet]
+        public List<City> GetSheng(int id)
+        {
+         return _show.GetSheng(c => c.PId == id); ;
+        }
+ 
+      //批量删除微信会员信息
         [HttpPost]
         public int DelAll(bool isSave = true, params MemberInfoo[] entitys)
         {
              return _show.DelAll(isSave = true, entitys); ;
         }
 
-        //编辑微信会员信息
-        [HttpPost]
-        public int UptWx(MemberInfoo m)
-        {
-           return _show.UpdateWx(m);
-        }
-        //根据id 查询数据 修改
-        public List<MemberInfoo> UptWx(Guid ids)
-        {
-            return _show.Uptwx(w=>w.Id==ids);
-        }
+       
 
-        [HttpGet]
+/// <summary>
+/// ////////////租户页面/////////////////////////////////////////////////
+/// </summary>
+/// <param name="page"></param>
+/// <param name="limit"></param>
+/// <returns></returns>
+         [HttpGet]
         //分页获取租户信息列表
         public List<UserInfo> ShowUser(int page = 1, int limit = 10)
         {
@@ -99,13 +103,27 @@ namespace BoothAPI.Controllers
         }
 
         //根据id删除租户信息
-        
         [HttpDelete]
-        public int Delus(Guid ids)
+        public int Delus(Guid id)
         {
-            return _show.Delus(ids);
+            return _show.Delus(id);
          }
-        
+        [HttpPost]
+        //编辑租户信息
+        public int UptUs(UserInfo m)
+        {
+            m.Id = Guid.NewGuid();
+            return _show.UptUs(m);
+        }
+       [HttpGet]
+        //根据id 查询数据 修改
+        public UserInfo Uptus(Guid ids)
+        {
+            UserInfo userin = _show.Uptus(w => w.Id == ids);
+            return userin;
+        }
+
+
 
 
 
@@ -116,19 +134,7 @@ namespace BoothAPI.Controllers
             return _show.DelAllUs(isSave = true, entitys); ;
         }
 
-        //编辑租户信息
-        
-        public int UptUs(UserInfo m)
-        {
-           return _show.UptUs(m);
-        }
-        [HttpPost]
-        //根据id 查询数据 修改
-        public List<UserInfo> Uptus(Guid ids)
-        {
-            return _show.Uptus(w => w.Id == ids);
-        }
-
+       
 
     }
 }
