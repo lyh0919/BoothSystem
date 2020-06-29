@@ -15,10 +15,13 @@ namespace BoothAPI.ViewModel
         public decimal? CashMoney { get; set; }
         public string Teancy { get; set; }
         public DateTime? CreateTime { get; set; }
-        public DateTime? EndTime { get; set; }
+
         public string PayState { get; set; }
         public string OrderState { get; set; }
 
+
+        public DateTime? ZCreateTime { get; set; }
+        public DateTime? ZEndTime { get; set; }
 
         public Guid? BooId { get; set; }
 
