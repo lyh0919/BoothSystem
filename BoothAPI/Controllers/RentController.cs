@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BoothAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class RentController : ControllerBase
     {
@@ -34,7 +34,7 @@ namespace BoothAPI.Controllers
                 orderno = "";
             }
 
-            if (paystate != "undefined")//判断是否有效
+            if (paystate != null)//判断是否有效
             {
                 orderlist = _rent.GetOrder(u => u.OrderNo.Contains(orderno) & u.PayState == paystate, u => u.OrderNo, pageindex, pagesize, out count);
 

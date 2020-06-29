@@ -40,7 +40,7 @@ namespace BoothAPI
             services.AddScoped<IShow, Show>();
             services.AddScoped<IRbac, Rbac>();
             services.AddScoped<IMarketBll, MarketBll>();
-            //services.AddScoped<IRent, Rent>();
+            services.AddScoped<IRent, Rent>();
             services.AddScoped<ICity, CityBll>();
             services.AddScoped<IBoothManager, BoothManager>();
  
