@@ -41,7 +41,7 @@ namespace BoothAdmin.Controllers
             
         }
 
-
+        //查询
         public ActionResult SearchMarket(string name="",string isables="")
         {
             string url = "http://localhost:52229/api/market/SearchMarket?name=" + name + "&isable=" + isables;
@@ -61,7 +61,7 @@ namespace BoothAdmin.Controllers
             }
 
         }
-
+        //添加
         public IActionResult AddMarket()
         {
             return View();
@@ -102,34 +102,6 @@ namespace BoothAdmin.Controllers
         }
         
 
-        //修改市场
-      //[HttpPost]
-      //public int UpdateMarket(MarketInfo m)
-      //  {
-      //      HttpResponseMessage message = null;
-      //      string url = "http://localhost:52229/api/Market/UpdateMarket";
-      //      MarketInfo model = new MarketInfo
-      //      {
-      //          Id=m.Id,
-      //          CreateTime = DateTime.Now,
-      //          IsEnable = m.IsEnable,
-      //          MarkAccName = m.MarkAccName,
-      //          MarkAddress = m.MarkAddress,
-      //          MarkName = m.MarkName,
-      //          MarkPhone = m.MarkPhone,
-      //          MarkSortId = m.MarkSortId,
-      //          UpdateTime = DateTime.Now
-      //      };
-      //      string stu = JsonConvert.SerializeObject(model);
-      //      HttpClient client = new HttpClient();
-      //      HttpContent content = new StringContent(stu);
-      //      content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json") { CharSet = "utf-8" };
-      //      message = client.PutAsync(url, content).Result;
-      //      string s = message.Content.ReadAsStringAsync().Result;
-      //      return Convert.ToInt32(s);
-      //  }
-
-
 
         //删除市场 通过传入id进行删除
         [HttpPost]
@@ -157,7 +129,7 @@ namespace BoothAdmin.Controllers
             return View();
         }
 
-
+        //添加摊位
         public IActionResult AddBoo()
         {
             return View();
@@ -183,6 +155,7 @@ namespace BoothAdmin.Controllers
             return Convert.ToInt32(s);
 
         }
+        //反填数据
         public IActionResult EditBoo(Guid id)
         {
             
@@ -198,7 +171,7 @@ namespace BoothAdmin.Controllers
         }
 
 
-
+        //显示数据
         public List<MarketInfo> ShowMarket()
         {
             string url = "http://localhost:52229/api/Market/ShowMarket";
@@ -257,7 +230,7 @@ namespace BoothAdmin.Controllers
         }
         #endregion
 
-        #region
+        #region  摊位竞拍详情
         public IActionResult DetialBooAucalAndBoo()
         {
             return View();

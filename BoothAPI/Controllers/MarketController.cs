@@ -98,7 +98,7 @@ namespace BoothAPI.Controllers
         }
 
 
-
+        //三级联动调用此方法
         public List<City> GetCity(int id)
         {
             return _marketBll.GetCity(c => c.PId == id);
@@ -139,7 +139,7 @@ namespace BoothAPI.Controllers
         }
 
 
-        //显示所有数据
+        //显示所有数据  三表联查 摊位表 市场表 用户列表
         public List<BooAndMarket> ShowBooth()
         {
             List<BooInfo> list = _boothManager.ShowBoo();
@@ -229,6 +229,7 @@ namespace BoothAPI.Controllers
 
         #endregion
         #region  出租明细历史   DetialBoothAndUser
+            //显示详情
         public List<BooAndMarket> ShowDetialBoothAndUser(Guid id)
         {
             List<BooAndMarket> list = ShowBooth();
@@ -236,7 +237,7 @@ namespace BoothAPI.Controllers
             return list;
         }
 
-
+        //查询
         public List<BooAndMarket> DetialBooAndMarket(string name)
         {
             List<BooAndMarket> list = ShowBooth();
@@ -283,6 +284,7 @@ namespace BoothAPI.Controllers
             return _boothManager.DelBooAucalInfo(id);
         }
 
+        //三表联查 摊位表 市场表 摊位竞拍
         public List<BooAucalInfoAndUser> ShowAll()
         {
             List<BooAucalnfo> list = _boothManager.ShowBooAucalInfo();
@@ -305,6 +307,7 @@ namespace BoothAPI.Controllers
                          }).ToList();
             return lists;
         }
+        //显示摊位表 为了三表联查
         public List<BooInfo> ShowBooInfo()
         {
             List<BooInfo> list = _boothManager.ShowBoo();
@@ -332,6 +335,7 @@ namespace BoothAPI.Controllers
             return lists;
         }
 
+        //查询数据
         public List<BooAucalnfo> SearchBooAucal(string name, string isable)
         {
             List<BooAucalnfo> list = null;
