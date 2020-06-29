@@ -106,7 +106,7 @@
                 </div>
             </div>
 
-            <button type="button" class="layui-btn layui-btn-warm layui-btn-radius" onclick="UpdateBooth()" style="margin-right:600px">修改</button>
+            <button type="button" class="layui-btn layui-btn-warm layui-btn-radius" onclick="UpdateBooths()" style="margin-right:600px">修改</button>
         </div>
 
     </form>
@@ -117,7 +117,7 @@
 <script>
 
 
-    function UpdateBooth() {
+    function UpdateBooths() {
         var obj = {};
         obj.Id = $("#markid").val();
         obj.BooTitle = $("#BooTitle").val();
@@ -167,17 +167,18 @@
             //obj.IsEnable = "1";
 
         $.ajax({
-            url: "http://localhost:52229/api/market/updatebooth",
+            url: "http://localhost:52229/api/market/UpdateBooth",
             dataType: "json",
             type: "post",
             data: JSON.stringify(obj),
             contentType: "application/json",
             success: function (success) {
-                if (success >= 1)
+                if (success >= 1) {
                     alert('修改成功');
-                location.href = "/Market/ShowBooth";
+                    location.href = "/Market/ShowBooth";
+                }
                 else {
-                    alert('修改失败');
+                    alert("修改失败");
                 }
             }
         });

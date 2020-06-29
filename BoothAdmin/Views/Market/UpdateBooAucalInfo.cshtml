@@ -121,13 +121,13 @@
     function UptBooths() {
         var obj = {};
         obj.Id = $("#Ids").val();
-        obj.CreateTime = $("#CreateTime").val();
+        obj.CreateTime = new Date( $("#CreateTime").val());
        
         if (obj.CreateTime == "") {
             alert("开始时间不能为空");
             return;
         }
-        obj.EndTime = $("#EndTime").val();
+        obj.EndTime = new Date( $("#EndTime").val());
         if (obj.EndTime == "") {
             alert("结束时间不能为空");
             return;
@@ -148,7 +148,7 @@
             alert("加价幅度不能为空");
             return;
         }
-         obj.DefTime = $("#DefTime").val();
+         obj.DefTime = new Date( $("#DefTime").val());
         obj.ResMoney = parseFloat($("#ResMoney").val());
         if (obj.ResMoney == "") {
             alert("加价幅度不能为空");

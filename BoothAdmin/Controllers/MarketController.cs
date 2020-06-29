@@ -171,7 +171,7 @@ namespace BoothAdmin.Controllers
             m.Id = Guid.NewGuid();
             m.CreateTime = DateTime.Now;
             m.UpdateTime = DateTime.Now;
-            m.LessId =new Guid("660dc4a7-f34d-4176-b5b1-0334ccca9224");
+            m.LessId =new Guid("2704a5d9-5c2d-4ead-a25d-b8d8d135466c");
          
             m.IsEnable = "1";
             string stu = JsonConvert.SerializeObject(m);
