@@ -131,9 +131,10 @@
         $.get('http://localhost:52229/api/rent/getorder?orderno=' + orderno + '&paystate=' + paystate + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
             total = res.count;
             pages = Math.ceil(total / pagesize);
+            console.log(res);
             $("#dt").empty();
             var html = "";
-            $.each(res.members, function (i, v) {
+            $.each(res.orderList, function (i, v) {
                 html += "<tr>";
                 html += "<td>" + v.orderNo + "</td>";/*isEnable*/
                 html += "<td>" + v.booNo + "</td>";
