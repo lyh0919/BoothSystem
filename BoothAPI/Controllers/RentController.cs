@@ -23,44 +23,6 @@ namespace BoothAPI.Controllers
         }
 
         //显示
-        [HttpGet]
-        public List<OrderPage> GetAdmin(string orderno, string stateid, int pageindex, int pagesize = 2)
-        {
-            int count = 0;
-            List<OrderInfo> orderlist = new List<OrderInfo>();
-            if (orderno == null)
-            {
-                orderno = "";
-            }
-
-            if (stateid != "undefined")//判断是否有效
-            {
-                orderlist = _rent.RentShow(u => u.OrderNo.Contains(orderno) & u.PayState == stateid, u => u.OrderNo, pageindex, pagesize, out count);
-
-            }
-            else
-            {
-                orderlist = _rent.RentShow(u => u.OrderNo.Contains(""), u => u.OrderNo, pageindex, pagesize, out count);
-            }
-
-            //成员显示
-            var list = from s in orderlist
-                       join d in _market.ShowMarket() on s.DeptId equals d.Id
-                       select new Member()
-                       {
-                           Id = s.Id,
-                           AccNum = s.AccNum,
-                           AccName = s.AccName,
-                           AccPass = s.AccPass,
-                           AccPhone = s.AccPhone,
-                           DeptName = d.DeptName,
-                           CreateTime = s.CreateTime,
-                           UpdateTime = s.UpdateTime,
-                           IsEnable = s.IsEnable
-                       };
-            OrderPage memPage = new OrderPage { Members = list.ToList(), Count = count };
-
-            return memPage;
-        }
+        
     }
 }
