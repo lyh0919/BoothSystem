@@ -8,19 +8,7 @@ namespace BoothAdmin.Controllers
 {
     public class RentController : Controller
     {
-        public IActionResult ConTastShow()
-        {
-            return View();
-        }
-        public IActionResult InsertRent()
-        {
-            return View();
-        }
-        public IActionResult RentShow()
-        {
-            return View();
-        }
-        public IActionResult Update()
+        public IActionResult Index()
         {
             return View();
         }
