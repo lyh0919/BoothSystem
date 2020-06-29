@@ -1,6 +1,7 @@
 ﻿using BoothModel.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace IBoothService
@@ -11,9 +12,8 @@ namespace IBoothService
    public interface IRent
     {
         //竞拍订单显示
-        List<OrderInfo> RentShow();
-        //修改
-        int Update(OrderInfo id);
+        List<OrderInfo> RentShow(Expression<Func<OrderInfo, bool>> where, Expression<Func<OrderInfo, string>> order, int pageIndex, int pageSize, out int count);
+
         //添加
         int InsertRent(OrderInfo model);
         //合同显示

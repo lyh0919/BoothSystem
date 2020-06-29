@@ -4,6 +4,7 @@ using IBoothService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace BoothService
@@ -31,17 +32,12 @@ namespace BoothService
 
         }
         //显示
-        public List<OrderInfo> RentShow()
+        public List<OrderInfo> RentShow(Expression<Func<OrderInfo, bool>> where, Expression<Func<OrderInfo, string>> order, int pageIndex, int pageSize, out int count)
         {
             var rent = this.CreateService<OrderInfo>();
-            return rent.GetAll().ToList();
+            return rent.Where(where,order,pageIndex,pageSize,out count).ToList();
         }
-        //修改
-        public int Update(OrderInfo id)
-        {
-            var rent = this.CreateService<OrderInfo>();
-            return rent.Update(id);
-        }
+
 
       
     }
