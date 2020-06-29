@@ -64,5 +64,11 @@ namespace BoothAPI.Controllers
             return orderPages;
 
         }
+
+        public List<ConTastInfo> ShowContastInfo()
+        {
+            List<ConTastInfo> list = _rent.ShowContastInfo();
+            return list;
+        }
     }
 }

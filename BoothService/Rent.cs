@@ -21,9 +21,13 @@ namespace BoothService
             var server = this.CreateService<OrderInfo>();
             return server.Where(where, order, pageIndex, pageSize, out count).ToList();
 
-
-
         }
 
+        //实现合同
+        public List<ConTastInfo> ShowContastInfo()
+        {
+            var server = this.CreateService<ConTastInfo>();
+            return server.GetAll().ToList();
+        }
     }
 }

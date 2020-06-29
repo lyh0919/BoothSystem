@@ -1,26 +1,25 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
-    Layout = null;
+    ViewData["Title"] = "OrderActionList";
 }
 
-<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+<h1>OrderActionList</h1>
+
+
 <form class="layui-form">
-
-
     <div class="layui-card">
         <div class="layui-card-header">
             <h1>订单管理</h1>
         </div>
         <div class="layui-card-body">
             <blockquote class="layui-elem-quote role_search">
-                
+
                 <div class="layui-inline">
                     <div class="layui-input-inline">
                         <input id="orderno" type="text" value="" placeholder="请输入订单号" class="layui-input search_input">
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">支付状态</label>
+                        <label class="layui-form-label">付款状态</label>
                         <div class="layui-input-inline">
                             <select name="paystate" id="paystate" lay-verify="required" lay-search="">
                                 <option value="">请选择</option>
@@ -34,7 +33,6 @@
             </blockquote>
         </div>
     </div>
-
     <div>
         <table class="layui-table" style="width:90%;margin: 0 auto">
             <thead>
@@ -53,7 +51,7 @@
             </tbody>
 
         </table>
-        <a href="#" onclick="Del()"></a>
+        
     </div>
     <div id="demo" style="text-align:center">
         <button type="button" id="prev" onclick="Prev()" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">上一页</i></button>
@@ -142,7 +140,7 @@
                 html += "<td>" + dateFormat(v.zCreateTime) +"至"+ dateFormat(v.zEndTime) + "</td>";
                 html += "<td>" + dateFormat(v.createTime) + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "已支付" : "未支付") + "</td>";
-                html += '<td><a href="#" onclick=Upt("' + v.id + '")>查看&nbsp;<a href="#" onclick=Del("' + v.id + '")>合同</td>';//onclick="Del('')
+            
                 html += "</tr>";
             });
             $("#dt").append(html);
