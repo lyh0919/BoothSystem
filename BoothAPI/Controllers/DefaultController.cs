@@ -24,20 +24,21 @@ namespace BoothAPI.Controllers
         public int UserCount(string datetime)
         {
             int flag = 0;
-            if (datetime == null)
+            
+            if (datetime == null)//全部
             {
                 datetime = "";
                 flag = _show.UserCount(b => b.UserState.Contains(datetime));
             }
-            else if (datetime=="本月")
+            else if (datetime=="本月")//本月
             {
                 flag = _show.UserCount(b => b.CreateTime.Month.Equals(DateTime.Now.Month) & b.CreateTime.Year.Equals(DateTime.Now.Year));
             }
-            else if(datetime=="今天")
+            else if(datetime=="今天")//今天
             {
                 flag = _show.UserCount(b => b.CreateTime.Day==DateTime.Now.Day);
             }
-            else
+            else//昨天
             {
                 flag = _show.UserCount(b => b.CreateTime.Day == (DateTime.Now.Day)-1);
             }
