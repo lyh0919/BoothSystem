@@ -18,7 +18,16 @@ namespace IBoothService
         int DelWx(Guid ids);
         //查询所有省份
         List<City> GetSheng(Expression<Func<City, bool>> where);
-      //编辑微信会员信息
+
+        ////查询所有市
+        //List<City> GetShi(Expression<Func<City, bool>> where);
+
+
+
+
+
+
+        //编辑微信会员信息
         int UpdateWx(MemberInfoo m);
         //根据id查询
         MemberInfoo Uptwx(Expression<Func<MemberInfoo, bool>> where);
