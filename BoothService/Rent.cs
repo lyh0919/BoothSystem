@@ -21,8 +21,6 @@ namespace BoothService
             var server = this.CreateService<OrderInfo>();
             return server.Where(where, order, pageIndex, pageSize, out count).ToList();
 
-
-
         }
 
 
