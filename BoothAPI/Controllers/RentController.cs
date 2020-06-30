@@ -50,6 +50,7 @@ namespace BoothAPI.Controllers
                        join m in _market.ShowMarket() on b.MarkId equals m.Id
                        select new OrderPage()
                        {
+                           Id = s.Id,
                            OrderNo = s.OrderNo,
                            BooNo = b.BooNo,
                            MarkName = m.MarkName,
@@ -82,6 +83,7 @@ namespace BoothAPI.Controllers
                        where s.OrderNo.Equals(orderno)
                        select new OrderPage()
                        {
+                           
                            OrderNo = s.OrderNo,
                            BooNo = b.BooNo,
                            MarkName = m.MarkName,
@@ -95,6 +97,11 @@ namespace BoothAPI.Controllers
 
             return list.FirstOrDefault();
 
+        }
+
+        public ConTastInfo ShowContastInfo(Guid orderid)
+        {
+            return _rent.GetContastOne(o => o.Oid == orderid);
         }
     }
 }

@@ -143,7 +143,7 @@
                 html += "<td>" + dateFormat(v.zCreateTime) +"至"+ dateFormat(v.zEndTime) + "</td>";
                 html += "<td>" + dateFormat(v.createTime) + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "已支付" : "未支付") + "</td>";
-                html += "<td><a href='/Rent/OrderDesc?orderid=" + v.orderNo + "' >查看</a>&nbsp;<a href='/Rent/PowerIndex?rolename=" + v.roleName + "&id=" + v.id + "' >合同</a></td>";
+                html += "<td><a href='/Rent/OrderDesc?orderid=" + v.orderNo + "' >查看</a>&nbsp;<a href='/Rent/ContractsManager?orderid=" + v.id + "' >合同</a></td>";
                 html += "</tr>";
             });
             $("#dt").append(html);

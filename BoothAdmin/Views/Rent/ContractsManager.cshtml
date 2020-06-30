@@ -1,35 +1,52 @@
 ﻿
 @{
     ViewData["Title"] = "ContractsManager";
+    Layout = null;
 }
 
-<h1>ContractsManager</h1>
-<form>
-    <div style="float:right;padding-top:40px">
+    <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+    <form>
+        <div class="layui-card">
+            <div class="layui-card-header">
 
-        <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
-            <i class="layui-icon">&#xe654;</i>上传合同
-        </button>
-    </div>
-    <div class="layui-form">
-        <table class="layui-table" style="width:90%;margin: 0 auto">
-            <thead>
-                <tr>
-                    <th>合同编号</th>
-                    <th>上传时间</th>
-                    <th>操作</th>
+            </div>
+            <div class="layui-card-body">
+                <blockquote class="layui-elem-quote role_search">
+                    <div class="layui-inline">
+                        <h1>合同管理</h1>
+                    </div>
+                    <div style="float:right">
 
-                </tr>
-            </thead>
-            <tbody id="dt">
-            </tbody>
+                        <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
+                            <i class="layui-icon">&#xe654;</i>上传合同
+                        </button>
+                    </div>
+                    <div style="float:right">
+                        <button type="button" class="layui-btn layui-btn-normal" onclick="Back()">返回</button>
+                    </div>
+                </blockquote>
+            </div>
+        </div>
 
-        </table>
+        <div class="layui-form">
+            <table class="layui-table" style="width:90%;margin: 0 auto">
+                <thead>
+                    <tr>
+                        <th>合同编号</th>
+                        <th>上传时间</th>
+                        <th>操作</th>
 
-    </div>
+                    </tr>
+                </thead>
+                <tbody id="dt">
+                </tbody>
+
+            </table>
+
+        </div>
 
 
-</form>
+    </form>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
@@ -43,27 +60,28 @@
     //页面加载
     $(function () {
 
-       
-        OrderShow();
+        var orderid = window.location.search.split('?')[1].split('=')[1];
+        OrderShow(orderid)
+
 
     });
 
   
 
     //显示
-    function OrderShow() {
-        $.get('http://localhost:52229/api/rent/ShowContastInfo', function (res) {
+    function OrderShow(orderid) {
+        $.get('http://localhost:52229/api/rent/ShowContastInfo?orderid=' + orderid, function (res) {
            
             $("#dt").empty();
             var html = "";
-            $.each(res.members, function (i, v) {
-                html += "<tr>";
-                html += "<td>" + v.conNo + "</td>";               
+
+            html += "<tr>";
+            html += "<td>" + res.conNo + "</td>";               
                
-                html += "<td>" + dateFormat(v.createTime) + "</td>"; 
-                html += "<td><a href='#'>下载合同</a></td>";
-                html += "</tr>";
-            });
+            html += "<td>" + dateFormat(res.createTime) + "</td>"; 
+            html += "<td><a href='#'>下载合同</a></td>";
+            html += "</tr>";
+
             $("#dt").append(html);
            
         });
@@ -75,6 +93,10 @@
             date.getDate() + " " + date.getHours() + ":" +
             date.getMinutes() + ":" + date.getSeconds();
         return datestr;
+    }
+
+    function Back() {
+        window.history.back(-1); //返回上一页
     }
 
 </script>

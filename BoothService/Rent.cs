@@ -36,5 +36,15 @@ namespace BoothService
 
         }
 
+        //合同
+        public ConTastInfo GetContastOne(Expression<Func<ConTastInfo, bool>> where)
+        {
+            var server = this.CreateService<ConTastInfo>();
+            return server.FirstOrDefault(where);
+
+
+
+        }
+
     }
 }
