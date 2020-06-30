@@ -25,5 +25,16 @@ namespace BoothService
 
         }
 
+
+        //显示一条
+        public List<OrderInfo> GetOrderAll()
+        {
+            var server = this.CreateService<OrderInfo>();
+            return server.GetAll().ToList();
+
+
+
+        }
+
     }
 }

@@ -12,5 +12,9 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
+        public IActionResult OrderDesc()
+        {
+            return View();
+        }
     }
 }

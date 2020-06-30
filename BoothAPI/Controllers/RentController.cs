@@ -64,5 +64,37 @@ namespace BoothAPI.Controllers
             return orderPages;
 
         }
+
+        //显示
+        public OrderPage GetOrderOne(string orderno)
+        {
+            List<OrderInfo> orderlist = new List<OrderInfo>();
+
+
+            orderlist = _rent.GetOrderAll();
+
+
+
+            var list = from s in orderlist
+                       join a in _boothManager.ShowBooAucalInfo() on s.BooAucaId equals a.Id
+                       join b in _boothManager.ShowBoo() on a.BooId equals b.Id
+                       join m in _market.ShowMarket() on b.MarkId equals m.Id
+                       where s.OrderNo.Equals(orderno)
+                       select new OrderPage()
+                       {
+                           OrderNo = s.OrderNo,
+                           BooNo = b.BooNo,
+                           MarkName = m.MarkName,
+                           RenPrice = s.RenPrice,
+                           CashMoney = s.CashMoney,
+                           PayState = s.PayState,
+                           CreateTime = b.CreateTime,
+                           ZCreateTime = a.CreateTime,
+                           ZEndTime = a.EndTime
+                       };
+
+            return list.FirstOrDefault();
+
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace IBoothService
     {
         //显示
         List<OrderInfo> GetOrder(Expression<Func<OrderInfo, bool>> @where, Expression<Func<OrderInfo, string>> order, int pageIndex, int pageSize, out int count);
+        //显示一条
+        List<OrderInfo> GetOrderAll();
     }
 }

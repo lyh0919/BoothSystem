@@ -14,10 +14,6 @@
     <ProjectReference Include="..\IBoothService\IBoothService.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Rent\" />
-  </ItemGroup>
-
 
 
 </Project>
