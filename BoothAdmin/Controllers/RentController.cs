@@ -16,5 +16,9 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
+        public IActionResult ContractsManager()
+        {
+            return View();
+        }
     }
 }
