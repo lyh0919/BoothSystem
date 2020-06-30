@@ -12,18 +12,13 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
-
-        //竞拍订单列表
-        public IActionResult OrderActionList()
+        public IActionResult OrderDesc()
         {
             return View();
         }
-
         public IActionResult ContractsManager()
         {
             return View();
         }
-
-
     }
 }

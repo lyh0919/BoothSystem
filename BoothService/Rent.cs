@@ -23,11 +23,26 @@ namespace BoothService
 
         }
 
-        //实现合同
-        public List<ConTastInfo> ShowContastInfo(Expression<Func<ConTastInfo, bool>> id)
+
+        //显示一条
+        public List<OrderInfo> GetOrderAll()
+        {
+            var server = this.CreateService<OrderInfo>();
+            return server.GetAll().ToList();
+
+
+
+        }
+
+        //合同
+        public ConTastInfo GetContastOne(Expression<Func<ConTastInfo, bool>> where)
         {
             var server = this.CreateService<ConTastInfo>();
-            return server.Where(id).ToList();
+            return server.FirstOrDefault(where);
+
+
+
         }
+
     }
 }
