@@ -38,7 +38,7 @@
     </div>
 
     <div>
-        <table class="layui-table">
+        <table class="layui-table" style="width:90%;margin: 0 auto">
             <thead>
                 <tr>
                     <th>账号</th>
@@ -59,6 +59,7 @@
     </div>
     <div id="demo" style="text-align:center">
         <button type="button" id="prev" onclick="Prev()"  class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">上一页</i></button>
+        <label id="page"></label>
         <button type="button" id="next" onclick="Next()" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">下一页</i></button>
     </div>
 
@@ -79,7 +80,10 @@
         if (pageindex == 1) {
             $('#prev').attr("disabled", true);
         }
+        accname = $("#accname").val();
+        deptid = $('select[name="dept"] option:selected').val();
         AdminShow(pageindex);
+        
     });
 
     var accname = $("#accname").val();
@@ -90,7 +94,7 @@
     var pageindex = 1;// 页码
     var pagesize = 2;  //每页数据
     var total = 0;//总数据
-    var pages = Math.ceil(total / pagesize); //得到总页数
+    var pages = 0; //得到总页数
     //上一页
     function Prev() {
         
@@ -102,29 +106,33 @@
             pageindex = pageindex - 1;
             AdminShow(pageindex);
         }
+
     }
     //下一页
     function Next() {
         
         $('#prev').attr("disabled", false);
-        if (pageindex == pages) {
+        if (pageindex >= pages) {
             $('#next').attr("disabled", true);
         }
         else {
             pageindex = pageindex + 1;
             AdminShow(pageindex);
         }
+
     }
     function searchData() {
         accname = $("#accname").val();
+        accname = decodeURI(accname);
         deptid = $('select[name="dept"] option:selected').val();
-        AdminShow();
+        AdminShow(1);
     }
 
     //显示
     function AdminShow(pageindex) {
         $.get('http://localhost:52229/api/rbac/getadmin?accName=' + accname + '&deptId=' + deptid + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
             total = res.count;
+            pages = Math.ceil(total / pagesize);
             $("#dt").empty();
             var html = "";
             $.each(res.members, function (i, v) {
@@ -133,21 +141,33 @@
                 html += "<td>" + v.accName + "</td>";
                 html += "<td>" + v.accPhone + "</td>";
                 html += "<td>" + v.deptName + "</td>";
-                html += "<td>" + v.createTime + "</td>";
-                html += "<td>" + v.updateTime + "</td>";
+                html += "<td>" + dateFormat(v.createTime) + "</td>";
+                html += "<td>" + dateFormat(v.updateTime) + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
                 html += '<td><a href="#" onclick=Upt("' + v.id + '")>编辑&nbsp;<a href="#" onclick=Del("' + v.id + '")>删除</td>';//onclick="Del('')
                 html += "</tr>";
             });
             $("#dt").append(html);
+            $("#page").html("当前" + pageindex + "页/共" + pages + "页");
         });
+    }
+    //时间转换
+    function dateFormat(datestr) {
+        var date = new Date(datestr);
+        var datestr = date.getFullYear() + "-" + (date.getMonth()+1) + "-" +
+            date.getDate() + " " + date.getHours() + ":" +
+            date.getMinutes() + ":" + date.getSeconds();
+        return datestr;
     }
     //下拉框部门
     function GetDept() {
         $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+
             $("#deptid").empty();
-            var html = "";
+            var html = ""; 
+            html += '<option value="undefined">请选择</option>';
             $.each(res, function (i, v) {
+                
                 html += '<option value="' + v.id + '">' + v.deptName + '</option>';
 
             });
@@ -393,7 +413,11 @@
                         $("#roleid option[value='" + res.roleId + "']").attr("selected", true);
                         $("input[name='isenable']:checked").val();
                         $("input:radio[name='isenable'][value=" + res.isEnable + "]").attr('checked', 'true');
-                        
+                        //对表单重新渲染  复选框、下拉框等
+                        layui.use('form', function () {
+                            var form = layui.form;
+                            form.render();
+                        });
                     });
                 }
                 , yes: function () {  //添加按钮

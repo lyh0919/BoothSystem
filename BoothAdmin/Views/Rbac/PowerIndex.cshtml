@@ -19,7 +19,9 @@
                 <label id="role"></label>
                 <input type="hidden" id="roleid" />
             </div>
-
+            <div style="float:right">
+                <button type="button" class="layui-btn layui-btn-normal" onclick="Back()">返回</button>
+            </div>
         </blockquote>
     </div>
 </div>
@@ -116,6 +118,10 @@
             alert("请选择权限");
         }
         
+    }
+
+    function Back() {
+        window.history.back(-1); //返回上一页
     }
 
 </script>

@@ -12,5 +12,17 @@ namespace BoothAdmin.Controllers
         {
             return View();
         }
+        public IActionResult Login()
+        {
+            return View();
+        }
+        public IActionResult Set()
+        {
+            return View();
+        }
+        public IActionResult HomePage()
+        {
+            return View();
+        }
     }
 }

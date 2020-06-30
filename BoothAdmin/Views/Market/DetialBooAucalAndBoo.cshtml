@@ -23,7 +23,7 @@
 <body>
     <div style="float: left;padding-top:10px">
         <div class="layui-inline">
-            <div style="float:left"><input class="layui-input" type="text" placeholder="请输入市场名称" id="txt_Name" style="width: 300px;height: 30px;border: aliceblue;" autocomplete="off" /></div>
+            <div style="float:left"><input class="layui-input" type="text" placeholder="请输入用户名称" id="txt_Name" style="width: 300px;height: 30px;border: aliceblue;" autocomplete="off" /></div>
             <div style="float:left">             
                 <button type="button" data-type="reload" class="layui-btn layui-btn-sm  layui-btn-normal"  onclick="Search()"> <i class="layui-icon">&#xe615;</i>查询</button>
             </div>
@@ -32,8 +32,9 @@
     <div style="padding-top:100px">
         @*class="lay-filter=" component-form-element"*@
         @*表格数据显示*@
-        <table id="demo" class="layui-table" style=""></table>
-
+        <div style="padding-left:20px">
+            <table id="demo" class="layui-table" style=""></table>
+        </div>
         <script src="~/layuiadmin/layui/layui.js"></script>
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
@@ -43,14 +44,15 @@
 </html>
 
 <script>
-    var id = window.location.search.split("?")[1].split("=")[1]
+
+    var id = window.location.search.split("?")[1].split("=")[1];
     $(function () {
 
         Show();
       
     });
     function Show() {
-
+    
         $.get('http://localhost:52229/api/Market/ShowOrder?id=' + id, function (res) {
             var str = "";
             $.each(res, function (i, n) {
@@ -82,8 +84,20 @@
             dataType: "json",
             type: "get",
             contentType:"application/json",
-            success: function () {
-                Show();
+            success: function (res) {
+                var str = "";
+            $.each(res, function (i, n) {
+                str += "<tr>";
+                str += "<td> " + n.createTime + "</td>";
+                
+                str += "<td> " + n.FinishPirce + "</td>";
+                str += "<td>￥ " + n.UserName + "</td>";
+               str += "<td> " + n.CashMoneyState == "1" ? "已退还" : "未退还" + "</td>";
+                //str += "<td> " + n.OrderState == "1" ? "已支付" : "待支付" + "</td>";
+                        
+            });
+            $("#demo").empty();
+            $("#demo").append(str);
             }
         })
     }

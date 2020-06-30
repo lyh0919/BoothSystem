@@ -14,7 +14,7 @@ namespace IBoothService
 
         int DelMarket(object id);
 
-        int UptMarket(MarketInfo model);
+        int UptMarket(MarketInfo model,string[] propertyNames);
 
         //    List<MarketInfo> ShowDetial(object id);
 

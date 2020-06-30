@@ -76,7 +76,7 @@ namespace BoothDataAccess
         }
 
         //批量删除
-        public int Delete(List<T> entitys, bool isSave = true)
+        public int Delete(List<T> entitys,bool isSave = true)
         {
             int flag = 0;
             this._dbSet.RemoveRange(entitys);
@@ -265,7 +265,7 @@ namespace BoothDataAccess
         /// <returns></returns>
         public IQueryable<T> Where<TOrder>(Expression<Func<T, bool>> @where, Expression<Func<T, TOrder>> order, int pageIndex, int pageSize, out int count, bool isDesc = false)
         {
-            count = Count();
+            count = Count(where);
             if (isDesc)
             {
                 return this._dbSet.Where(@where).OrderByDescending(order).Skip((pageIndex - 1) * pageSize).Take(pageSize);

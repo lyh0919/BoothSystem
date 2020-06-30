@@ -39,10 +39,10 @@ namespace BoothService
             return server.GetAll().ToList();
         }
 
-        public int UptMarket(MarketInfo model)
+        public int UptMarket(MarketInfo model,string[] propertyNames)
         {
             var server = this.CreateService<MarketInfo>();
-            return server.Update(model);
+            return server.Update(model,propertyNames);
         }
 
 

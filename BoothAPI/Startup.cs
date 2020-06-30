@@ -31,7 +31,7 @@ namespace BoothAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
+            //数据库连接
             services.AddDbContext<BoothManageContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("BoothConnection")));
 
@@ -40,8 +40,8 @@ namespace BoothAPI
             services.AddScoped<IShow, Show>();
             services.AddScoped<IRbac, Rbac>();
             services.AddScoped<IMarketBll, MarketBll>();
-            //services.AddScoped<IRent, Rent>();
-           // services.AddScoped<ICity, CityBll>();
+            services.AddScoped<IRent, Rent>();
+            services.AddScoped<ICity, CityBll>();
             services.AddScoped<IBoothManager, BoothManager>();
  
 
@@ -76,6 +76,7 @@ namespace BoothAPI
 
             app.UseAuthorization();
             app.UseCors("getd");
+            app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

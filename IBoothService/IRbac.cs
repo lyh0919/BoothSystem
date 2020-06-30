@@ -27,13 +27,14 @@ namespace IBoothService
 
         int DelRole(object id);
 
-        int UptRole(RbacRoleInfo role);
+        int UptRole(RbacRoleInfo role, params string[] propertyNames);
 
         RbacRoleInfo GetRoleOne(Expression<Func<RbacRoleInfo, bool>> where);
 
         //权限反填
         List<RbacPower> GetPower();
-
+        //批量删除权限
+        int DelRolePower(List<RbacPowerAndRole> entitys);
         //设置权限
         int AddRolePow(List<RbacPowerAndRole> raps);
 
@@ -42,17 +43,31 @@ namespace IBoothService
 
 
         //成员
-        List<RbacAdmin> GetAdmin(Func<RbacAdmin, bool> @where, Func<RbacAdmin, DateTime> order, int pageIndex, int pageSize, out int count);
+        List<RbacAdmin> GetAdmin(Expression<Func<RbacAdmin, bool>> @where, Expression<Func<RbacAdmin, string>> order, int pageIndex, int pageSize, out int count);
+        //全部
+        List<RbacAdmin> GetAdminAll();
+        //查询条数
+        int GetAdminCount(Expression<Func<RbacAdmin, bool>> where);
 
         int AddAdmin(RbacAdmin role);
 
         int DelAdmin(object id);
 
-        int UptAdmin(RbacAdmin role);
+        int UptAdmin(RbacAdmin admin, params string[] propertyNames);
 
         RbacAdmin GetAdminOne(Expression<Func<RbacAdmin, bool>> where);
 
 
         List<City> GetCity(Expression<Func<City, bool>> where);
+
+        //操作日志
+        List<RecordInfo> GetRecord(Expression<Func<RecordInfo, bool>> @where, Expression<Func<RecordInfo, DateTime>> order, int pageIndex, int pageSize, out int count);
+
+        RecordInfo GetRecordeOne(Expression<Func<RecordInfo, bool>> where);
+
+        int AddRecord(RecordInfo record);
+
+        //批量删除
+        int DelRecord(List<RecordInfo> entitys);
     }
 }

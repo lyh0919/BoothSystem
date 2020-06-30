@@ -43,10 +43,11 @@ namespace BoothAPI.Controllers
         //修改某一条数据
         public int UpdateMarket(MarketInfo model)
         {
-            model.UpdateTime = DateTime.Now;
-            model.CreateTime = DateTime.Now;
-
-            return _marketBll.UptMarket(model);
+            model.UpdateTime = DateTime.Now;           
+            string[] propertyNames = new string[] { };
+            propertyNames = ReflectHelper.GetProperties(model);
+            return _marketBll.UptMarket(model, propertyNames);
+          
         }
 
 
@@ -59,7 +60,7 @@ namespace BoothAPI.Controllers
         }
 
         /// <summary>
-        ///显示详情数据
+        ///显示详情数据 编辑反填数据
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -79,14 +80,25 @@ namespace BoothAPI.Controllers
             }
             else
             {
-                list = _marketBll.SearchMarket(s => s.MarkName.Contains(name) & s.IsEnable.Equals(isable));
+                if (name !=null || isable=="")
+                {
+                    list = _marketBll.SearchMarket(s => s.MarkName.Contains(name));
+                }
+                else if (isable != null || name == "")
+                {
+                    list = _marketBll.SearchMarket(s => s.IsEnable.Equals(isable));
+                }
+                else
+                {
+                    list = _marketBll.SearchMarket(s => s.MarkName.Contains(name) && s.IsEnable.Equals(isable));
+                }
             }
 
             return list;
         }
 
 
-
+        //三级联动调用此方法
         public List<City> GetCity(int id)
         {
             return _marketBll.GetCity(c => c.PId == id);
@@ -127,7 +139,7 @@ namespace BoothAPI.Controllers
         }
 
 
-        //显示所有数据
+        //显示所有数据  三表联查 摊位表 市场表 用户列表
         public List<BooAndMarket> ShowBooth()
         {
             List<BooInfo> list = _boothManager.ShowBoo();
@@ -138,6 +150,7 @@ namespace BoothAPI.Controllers
                          select new BooAndMarket
                          {
                              Id=s.Id,
+                             MarkId=a.Id,
                              CreateTime=s.CreateTime,
                              BooTitle = s.BooTitle,
                              BooNo = s.BooNo,
@@ -152,7 +165,7 @@ namespace BoothAPI.Controllers
         }
 
         /// <summary>
-        ///显示详情数据
+        ///显示详情数据  编辑反填数据
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -165,28 +178,72 @@ namespace BoothAPI.Controllers
 
 
 
-        //调用的查询方法
-        public List<BooInfo> SearchBooInfo(string name)
+        //地摊查询
+        public List<BooAndMarket> SearchBooInfo(string name,string isable,string marketid)
         {
-            List<BooInfo> list = _boothManager.SearchBoo(s => s.BooTitle.Contains(name));
+            List<BooAndMarket> list = ShowBooth();
+            if (name != null && isable != null && marketid != null)
+            {
+                list = list.Where(s => s.BooTitle.Contains(name) && s.IsEnable.Equals(isable) && s.MarkId.Equals(marketid)).ToList();
+            }
+           if(name =="")
+            {
+                if (isable=="" ||marketid=="")
+                {
+                    list.Where(s => s.IsEnable.Equals(isable) || s.MarkId.Equals(marketid)).ToList();
+                }
+                else
+                {
+                    list.Where(s => s.IsEnable.Equals(isable) && s.MarkId.Equals(marketid)).ToList();
+                }
+            }
+           if(isable=="")
+            {
+                if (name==""||marketid=="")
+                {
+                    list.Where(s => s.BooTitle.Contains(name) || s.MarkId.Equals(marketid)).ToList();
+                }
+                else
+                {
+                    list.Where(s => s.BooTitle.Contains(name) && s.MarkId.Equals(marketid)).ToList();
+                }
+                
+            }
+            if (marketid=="")
+            {
+                if (name == "" || isable == "")
+                {
+                    list.Where(s => s.BooTitle.Contains(name) || s.IsEnable.Equals(isable)).ToList();
+                }
+                else
+                {
+                    list.Where(s => s.BooTitle.Contains(name) || s.IsEnable.Equals(isable)).ToList();
+                }
+               
+            }
+           
             return list;
         }
         //调用了查询详情的方法
+
+
+        #endregion
+        #region  出租明细历史   DetialBoothAndUser
+            //显示详情
+        public List<BooAndMarket> ShowDetialBoothAndUser(Guid id)
+        {
+            List<BooAndMarket> list = ShowBooth();
+            list = list.Where(s => s.Id.Equals(id)).ToList();
+            return list;
+        }
+
+        //查询
         public List<BooAndMarket> DetialBooAndMarket(string name)
         {
             List<BooAndMarket> list = ShowBooth();
             list.Where(s => s.MarkName.Contains(name) || s.MarkPhone.Equals(name));
             return list;
 
-        }
-
-        #endregion
-        #region  出租明细历史
-        public List<BooAndMarket> ShowDetialBoothAndUser(Guid id)
-        {
-            List<BooAndMarket> list = ShowBooth();
-            list = list.Where(s => s.Id.Equals(id)).ToList();
-            return list;
         }
         #endregion
 
@@ -205,14 +262,14 @@ namespace BoothAPI.Controllers
         public int AddBooAcucal(BooAucalnfo model)
         {
             model.Id = Guid.NewGuid();
-            model.WinnerUser = "660dc4a7-f34d-4176-b5b1-0334ccca9224";
+            model.WinnerUser = "4af377cc-5f26-48cd-b3f6-4ed7950ba26b";
             model.FinishPrice = 4000;
             model.OrderState = "1";
             model.CashMoneyState = "1";
             model.BooAucaState = "1";
             return _boothManager.AddBooAucalInfo(model);
         }
-
+        //修改
         public int UpdateBooAucal(BooAucalnfo model)
         {
          
@@ -227,6 +284,7 @@ namespace BoothAPI.Controllers
             return _boothManager.DelBooAucalInfo(id);
         }
 
+        //三表联查 摊位表 市场表 摊位竞拍
         public List<BooAucalInfoAndUser> ShowAll()
         {
             List<BooAucalnfo> list = _boothManager.ShowBooAucalInfo();
@@ -249,12 +307,14 @@ namespace BoothAPI.Controllers
                          }).ToList();
             return lists;
         }
+        //显示摊位表 为了三表联查
         public List<BooInfo> ShowBooInfo()
         {
             List<BooInfo> list = _boothManager.ShowBoo();
             return list;
         }
 
+        //编辑反填数据
         public List<BooAucalnfo> ShowDetialOne(Guid id)
         {
             List<BooAucalnfo> list = _boothManager.SearchBooAucalId(s => s.Id.Equals(id));
@@ -263,19 +323,20 @@ namespace BoothAPI.Controllers
                          {
                              Id = s.Id,
                              BooId = s.BooId,
-                             CreateTime = Convert.ToDateTime(string.Format("{0:yyyy/MM/dd}", s.CreateTime.ToString())),
-                             EndTime = Convert.ToDateTime(string.Format("{0:yyyy/MM/dd}", s.EndTime.ToString())),
+                             CreateTime = Convert.ToDateTime(string.Format("{0:yyyy/MM/dd}", s.CreateTime)),
+                             EndTime = Convert.ToDateTime(string.Format("{0:yyyy/MM/dd}", s.EndTime)),
                              CashMoney = s.CashMoney,
                              MarkUpMoney = s.MarkUpMoney,
                              StartMoney = s.StartMoney,
                              ResMoney = s.ResMoney,
-                             DefTime = Convert.ToDateTime(string.Format("{0:yyyy/MM/dd}", s.DefTime.ToString()))
+                             DefTime = Convert.ToDateTime(string.Format("{0:yyyy/MM/dd}", s.DefTime))
                          }).ToList();
 
             return lists;
         }
 
-        public List<BooAucalnfo> SearchBooAucal(string name, string isable, string markid)
+        //查询数据
+        public List<BooAucalnfo> SearchBooAucal(string name, string isable)
         {
             List<BooAucalnfo> list = null;
             if (name != null)

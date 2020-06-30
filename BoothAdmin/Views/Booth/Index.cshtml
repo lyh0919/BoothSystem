@@ -74,7 +74,7 @@
                     </li>
                     <li class="layui-nav-item" lay-unselect>
                         <a href="javascript:;">
-                            <cite>贤心</cite>
+                            <cite><span id="accname">贤心</span></cite>
                         </a>
                         <dl class="layui-nav-child">
 
@@ -106,10 +106,10 @@
                             </a>
                             <dl class="layui-nav-child">
                                 <dd data-name="console" class="layui-this">
-                                    <a lay-href="">系统首页</a>
+                                    <a lay-href="/Booth/HomePage">系统首页</a>
                                 </dd>
                                 <dd data-name="console">
-                                    <a lay-href="">账户设置</a>
+                                    <a lay-href="/Booth/Set">账户设置</a>
                                 </dd>
                             </dl>
                         </li>
@@ -126,15 +126,15 @@
                                 <dd data-name="button">
                                     <a lay-href="/Market/ShowBooth">摊位管理</a>
                                 </dd>
-                                <dd data-name="button">
+                                @*<dd data-name="button">
                                     <a lay-href="/Market/DetialBoothAndUser">出租明细历史</a>
-                                </dd>
+                                </dd>*@
                                 <dd data-name="button">
                                     <a lay-href="/Market/BooAucalInfoShow">摊位竞拍管理</a>
                                 </dd>
-                                <dd data-name="button">
+                                @*<dd data-name="button">
                                     <a lay-href="/Market/DetialBooAucalAndBoo">竞拍明细</a>
-                                </dd>
+                                </dd>*@
                                 @*<dd data-name="tabs">
            data-name="nav"
         </dd>*@
@@ -151,16 +151,12 @@
 
                             <dl class="layui-nav-child">
                                 <dd>
-                                    <a  lay-href="template/personalpage.html">
+                                    <a lay-href="/Rent/Index">
                                         租赁订单列表
                                     </a>
-                                    <dl class="layui-nav-child">
-                                        <dd><a lay-href="/rent/Update">订单详情</a></dd>
-                                        <dd><a lay-href="/rent/ConTastShow">合同管理</a></dd>
-                                    </dl>
-                                </dd>
 
-                                <dd><a lay-href="/rent/RentShow">竞拍订单列表</a></dd>
+                                </dd>
+                                <dd><a lay-href="/Rent/OrderActionList">竞拍订单列表</a></dd>
 
                             </dl>
                         </li>
@@ -243,7 +239,7 @@
             <div class="layadmin-body-shade" layadmin-event="shade"></div>
         </div>
     </div>
-
+    <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/layuiadmin/layui/layui.js"></script>
     <script>
         layui.config({
@@ -251,6 +247,27 @@
         }).extend({
             index: 'lib/index' //主入口模块
         }).use('index');
+
+        
+        var accname = localStorage["Admin"]
+        $("#accname").html(accname);
+
+        $(function () {
+            var admin = {};
+            admin.Id = localStorage["AdminId"];
+            $.ajax({
+                url: "http://localhost:52229/api/rbac/uptadmin",
+                data: JSON.stringify(admin),
+                dataType: "json",
+                contentType: "application/json",
+                type: "Post",
+                success: function (res) {
+                    if (res > 0) {
+                        alert("欢迎光临");
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>

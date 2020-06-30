@@ -18,14 +18,17 @@
 <body>
     <div style="float: left;padding-top:10px">
         <div class="layui-inline">
-            <div style="float:left"><input class="layui-input" type="text" placeholder="请输入市场名称" id="txt_Name" style="width: 300px;height: 30px;border: aliceblue;" autocomplete="off" /></div>
+            <div style="float:left"><input class="layui-input" type="text" placeholder="请输入摊位名称" id="txt_Name" style="width: 300px;height: 30px;border: aliceblue;" autocomplete="off" /></div>
             <div style="float:left">
+                <select name="MarkId" id="MarkId" style="width: 300px;height: 30px">
+                </select>
                 <select name="conditionSelect" id="conditionSelect" style="width: 300px;height: 30px">
                     <option value="">请选择</option>
                     <option value="1">使用中</option>
                     <option value="0">未使用</option>
                 </select>
-                <button type="button" data-type="reload" class="layui-btn layui-btn-sm  layui-btn-normal" id="reloadBtn"> <i class="layui-icon">&#xe615;</i>查询</button>
+
+                <button type="button" data-type="reload" class="layui-btn layui-btn-sm  layui-btn-normal" id="reloadBtn" onclick="Search()"> <i class="layui-icon">&#xe615;</i>查询</button>
             </div>
         </div>
     </div>
@@ -38,7 +41,10 @@
     <div style="padding-top:100px">
         @*class="lay-filter=" component-form-element"*@
         @*表格数据显示*@
-        <table id="demo" class="layui-table" style=""></table>
+        <div style="padding-left:20px">
+            <table id="demo" class="layui-table" style=""></table>
+        </div>
+       
 
         <script src="~/layuiadmin/layui/layui.js"></script>
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -132,8 +138,8 @@
 
      $(function () {
 
-        Show();
-
+         Show();
+         ShowMarket();
     });
     function Show() {
 
@@ -157,7 +163,22 @@
             $("#demo").append(str);
         })
     }
+    function ShowMarket() {
+        $.get('http://localhost:52229/api/market/ShowMarket', function (res) {
+            $("#MarkId").empty();
+            var html = "";
+            $.each(res, function (i, v) {
+                html += '<option value="' + v.id + '">' + v.markName + '</option>';
 
+            });
+
+            $("#MarkId").append(html);
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render();
+            });
+        });
+    }
     /*  ========== 添加弹出层父页面  button 事件 ==============*/
     function useradd() {
         layui.use('layer', function () {
@@ -175,22 +196,43 @@
             })
         })
     }
+
+    //查询方法
     function Search() {
         var txtName = $("#txt_Name").val();
-        var selectid = document.getElementById("AreaId").value;
+        var selectid = $("#conditionSelect option:selected").val();
+        var Marketid = $("#MarkId option:selected").val();
         if (txtName == null) {
             txtName = "";
         }
         if (selectid == null) {
             selectid == ""
         }
-
+        if (Marketid == null) {
+            Marketid = "";
+        }
         $.ajax({
-            url: "http://localhost:52229/api/market/SearchMarket?name=" + txtName + "&isable=" + selectid,
+            url: "http://localhost:52229/api/market/SearchBooInfo?name=" + txtName + "&isable=" + selectid + "&Marketid=" + Marketid,
             dataType: "json",
             type: "get",
-            success: function () {
-                location.reload();
+            success: function (res) {
+            var str = "";
+            $.each(res, function (i, n) {
+                console.log(n);
+                str += "<tr>";
+                str += "<td>" + n.id + "</td>";
+                str += "<td> " + n.booTitle + "</td>";
+                str += "<td> " + n.booNo + "</td>";
+                str += "<td> " + n.markName + "</td>";
+                str += "<td> "+"￥" + n.booRent + "</td>";
+                str += "<td> " + n.booDead + "个月"+"</td>";
+                str += "<td> " + n.userName + "</td>";
+                str += "<td> " +timeFormatter( n.updateTime) + "</td>";
+                str += "<td> " + n.isEnable == "1" ? "使用中" : "未使用" + "</td>";
+                str += "<td><a href='#' class='layui-btn layui-btn-xs' lay-event='edit' onclick=Edit('" + n.id + "')>编辑</a> <a href='#' class='layui-btn layui-btn-danger layui-btn-xs' lay-event='del'  onclick=Del('" + n.id + "') > 删除</a ><a href='/Market/DetialBoothAndUser?id=" + n.id + "'>明细</a></td>";
+            });
+            $("#demo").empty();
+            $("#demo").append(str);
             }
         })
     }
@@ -212,6 +254,7 @@
         }
     }
 
+    //时间格式转换
        function timeFormatter(value) {
         //parseInt(value.replace("/Date(", "").replace(")/", "").split("+")[0])
         var da = new Date(value);

@@ -4,7 +4,10 @@
     Layout = null;
 }
 
+
 <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+
+
 <div class="layui-card">
     <div class="layui-card-header">
         <h1>部门管理</h1>
@@ -23,11 +26,12 @@
 </div>
 
 <div>
-    <table class="layui-table">
+    <table class="layui-table" style="width:90%;margin: 0 auto">
         <thead>
             <tr>
                 <th>部门名称</th>
                 <th>职能描述</th>
+                <th>成员数量</th>
                 <th>添加时间</th>
                 <th>状态</th>
                 <th>操作</th>
@@ -55,7 +59,8 @@
                 html += "<tr>";
                 html += "<td>" + v.deptName + "</td>";/*isEnable*/
                 html += "<td>" + v.deptDesc + "</td>";
-                html += "<td>" + v.createTime + "</td>";
+                html += "<td>" + v.peopleCount + "</td>";
+                html += "<td>" + dateFormat(v.createTime) + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "启用" : "禁用") + "</td>";
                 html += "<td><a href='#'  onclick=Upt('" + v.id + "')>编辑&nbsp;<a href='#' onclick=Del('" + v.id + "')>删除</td>";
                 html += "</tr>";
@@ -63,7 +68,14 @@
             $("#dt").append(html);
         });
     }
-
+    //时间转换
+    function dateFormat(datestr) {
+        var date = new Date(datestr);
+        var datestr = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" +
+            date.getDate() + " " + date.getHours() + ":" +
+            date.getMinutes() + ":" + date.getSeconds();
+        return datestr;
+    }
     //删除
     function Del(id) {
         if (confirm("确认删除吗")) {
@@ -173,7 +185,7 @@
                     dept.DeptName = $("#deptname").val();
                     dept.DeptDesc = $("#deptdesc").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/uptdept",
+                        url: "http://localhost:52229/api/rbac/uptadmin",
                         data: JSON.stringify(dept),
                         dataType: "json",
                         contentType: "application/json",

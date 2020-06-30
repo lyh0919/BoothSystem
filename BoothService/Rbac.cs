@@ -69,10 +69,10 @@ namespace BoothService
 
         }
         //修改
-        public int UptRole(RbacRoleInfo role)
+        public int UptRole(RbacRoleInfo role, params string[] propertyNames)
         {
             var server = this.CreateService<RbacRoleInfo>();
-            return server.Update(role);
+            return server.Update(role, propertyNames);
         }
         //获取数据反填
         public RbacRoleInfo GetRoleOne(Expression<Func<RbacRoleInfo, bool>> where)
@@ -88,7 +88,12 @@ namespace BoothService
             var server = this.CreateService<RbacPower>();
             return server.GetAll().ToList();
         }
-
+        //批量删除权限
+        public int DelRolePower(List<RbacPowerAndRole> entitys)
+        {
+            var server = this.CreateService<RbacPowerAndRole>();
+            return server.Delete(entitys);
+        }
         //设置权限
         public int AddRolePow(List<RbacPowerAndRole> raps)
         {
@@ -106,20 +111,21 @@ namespace BoothService
 
         #region 成员
         //显示
-        public List<RbacAdmin> GetAdmin(Func<RbacAdmin, bool> @where, Func<RbacAdmin, DateTime> order, int pageIndex, int pageSize, out int count)
+        public List<RbacAdmin> GetAdmin(Expression<Func<RbacAdmin, bool>> where, Expression<Func<RbacAdmin, string>> order, int pageIndex, int pageSize, out int count)
         {
             var server = this.CreateService<RbacAdmin>();
             return server.Where(where,order, pageIndex, pageSize, out count).ToList();
 
 
-            //if (deptId == "")
-            //{
-            //    return (from s in admin where s.AccName.Contains(accName) select s).ToList();
-            //}
-            //else
-            //{
-            //    return (from s in admin where s.AccName.Contains(accName) & s.DeptId.Equals(deptId) select s).ToList();
-            //}
+
+        }
+        //查询条数
+        public int GetAdminCount(Expression<Func<RbacAdmin, bool>> where)
+        {
+            var server = this.CreateService<RbacAdmin>();
+            return server.Count(where);
+
+
 
         }
         //添加
@@ -136,10 +142,10 @@ namespace BoothService
 
         }
         //修改
-        public int UptAdmin(RbacAdmin admin)
+        public int UptAdmin(RbacAdmin admin, params string[] propertyNames)
         {
             var server = this.CreateService<RbacAdmin>();
-            return server.Update(admin);
+            return server.Update(admin, propertyNames);
         }
         //获取数据反填
         public RbacAdmin GetAdminOne(Expression<Func<RbacAdmin, bool>> where)
@@ -158,6 +164,38 @@ namespace BoothService
         {
             var server = this.CreateService<City>();
             return server.Where(where).ToList();
+        }
+
+        //显示操作日志列表
+        public List<RecordInfo> GetRecord(Expression<Func<RecordInfo, bool>> @where, Expression<Func<RecordInfo, DateTime>> order, int pageIndex, int pageSize, out int count)
+        {
+            var server = this.CreateService<RecordInfo>();
+            return server.Where(where, order, pageIndex, pageSize, out count,true).ToList();
+        }
+        //获取全部成员
+        public List<RbacAdmin> GetAdminAll()
+        {
+            var server = this.CreateService<RbacAdmin>();
+            return server.GetAll().ToList();
+        }
+
+        //添加日志表
+        public int AddRecord(RecordInfo record)
+        {
+            var server = this.CreateService<RecordInfo>();
+            return server.Add(record);
+        }
+        //查询需要删除的
+        public RecordInfo GetRecordeOne(Expression<Func<RecordInfo, bool>> where)
+        {
+            var server = this.CreateService<RecordInfo>();
+            return server.FirstOrDefault(where);
+        }
+        //批量删除
+        public int DelRecord(List<RecordInfo> entitys)
+        {
+            var server = this.CreateService<RecordInfo>();
+            return server.Delete(entitys);
         }
 
     }

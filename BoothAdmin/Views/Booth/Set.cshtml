@@ -1,0 +1,144 @@
+﻿
+@{
+    ViewData["Title"] = "Set";
+    Layout = null;
+}
+<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+
+    <blockquote class="layui-elem-quote"><h2>账户设置</h2></blockquote>
+    <div style="width:600px;height:300px;margin: 0 auto">
+        <form class="layui-form" id="myform" name="myform" method="post" enctype="multipart/form-data">
+            <div id="demo1" style="border:1px solid #808080;width:100px;height:100px"></div>
+            <input type="file" name="files" id="files" value="选择需要上传的文件" />
+            <input type="button" id="submitbtn" value="提交" onclick="Upload()" />
+        </form>
+
+
+        <div>
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input type="text" id="accname" lay-verify="required" autocomplete="off" class="layui-input" readonly>
+
+            </div>
+        </div>
+        <div>
+            <label class="layui-form-label">旧密码</label>
+            <div class="layui-input-inline">
+                <input type="password" id="oldpass" lay-verify="required" autocomplete="off" class="layui-input">
+
+            </div>
+        </div>
+        <div>
+            <label class="layui-form-label">新密码</label>
+            <div class="layui-input-inline">
+                <input type="password" id="newpass" lay-verify="required" autocomplete="off" class="layui-input">
+
+            </div>
+        </div>
+        <div>
+            <label class="layui-form-label">确认密码</label>
+            <div class="layui-input-inline">
+                <input type="password" id="requestpass" lay-verify="required" autocomplete="off" class="layui-input">
+                <span id="msg"></span>
+            </div>
+        </div>
+        <div style="margin-left:25%;margin-top:10%">
+            <button type="button" id="save" class="layui-btn">提交</button>
+        </div>
+
+    </div>
+    
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/layuiadmin/layui/layui.js"></script>
+<script>
+    var accname = localStorage["Admin"]
+    $("#accname").val(accname);
+    var id = localStorage["AdminId"]
+
+    $(function () {
+        $.get('http://localhost:52229/api/rbac/getadminone?id=' + id, function (res) {
+            console.log(res);
+            if (res.accImg != null) {
+                $("#demo1").html('<img src="http://localhost:52229/img/' + res.accImg + '" style="width:100px;height:100px"/>');
+
+            }
+            
+        });
+    });
+    //上传图片
+    function Upload() {
+        //获取表单的数据        
+        var file = $("#files").get(0);
+        var files = file.files[0];
+        var formdata = new FormData();
+        formdata.append(files.name, files);
+        alert(formdata);
+
+        
+        
+
+        $.ajax({
+            url: "http://localhost:52229/api/boothsys/uploadimg?id=" + id,
+            type: 'Post',
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if (result != "上传失败") {
+                    var img = result;
+
+                    $("#demo1").html('<img src="' + img + '" style="width:100px;height:100px"/>');
+                    
+                } else {
+                    alert('提交失败,重新尝试提交');
+                }
+            }
+        })
+    }
+
+
+
+
+    //判断两次密码是否一致
+    $(function () {
+        //输入框的值改变时触发
+        $("#requestpass").on("input", function (e) {
+            //获取input输入的值
+            console.log(e.delegateTarget.value);
+            if (e.delegateTarget.value != $("#newpass").val()) {
+                $("#msg").html("两次密码不一致");
+            }
+            else {
+                $("#msg").html("");
+            }
+        });
+
+    });
+
+    //修改密码
+    $("#save").click(function () {
+        var newpass = $("#newpass").val();
+        var admin = {};
+        admin.Id = id;
+        admin.AccPass = newpass;
+        $.ajax({
+            url: "http://localhost:52229/api/rbac/uptadmin",
+            data: JSON.stringify(admin),
+            dataType: "json",
+            contentType: "application/json",
+            type: "Post",
+            success: function (res) {
+                if (res > 0) {
+                    alert("修改成功");
+                    $("#oldpass").val('');
+                    $("#newpass").val('');
+                    $("#requestpass").val('');
+                }
+            }
+        });
+    });
+    
+</script>
+
