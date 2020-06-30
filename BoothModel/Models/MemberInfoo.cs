@@ -11,5 +11,7 @@ namespace BoothModel.Models
         public string MemAddress { get; set; }
         public string MemState { get; set; }
         public string IsAllow { get; set; }
+        public string MemPhone { get; set; }
+       
     }
 }

@@ -24,7 +24,6 @@ namespace BoothAdmin.Controllers
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
             string s = httpResponse.Content.ReadAsStringAsync().Result;
             List<MemberInfoo> list = JsonConvert.DeserializeObject<List<MemberInfoo>>(s);
-
             int PageCount = (list == null || list.Count == 0) ? 0 : list.Count;
             int c = (int)Math.Ceiling((decimal)PageCount / limit);
             ViewBag.parper = (page <= 1) ? 1 : page - 1;
@@ -33,13 +32,14 @@ namespace BoothAdmin.Controllers
             return Json(new LayUi { code = "0", msg = "", count = PageCount.ToString(), data = list });
            
         }
-         //添加微信会员视图
+        //添加微信会员视图
         public IActionResult Addwx()
         {
             return View();
         }
-         //根据id删除微信会员信息
-        public int Delwx(Guid id)
+       
+        //根据id删除微信会员信息
+        public int Delwx(Guid id) 
         {
            HttpResponseMessage message = null;
             string url = "http://localhost:52229/api/default/DelWx?ids=" + id;
@@ -48,31 +48,37 @@ namespace BoothAdmin.Controllers
             message = client.DeleteAsync(url).Result;
             string s = message.Content.ReadAsStringAsync().Result;
              return Convert.ToInt32(s);
-  }
-         //修改微信会员信息
+         }
+
+        //编辑微信会员信息
         public IActionResult Updwx()
         {
             return View();
         }
 
-
-
-        //查询所有省份 用于绑定第一级下拉 
-
-        public IActionResult GetSheng()
+        //根据会员名称和账户查询
+        public ActionResult SeleWx(string name="",string wx="")
         {
-            return View();
-        }
+            string url = "http://localhost:52229/api/Default/SeleWx?name="+name+"&wx="+wx;
+            HttpClient client = new HttpClient();
+            HttpResponseMessage httpResponse = client.GetAsync(url).Result;
+            string s = httpResponse.Content.ReadAsStringAsync().Result;
+            List<MemberInfoo> list = JsonConvert.DeserializeObject<List<MemberInfoo>>(s);
+           if(list.Count==0)
+            {
+            return Json(new LayUi { code = "1", msg = "没有找到相关记录，请更换查询条件", count = 0.ToString(), data = "" });
+            }
+           else
+            {
+                return Json(new LayUi { code = "0", msg = "", count = list.Count.ToString(), data = list });
+             }
+       }
 
-        //根据省份id 查询该省的城市 用于二级联动
-         //根据城市id 查询该城市的县 用于三级联动
 
-       
-       
-/// <summary>
-/// /////////////////租户页面/////////////////////////////////////////////////
-/// </summary>
-/// <returns></returns>
+        /// <summary>
+        /// /////////////////租户页面/////////////////////////////////////////////////
+        /// </summary>
+        /// <returns></returns>
 
         //租户列表视图
         public IActionResult ShowUs()
@@ -88,7 +94,6 @@ namespace BoothAdmin.Controllers
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
             string s = httpResponse.Content.ReadAsStringAsync().Result;
             List<UserInfo> list = JsonConvert.DeserializeObject<List<UserInfo>>(s);
-
             int PageCount = (list == null || list.Count == 0) ? 0 : list.Count;
             int c = (int)Math.Ceiling((decimal)PageCount / limit);
             ViewBag.parper = (page <= 1) ? 1 : page - 1;
@@ -113,13 +118,31 @@ namespace BoothAdmin.Controllers
             string s = message.Content.ReadAsStringAsync().Result;
             return Convert.ToInt32(s);
         }
-         //修改租户信息
+
+        //编辑微信会员信息
         public IActionResult Updus()
         {
             return View();
         }
-      
-        
+
+        //根据名称查询租户
+        public ActionResult SeleUs(string name = "")
+        {
+            string url = "http://localhost:52229/api/Default/SeleUs?name=" + name ;
+            HttpClient client = new HttpClient();
+            HttpResponseMessage httpResponse = client.GetAsync(url).Result;
+            string s = httpResponse.Content.ReadAsStringAsync().Result;
+            List<UserInfo> list = JsonConvert.DeserializeObject<List<UserInfo>>(s);
+            if (list.Count == 0)
+            {
+                return Json(new LayUi { code = "1", msg = "没有找到相关记录，请更换查询条件", count = 0.ToString(), data = "" });
+            }
+            else
+            {
+                return Json(new LayUi { code = "0", msg = "", count = list.Count.ToString(), data = list });
+            }
+        }
+
         public class LayUi
         {
             public string code { get; set; }

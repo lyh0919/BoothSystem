@@ -77,7 +77,6 @@
     //删除
     function Del(id) {
         if (confirm("确认删除吗")) {
-            alert(id);
             $.ajax({
                 url: "http://localhost:52229/api/rbac/delrole",
                 data: { id: id },
