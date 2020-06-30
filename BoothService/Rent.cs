@@ -24,10 +24,10 @@ namespace BoothService
         }
 
         //实现合同
-        public List<ConTastInfo> ShowContastInfo()
+        public List<ConTastInfo> ShowContastInfo(Expression<Func<ConTastInfo, bool>> id)
         {
             var server = this.CreateService<ConTastInfo>();
-            return server.GetAll().ToList();
+            return server.Where(id).ToList();
         }
     }
 }

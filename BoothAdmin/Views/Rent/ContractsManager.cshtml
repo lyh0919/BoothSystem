@@ -1,9 +1,10 @@
 ﻿
 @{
     ViewData["Title"] = "ContractsManager";
+    Layout = null;
 }
 
-<h1>ContractsManager</h1>
+
 <form>
     <div style="float:right;padding-top:40px">
 
@@ -11,7 +12,7 @@
             <i class="layui-icon">&#xe654;</i>上传合同
         </button>
     </div>
-    <div class="layui-form">
+    <div class="layui-form" style="padding-top:100px">
         <table class="layui-table" style="width:90%;margin: 0 auto">
             <thead>
                 <tr>
@@ -34,7 +35,7 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
 <script>
-
+    var id = window.location.search.split("?")[1].split("?")[1];
     //对表单重新渲染  复选框、下拉框等
     layui.use('form', function () {
         var form = layui.form;
@@ -52,11 +53,12 @@
 
     //显示
     function OrderShow() {
-        $.get('http://localhost:52229/api/rent/ShowContastInfo', function (res) {
+        $.get('http://localhost:52229/api/rent/ShowContastInfo?id=' + id, function (res) {
            
             $("#dt").empty();
             var html = "";
-            $.each(res.members, function (i, v) {
+            $.each(res, function (i, v) {
+                console.log(v);
                 html += "<tr>";
                 html += "<td>" + v.conNo + "</td>";               
                

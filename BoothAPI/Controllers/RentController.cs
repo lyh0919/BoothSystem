@@ -65,9 +65,9 @@ namespace BoothAPI.Controllers
 
         }
 
-        public List<ConTastInfo> ShowContastInfo()
+        public List<ConTastInfo> ShowContastInfo(Guid id)
         {
-            List<ConTastInfo> list = _rent.ShowContastInfo();
+            List<ConTastInfo> list = _rent.ShowContastInfo(s=>s.Oid.Equals(id));
             return list;
         }
     }
