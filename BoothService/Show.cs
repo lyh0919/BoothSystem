@@ -65,6 +65,12 @@ namespace BoothService
         /// /////////租户页//////////////////////////////////////////////////////////
         /// </summary>
         /// <returns></returns>
+        //用户数
+        public int UserCount(Expression<Func<UserInfo, bool>> where)
+        {
+            var server = this.CreateService<UserInfo>();
+            return server.Count(where);
+        }
 
         //分页获取租户信息列表
         public List<UserInfo> ShowUser()

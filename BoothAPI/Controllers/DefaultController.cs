@@ -19,6 +19,33 @@ namespace BoothAPI.Controllers
         {
             _show = show;
         }
+        //用户数
+        [HttpGet]
+        public int UserCount(string datetime)
+        {
+            int flag = 0;
+            if (datetime == null)
+            {
+                datetime = "";
+                flag = _show.UserCount(b => b.UserState.Contains(datetime));
+            }
+            else if (datetime=="本月")
+            {
+                flag = _show.UserCount(b => b.CreateTime.Month.Equals(DateTime.Now.Month) & b.CreateTime.Year.Equals(DateTime.Now.Year));
+            }
+            else if(datetime=="今天")
+            {
+                flag = _show.UserCount(b => b.CreateTime.Day==DateTime.Now.Day);
+            }
+            else
+            {
+                flag = _show.UserCount(b => b.CreateTime.Day == (DateTime.Now.Day)-1);
+            }
+
+
+            return flag;
+        }
+
 
         [HttpGet]
         //获取微信会员信息列表(下拉)

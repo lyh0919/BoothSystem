@@ -6,94 +6,126 @@
 
 <style>
     .zong {
-        width:1200px;
-        height:500px;
+        width: 1200px;
+        height: 500px;
         margin: 0 auto;
     }
-    .layui-card{
-        width:500px;
-        height:200px;
-        float:left;
-        margin:5px 5px 5px 5px;
+
+    .layui-card {
+        width: 500px;
+        height: 200px;
+        float: left;
+        margin: 5px 5px 5px 5px;
     }
+
     .demo1 {
         width: 100px;
         height: 50px;
         margin: 0 auto;
-        text-align:center;
-        margin-top:36px;
-        float:left;
+        text-align: center;
+        margin-top: 36px;
+        float: left;
     }
 </style>
 
-    <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
-    <blockquote class="layui-elem-quote"><h2>系统首页</h2></blockquote>
-    <div class="zong">
-        <div class="layui-card">
-            <div class="layui-card-header">摊位数量</div>
-            <div class="layui-card-body">
-                <div class="demo1">
-                    <p>100</p>
-                    <p>未租用</p>
-                </div>
-                <div class="demo1">
-                    <p>400</p>
-                    <p>已租用</p>
-                </div>
-                <div class="demo1">
-                    <p>500</p>
-                    <p>全部摊位</p>
-                </div>
+<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+<blockquote class="layui-elem-quote"><h2>系统首页</h2></blockquote>
+<div class="zong">
+    <div class="layui-card">
+        <div class="layui-card-header">摊位数量</div>
+        <div class="layui-card-body">
+            <div class="demo1">
+                <p id="no">100</p>
+                <p>未租用</p>
             </div>
-        </div>
-        <div class="layui-card">
-            <div class="layui-card-header">客户总览</div>
-            <div class="layui-card-body">
-                
-                <div class="demo1">
-                    <p>100</p>
-                    <p>今日新增</p>
-                </div>
-                <div class="demo1">
-                    <p>200</p>
-                    <p>昨日新增</p>
-                </div>
-                <div class="demo1">
-                    <p>1000</p>
-                    <p>本月新增</p>
-                </div>
-                <div class="demo1">
-                    <p>5000</p>
-                    <p>客户总数</p>
-                </div>
+            <div class="demo1">
+                <p id="yes">400</p>
+                <p>已租用</p>
             </div>
-        </div>
-        <div class="layui-card">
-            <div class="layui-card-header">收款总览</div>
-            <div class="layui-card-body">
-                <div class="demo1">
-                    <p>100</p>
-                    <p>今日收款</p>
-                </div>
-                <div class="demo1">
-                    <p>1000</p>
-                    <p>昨日收款</p>
-                </div>
-                <div class="demo1">
-                    <p>10</p>
-                    <p>即将到期摊位</p>
-                </div>
-            </div>
-        </div>
-        <div class="layui-card">
-            <div class="layui-card-header">快捷入口</div>
-            <div class="layui-card-body">
-                <div class="demo1">
-                    摊位管理
-                </div>
+            <div class="demo1">
+                <p id="all">500</p>
+                <p>全部摊位</p>
             </div>
         </div>
     </div>
+    <div class="layui-card">
+        <div class="layui-card-header">客户总览</div>
+        <div class="layui-card-body">
+
+            <div class="demo1">
+                <p id="today">10</p>
+                <p>今日新增</p>
+            </div>
+            <div class="demo1">
+                <p id="yestoday">20</p>
+                <p>昨日新增</p>
+            </div>
+            <div class="demo1">
+                <p id="month">100</p>
+                <p>本月新增</p>
+            </div>
+            <div class="demo1">
+                <p id="userall">500</p>
+                <p>客户总数</p>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-header">收款总览</div>
+        <div class="layui-card-body">
+            <div class="demo1">
+                <p>500</p>
+                <p>今日收款</p>
+            </div>
+            <div class="demo1">
+                <p>1000</p>
+                <p>昨日收款</p>
+            </div>
+            <div class="demo1">
+                <p>1</p>
+                <p>即将到期摊位</p>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-header">快捷入口</div>
+        <div class="layui-card-body">
+            <div class="demo1">
+                摊位管理
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/layuiadmin/layui/layui.js"></script>
+<script>
+    $(function () {
+        $.get('http://localhost:52229/api/market/boothcount?isenable=1', function (res) {
+            $("#yes").html(res);
+        });
+        $.get('http://localhost:52229/api/market/boothcount?isenable=0', function (res) {
+            $("#no").html(res);
+        });
+        $.get('http://localhost:52229/api/market/boothcount?isenable=', function (res) {
+            $("#all").html(res);
+        });
+
+
+        $.get('http://localhost:52229/api/default/usercount?datetime=昨天', function (res) {
+            $("#today").html(res);
+        });
+        $.get('http://localhost:52229/api/default/usercount?datetime=今天', function (res) {
+            $("#yestoday").html(res);
+        });
+        $.get('http://localhost:52229/api/default/usercount?datetime=本月', function (res) {
+            $("#month").html(res);
+        });
+        $.get('http://localhost:52229/api/default/usercount?datetime=', function (res) {
+            $("#userall").html(res);
+        });
+    });
+</script>
 
 
 

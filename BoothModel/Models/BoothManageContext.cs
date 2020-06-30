@@ -458,6 +458,7 @@ namespace BoothModel.Models
                     .HasMaxLength(2)
                     .IsUnicode(false)
                     .HasComment("状态");
+                entity.Property(e => e.CreateTime).HasColumnType("datetime");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -9,6 +9,8 @@ namespace IBoothService
     public interface IBoothManager
     {
         #region 摊位及摊位详情
+        int BoothCount(Expression<Func<BooInfo, bool>> where);
+
         List<BooInfo> ShowBoo();
 
         int AddBoo(BooInfo model);
