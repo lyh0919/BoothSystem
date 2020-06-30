@@ -244,6 +244,12 @@ namespace BoothDataAccess
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasComment("微信账号");
+
+                entity.Property(e => e.MemPhone)
+                    .HasColumnName("Mem_Phone")
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasComment("微信手机号");
             });
 
             modelBuilder.Entity<OrderInfo>(entity =>

@@ -81,7 +81,7 @@ namespace BoothAPI.Controllers
         [HttpPost]
         public int UptWx(MemberInfoo m)
         {
-            m.Id = Guid.NewGuid();
+           // m.Id = Guid.NewGuid();
             return _show.UpdateWx(m);
         }
         //根据id 查询数据 修改
@@ -92,29 +92,53 @@ namespace BoothAPI.Controllers
             return memberInfoo;
         }
 
-        //查询所有省份 用于绑定第一级下拉 
+        //查询所有省份  
         [HttpGet]
         public List<City> GetSheng(int id)
         {
          return _show.GetSheng(c => c.PId == id); ;
         }
- 
-      //批量删除微信会员信息
-        [HttpPost]
-        public int DelAll(bool isSave = true, params MemberInfoo[] entitys)
+
+        ////查询所有市  
+        //[HttpGet]
+        //public List<City> GetShi(int pid)
+        //{
+        //    return _show.GetShi(c => c.CType == pid); ;
+        //}
+
+
+
+
+        //批量删除微信会员信息
+        [HttpGet]
+        public int DelAll(string noList)
         {
-             return _show.DelAll(isSave = true, entitys); ;
+            
+            string[] id = noList.TrimEnd(',').Split(',');
+
+            List<MemberInfoo> entitys = new List<MemberInfoo>();
+ 
+            foreach (var item in id)
+            {
+               entitys.Add(_show.Uptwx(m => m.Id.ToString().Equals(item)));
+            }
+             return _show.DelAll(entitys); 
+        }
+        //根据微信名称和账户查询
+        [HttpGet]
+        public List<MemberInfoo> SeleWx(string name,string wx)
+        {
+            return _show.SeleWx(c => c.MemName.Contains(name)&c.MemWx.Contains(wx)); 
         }
 
-       
 
-/// <summary>
-/// ////////////租户页面/////////////////////////////////////////////////
-/// </summary>
-/// <param name="page"></param>
-/// <param name="limit"></param>
-/// <returns></returns>
-         [HttpGet]
+        /// <summary>
+        /// ////////////租户页面/////////////////////////////////////////////////
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        [HttpGet]
         //分页获取租户信息列表
         public List<UserInfo> ShowUser(int page = 1, int limit = 10)
         {
@@ -140,7 +164,7 @@ namespace BoothAPI.Controllers
         //编辑租户信息
         public int UptUs(UserInfo m)
         {
-            m.Id = Guid.NewGuid();
+            //m.Id = Guid.NewGuid();
             return _show.UptUs(m);
         }
        [HttpGet]
@@ -151,18 +175,30 @@ namespace BoothAPI.Controllers
             return userin;
         }
 
-
-
-
-
-        //批量删除租户信息
-        [HttpPost]
-        public int DelAllUs(bool isSave = true, params UserInfo[] entitys)
+        //查询所有省份  
+        [HttpGet]
+        public List<City> GetCity(int id)
         {
-            return _show.DelAllUs(isSave = true, entitys); ;
+            return _show.GetCity(c => c.PId == id); ;
         }
-
-       
+        //批量删除租户信息
+        [HttpGet]
+        public int DelAllUs(string noList)
+        {  
+            string[] id = noList.TrimEnd(',').Split(',');
+            List<UserInfo> entitys = new List<UserInfo>();
+            foreach (var item in id)
+            {
+                entitys.Add(_show.Uptus(m => m.Id.ToString().Equals(item)));
+            }
+            return _show.DelAllUs(entitys); 
+        }
+       //根据名称查询租户
+        [HttpGet]
+        public List<UserInfo> SeleUs(string name)
+        {
+            return _show.SeleUs(c =>c.UserName.Contains(name));
+        }
 
     }
 }
