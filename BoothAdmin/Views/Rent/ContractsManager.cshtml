@@ -4,38 +4,54 @@
     Layout = null;
 }
 
+<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
+<link href="~/layuiadmin/style/admin.css" rel="stylesheet" />
 
-<form>
-    <div style="float:right;padding-top:40px">
-
-        <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
-            <i class="layui-icon">&#xe654;</i>上传合同
-        </button>
-    </div>
-    <div class="layui-form" style="padding-top:100px">
-        <table class="layui-table" style="width:90%;margin: 0 auto">
-            <thead>
-                <tr>
-                    <th>合同编号</th>
-                    <th>上传时间</th>
-                    <th>操作</th>
-
-                </tr>
-            </thead>
-            <tbody id="dt">
-            </tbody>
-
-        </table>
+<div class="layui-card">
+    <div class="layui-card-header">
 
     </div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote role_search">
+            <div class="layui-inline">
+                <h1>合同管理</h1>
+            </div>
+            <div style="float:right">
+                <button type="button" class="layui-btn layui-btn-sm" lay-event="add" onclick="useradd()">
+                    <i class="layui-icon">&#xe654;</i>上传合同
+                </button>
+            </div>
+            <div style="float:right">
+                <button type="button" class="layui-btn layui-btn-normal" onclick="Back()">返回</button>
+            </div>
+        </blockquote>
+    </div>
+</div>
+
+<div>
+    <table class="layui-table" style="width:90%;margin: 0 auto">
+        <thead>
+            <tr>
+                <th>合同编号</th>
+                <th>上传时间</th>
+                <th>操作</th>
+
+            </tr>
+        </thead>
+        <tbody id="dt">
+        </tbody>
+
+    </table>
+
+</div>
 
 
-</form>
+
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
 <script>
-    var id = window.location.search.split("?")[1].split("?")[1];
+    var id = window.location.search.split("?")[1].split("=")[1];
     //对表单重新渲染  复选框、下拉框等
     layui.use('form', function () {
         var form = layui.form;
@@ -44,39 +60,39 @@
     //页面加载
     $(function () {
 
-       
-        OrderShow();
+        OrderShow(id);
 
     });
 
-  
+
 
     //显示
-    function OrderShow() {
-        $.get('http://localhost:52229/api/rent/ShowContastInfo?id=' + id, function (res) {
-           
+    function OrderShow(id) {
+        $.get('http://localhost:52229/api/rent/ShowContastInfo?orderid=' + id, function (res) {
+
             $("#dt").empty();
             var html = "";
-            $.each(res, function (i, v) {
-                console.log(v);
-                html += "<tr>";
-                html += "<td>" + v.conNo + "</td>";               
-               
-                html += "<td>" + dateFormat(v.createTime) + "</td>"; 
-                html += "<td><a href='#'>下载合同</a></td>";
-                html += "</tr>";
-            });
+
+            html += "<tr>";
+            html += "<td>" + res.conNo + "</td>";
+
+            html += "<td>" + dateFormat(res.createTime) + "</td>";
+            html += "<td><a href='#'>下载合同</a></td>";
+            html += "</tr>";
+
             $("#dt").append(html);
-           
+
         });
     }
     //时间转换
     function dateFormat(datestr) {
         var date = new Date(datestr);
-        var datestr = date.getFullYear() + "-" + (date.getMonth()+1) + "-" +
+        var datestr = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" +
             date.getDate() + " " + date.getHours() + ":" +
             date.getMinutes() + ":" + date.getSeconds();
         return datestr;
     }
-
+    function Back() {
+        window.history.back(-1); //返回上一页
+    }
 </script>

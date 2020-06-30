@@ -143,7 +143,6 @@
         $.get('http://localhost:52229/api/rbac/getrecord?accid=' + adminid + '&datetime=' + datetime + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
             total = res.count;
             pages = Math.ceil(total / pagesize);
-            console.log(res.recordList);
             $("#dt").empty();
             var html = "";
             $.each(res.recordList, function (i, v) {
@@ -195,20 +194,6 @@
                     AdminShow(1);
                 }
             });
-            //$.ajax({
-            //    url: "http://localhost:52229/api/rbac/delrecord",
-            //    data: { "ids": ids },
-            //    dataType: "json",
-            //    type: "Post",
-            //    //contentType: "application/json",
-            //    contentType: "application/x-www-form-urlencoded",
-            //    success: function (res) {
-            //        if (res > 0) {
-            //            alert("删除成功");
-            //            AdminShow(1);
-            //        }
-            //    }
-            //});
         }
         else {
             alert("请选择权限");
