@@ -68,7 +68,7 @@
 
     //显示
     function OrderShow(id) {
-        $.get('http://localhost:52229/api/rent/ShowContastInfo?orderid=' + id, function (res) {
+        $.get('http://localhost:8060/api/rent/ShowContastInfo?orderid=' + id, function (res) {
 
             $("#dt").empty();
             var html = "";

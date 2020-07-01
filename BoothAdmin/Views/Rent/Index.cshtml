@@ -128,7 +128,7 @@
 
     //显示
     function OrderShow(pageindex) {
-        $.get('http://localhost:52229/api/rent/getorder?orderno=' + orderno + '&paystate=' + paystate + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
+        $.get('http://localhost:8060/api/rent/getorder?orderno=' + orderno + '&paystate=' + paystate + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
             total = res.count;
             pages = Math.ceil(total / pagesize);
             $("#dt").empty();

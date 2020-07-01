@@ -50,7 +50,7 @@
     });
     //显示列表
     function RoleShow() {
-        $.get('http://localhost:52229/api/rbac/getrole', function (res) {
+        $.get('http://localhost:8060/api/rbac/getrole', function (res) {
             $("#dt").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -78,7 +78,7 @@
     function Del(id) {
         if (confirm("确认删除吗")) {
             $.ajax({
-                url: "http://localhost:52229/api/rbac/delrole",
+                url: "http://localhost:8060/api/rbac/delrole",
                 data: { id: id },
                 dataType: "json",
                 contentType: "application/json",
@@ -122,7 +122,7 @@
                     role.RoleName = $("#rolename").val();
                     role.RoleDesc = $("#roledesc").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/addrole",
+                        url: "http://localhost:8060/api/rbac/addrole",
                         data: JSON.stringify(role),
                         dataType: "json",
                         contentType: "application/json",
@@ -170,7 +170,7 @@
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
                 , success: function () {
-                    $.get('http://localhost:52229/api/rbac/getroleone?id=' + id, function (res) {
+                    $.get('http://localhost:8060/api/rbac/getroleone?id=' + id, function (res) {
                         $("#rolename").val(res.roleName);
                         $("#roledesc").val(res.roleDesc);
 
@@ -182,7 +182,7 @@
                     role.RoleName = $("#rolename").val();
                     role.RoleDesc = $("#roledesc").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/uptrole",
+                        url: "http://localhost:8060/api/rbac/uptrole",
                         data: JSON.stringify(role),
                         dataType: "json",
                         contentType: "application/json",

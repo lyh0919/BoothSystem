@@ -52,7 +52,7 @@
 
     });
     function OrderShowOne(orderid) {
-        $.get('http://localhost:52229/api/rent/getorderone?orderno=' + orderid, function (res) {
+        $.get('http://localhost:8060/api/rent/getorderone?orderno=' + orderid, function (res) {
             $("#dt").empty();
             console.log(res);
             var html = "";

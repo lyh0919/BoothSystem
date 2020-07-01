@@ -140,7 +140,7 @@
 
     //显示
     function RecordShow(pageindex) {
-        $.get('http://localhost:52229/api/rbac/getrecord?accid=' + adminid + '&datetime=' + datetime + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
+        $.get('http://localhost:8060/api/rbac/getrecord?accid=' + adminid + '&datetime=' + datetime + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
             total = res.count;
             pages = Math.ceil(total / pagesize);
             $("#dt").empty();
@@ -188,7 +188,7 @@
         if (chk_value.length != 0) {
             var ids = chk_value.join(',');
             alert(ids);
-            $.post('http://localhost:52229/api/rbac/delrecord?ids=' + ids, function (res) {
+            $.post('http://localhost:8060/api/rbac/delrecord?ids=' + ids, function (res) {
                 if (res > 0) {
                     alert("删除成功");
                     AdminShow(1);
@@ -202,7 +202,7 @@
 
     //下拉成员
     function GetAdmin() {
-        $.get('http://localhost:52229/api/rbac/getadminall', function (res) {
+        $.get('http://localhost:8060/api/rbac/getadminall', function (res) {
 
             $("#adminid").empty();
             var html = "";

@@ -170,7 +170,7 @@
                 layer.close(index);
                 $.ajax({
                     type: 'Get',
-                    url: 'http://localhost:52229/api/default/delall?noList=' + ids,
+                    url: 'http://localhost:8060/api/default/delall?noList=' + ids,
                     success: function (ids) {
                        if (ids > 0) {
                            parent.layer.msg('删除中...', { icon: 16, shade: 0.3, time: 500 });

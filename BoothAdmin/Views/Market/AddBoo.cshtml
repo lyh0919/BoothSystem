@@ -109,7 +109,7 @@
     });
 
     function ShowMarket() {
-        $.get('http://localhost:52229/api/market/ShowMarket', function (res) {
+        $.get('http://localhost:8060/api/market/ShowMarket', function (res) {
             $("#MarkId").empty();
             var html = "";
             $.each(res, function (i, v) {

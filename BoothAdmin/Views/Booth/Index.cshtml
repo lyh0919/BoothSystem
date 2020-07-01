@@ -256,7 +256,7 @@
             var admin = {};
             admin.Id = localStorage["AdminId"];
             $.ajax({
-                url: "http://localhost:52229/api/rbac/uptadmin",
+                url: "http://localhost:8060/api/rbac/uptadmin",
                 data: JSON.stringify(admin),
                 dataType: "json",
                 contentType: "application/json",

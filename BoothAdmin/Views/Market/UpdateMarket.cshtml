@@ -89,7 +89,7 @@
 
     var address = $("#MarkAddress").val();
     var addressec = address.trim().split(" ");
-    $.get('http://localhost:52229/api/market/getcity?id=1', function (res) {
+    $.get('http://localhost:8060/api/market/getcity?id=1', function (res) {
          $("#quiz1").empty();
             var html = "";
         $.each(res, function (i, v) {
@@ -127,7 +127,7 @@
         var id =$("#quiz1 option:selected").val();
         //alert(id);
         //alert(city);
-        $.get('http://localhost:52229/api/market/getcity?id=' + id, function (res) {
+        $.get('http://localhost:8060/api/market/getcity?id=' + id, function (res) {
             $("#quiz2").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -152,7 +152,7 @@
         //alert(country);
         var ids = $("#quiz2 option:selected").val();
         //alert(ids);
-        $.get('http://localhost:52229/api/market/getcity?id=' + ids, function (res) {
+        $.get('http://localhost:8060/api/market/getcity?id=' + ids, function (res) {
             $("#quiz3").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -210,7 +210,7 @@
         obj.IsEnable = $("input[type='radio']:checked").val();
 
         $.ajax({
-            url: "http://localhost:52229/api/Market/UpdateMarket",
+            url: "http://localhost:8060/api/Market/UpdateMarket",
             data: JSON.stringify(obj),
             contentType:"application/json",
             dataType: "json",

@@ -47,7 +47,7 @@
     $("#login").click(function () {
         var username = $("#username").val();
         var userpass = $("#userpass").val();
-        $.get('http://localhost:52229/api/boothsys/login?username=' + username + '&userpass=' + userpass, function (res) {
+        $.get('http://localhost:8060/api/boothsys/login?username=' + username + '&userpass=' + userpass, function (res) {
             //alert(res.accNum);
             if (res.accNum == username) {
                 localStorage["Admin"] = res.accName;

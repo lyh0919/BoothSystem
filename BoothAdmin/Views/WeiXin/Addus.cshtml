@@ -87,7 +87,7 @@
     });
     //关联会员
     function GetMem() {
-        $.get('http://localhost:52229/api/default/showweixins', function (res) {
+        $.get('http://localhost:8060/api/default/showweixins', function (res) {
             $("#memid").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -113,7 +113,7 @@
         //状态
         m.UserState = $("input[name='sex']:checked").val();
         $.ajax({
-            url: "http://localhost:52229/api/default/adduser",
+            url: "http://localhost:8060/api/default/adduser",
             data: JSON.stringify(m),
             dataType: "json",
             type: "post",
@@ -133,7 +133,7 @@
     }
     //显示省
     function GetCity() {
-        $.get('http://localhost:52229/api/default/getcity?id=1', function (res) {
+        $.get('http://localhost:8060/api/default/getcity?id=1', function (res) {
             $("#memAddress1").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -150,7 +150,7 @@
     //显示市
     function GetCity1(res) {
      var id = res.value;
-        $.get('http://localhost:52229/api/default/getcity?id=' + id, function (res) {
+        $.get('http://localhost:8060/api/default/getcity?id=' + id, function (res) {
             $("#memAddress2").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -167,7 +167,7 @@
     //显示县
       function GetCity2(res) {
           var id = res.value;
-        $.get('http://localhost:52229/api/default/getcity?id=' + id, function (res) {
+          $.get('http://localhost:8060/api/default/getcity?id=' + id, function (res) {
             $("#memAddress3").empty();
             var html = "";
             $.each(res, function (i, v) {

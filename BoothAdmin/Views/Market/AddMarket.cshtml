@@ -97,7 +97,7 @@
 
 
     function GetCity() {
-        $.get('http://localhost:52229/api/market/getcity?id=1', function (res) {
+        $.get('http://localhost:8060/api/market/getcity?id=1', function (res) {
             $("#quiz1").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -114,7 +114,7 @@
     }
     function GetCity1() {
         var id = $('select[name="demo1"] option:selected').val();
-        $.get('http://localhost:52229/api/market/getcity?id=' + id, function (res) {
+        $.get('http://localhost:8060/api/market/getcity?id=' + id, function (res) {
             $("#quiz2").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -133,7 +133,7 @@
 
     function GetCity2() {
         var id = $('select[name="demo2"] option:selected').val();
-        $.get('http://localhost:52229/api/market/getcity?id=' + id, function (res) {
+        $.get('http://localhost:8060/api/market/getcity?id=' + id, function (res) {
             $("#quiz3").empty();
             var html = "";
             $.each(res, function (i, v) {

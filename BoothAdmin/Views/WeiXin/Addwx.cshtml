@@ -98,7 +98,7 @@
         m.MemState = $("input[name='sex']:checked").val();
 
         $.ajax({
-            url: "http://localhost:52229/api/default/add",
+            url: "http://localhost:8060/api/default/add",
             data: JSON.stringify(m),
             dataType: "json",
             type: "post",
@@ -117,7 +117,7 @@
 
     //显示地址
     function GetAdders() {
-        $.get('http://localhost:52229/api/default/getsheng?id=1', function (res) {
+        $.get('http://localhost:8060/api/default/getsheng?id=1', function (res) {
             $("#memAddress1").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -136,7 +136,7 @@
     function GetCity1(res) {
         var id = res.value;
 
-        $.get('http://localhost:52229/api/default/getsheng?id=' + id, function (res) {
+        $.get('http://localhost:8060/api/default/getsheng?id=' + id, function (res) {
             $("#memAddress2").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -153,7 +153,7 @@
     //显示县
     function GetCity2(res) {
         var id = res.value;
-        $.get('http://localhost:52229/api/default/getsheng?id=' + id, function (res) {
+        $.get('http://localhost:8060/api/default/getsheng?id=' + id, function (res) {
             $("#memAddress3").empty();
             var html = "";
             $.each(res, function (i, v) {

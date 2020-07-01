@@ -52,7 +52,7 @@
     });
 
     function DeptShow() {
-        $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+        $.get('http://localhost:8060/api/rbac/getdept', function (res) {
             $("#dt").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -81,7 +81,7 @@
         if (confirm("确认删除吗")) {
             alert(id);
             $.ajax({
-                url: "http://localhost:52229/api/rbac/deldept",
+                url: "http://localhost:8060/api/rbac/deldept",
                 data: { id: id },
                 dataType: "json",
                 type: "Get",
@@ -125,7 +125,7 @@
                     dept.DeptName = $("#deptname").val();
                     dept.DeptDesc = $("#deptdesc").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/adddept",
+                        url: "http://localhost:8060/api/rbac/adddept",
                         data: JSON.stringify(dept),
                         dataType: "json",
                         contentType: "application/json",
@@ -173,7 +173,7 @@
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
                 ,success: function () {
-                    $.get('http://localhost:52229/api/rbac/getdeptone?id=' + id, function (res) {
+                    $.get('http://localhost:8060/api/rbac/getdeptone?id=' + id, function (res) {
                         $("#deptname").val(res.deptName);
                         $("#deptdesc").val(res.deptDesc);
 
@@ -185,7 +185,7 @@
                     dept.DeptName = $("#deptname").val();
                     dept.DeptDesc = $("#deptdesc").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/uptadmin",
+                        url: "http://localhost:8060/api/rbac/uptadmin",
                         data: JSON.stringify(dept),
                         dataType: "json",
                         contentType: "application/json",

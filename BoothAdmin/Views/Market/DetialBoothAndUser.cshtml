@@ -60,7 +60,7 @@
 
         $("#reloadBtn").click(function () {
             var txtName = $("#txt_Name").val();
-            $.get('http://localhost:52229/api/Market/DetialBooAndMarket?name=' + txtName, function (res) {
+            $.get('http://localhost:8060/api/Market/DetialBooAndMarket?name=' + txtName, function (res) {
                 ShowDetial();
             })
 
@@ -69,7 +69,7 @@
 
     function ShowDetial() {
       
-        $.get('http://localhost:52229/api/Market/ShowDetialBoothAndUser?id='+ id, function (res) {
+        $.get('http://localhost:8060/api/Market/ShowDetialBoothAndUser?id='+ id, function (res) {
             var str = "";
             $.each(res, function (i, n) {
                 str += "<tr>";                

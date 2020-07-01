@@ -58,10 +58,10 @@
     var id = localStorage["AdminId"]
 
     $(function () {
-        $.get('http://localhost:52229/api/rbac/getadminone?id=' + id, function (res) {
+        $.get('http://localhost:8060/api/rbac/getadminone?id=' + id, function (res) {
             console.log(res);
             if (res.accImg != null) {
-                $("#demo1").html('<img src="http://localhost:52229/img/' + res.accImg + '" style="width:100px;height:100px"/>');
+                $("#demo1").html('<img src="http://localhost:8060/img/' + res.accImg + '" style="width:100px;height:100px"/>');
 
             }
             
@@ -80,7 +80,7 @@
         
 
         $.ajax({
-            url: "http://localhost:52229/api/boothsys/uploadimg?id=" + id,
+            url: "http://localhost:8060/api/boothsys/uploadimg?id=" + id,
             type: 'Post',
             data: formdata,
             contentType: false,
@@ -124,7 +124,7 @@
         admin.Id = id;
         admin.AccPass = newpass;
         $.ajax({
-            url: "http://localhost:52229/api/rbac/uptadmin",
+            url: "http://localhost:8060/api/rbac/uptadmin",
             data: JSON.stringify(admin),
             dataType: "json",
             contentType: "application/json",

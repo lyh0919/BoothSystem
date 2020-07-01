@@ -130,7 +130,7 @@
 
     //显示
     function AdminShow(pageindex) {
-        $.get('http://localhost:52229/api/rbac/getadmin?accName=' + accname + '&deptId=' + deptid + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
+        $.get('http://localhost:8060/api/rbac/getadmin?accName=' + accname + '&deptId=' + deptid + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
             total = res.count;
             pages = Math.ceil(total / pagesize);
             $("#dt").empty();
@@ -161,7 +161,7 @@
     }
     //下拉框部门
     function GetDept() {
-        $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+        $.get('http://localhost:8060/api/rbac/getdept', function (res) {
 
             $("#deptid").empty();
             var html = ""; 
@@ -182,7 +182,7 @@
 
     //下拉框角色
     function GetRole() {
-        $.get('http://localhost:52229/api/rbac/getrole', function (res) {
+        $.get('http://localhost:8060/api/rbac/getrole', function (res) {
             $("#roleid").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -204,7 +204,7 @@
         if (confirm("确认删除吗")) {
             
             $.ajax({
-                url: "http://localhost:52229/api/rbac/deladmin",
+                url: "http://localhost:8060/api/rbac/deladmin",
                 data: { "id": id },
                 dataType: "json",
                 //contentType: "application/json",
@@ -281,7 +281,7 @@
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
                 , success: function () {
-                    $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+                    $.get('http://localhost:8060/api/rbac/getdept', function (res) {
                         $("#deptids").empty();
                         var html = "";
                         $.each(res, function (i, v) {
@@ -307,7 +307,7 @@
                     admin.RoleId = $('select[name="roleid"] option:selected').val();
                     admin.IsEnable = $("input[name='isenable']:checked").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/addadmin",
+                        url: "http://localhost:8060/api/rbac/addadmin",
                         data: JSON.stringify(admin),
                         dataType: "json",
                         contentType: "application/json",
@@ -389,7 +389,7 @@
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
                 , success: function () {
-                    $.get('http://localhost:52229/api/rbac/getdept', function (res) {
+                    $.get('http://localhost:8060/api/rbac/getdept', function (res) {
                         $("#deptids").empty();
                         var html = "";
                         $.each(res, function (i, v) {
@@ -404,7 +404,7 @@
                         });
                     });
                     GetRole();
-                    $.get('http://localhost:52229/api/rbac/getadminone?id=' + id, function (res) {
+                    $.get('http://localhost:8060/api/rbac/getadminone?id=' + id, function (res) {
                         $("#adminnum").val(res.accNum);
                         $("#adminname").val(res.accName);
                         $("#accpass").val(res.accPass);
@@ -431,7 +431,7 @@
                     admin.RoleId = $('select[name="roleid"] option:selected').val();
                     admin.IsEnable = $("input[name='isenable']:checked").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/uptadmin",
+                        url: "http://localhost:8060/api/rbac/uptadmin",
                         data: JSON.stringify(admin),
                         dataType: "json",
                         contentType: "application/json",

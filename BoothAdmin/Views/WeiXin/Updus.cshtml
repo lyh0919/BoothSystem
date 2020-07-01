@@ -116,7 +116,7 @@
     });
 
     function GetMem() {
-        $.get('http://localhost:52229/api/default/showweixins', function (res) {
+        $.get('http://localhost:8060/api/default/showweixins', function (res) {
             $("#memid").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -130,7 +130,7 @@
             });
         });
         var id = this.location.search.replace("?id=", "");
-        $.get('http://localhost:52229/api/default/uptus?ids=' + id, function (res) {
+        $.get('http://localhost:8060/api/default/uptus?ids=' + id, function (res) {
             console.log(res);
             $("#UserName").val(res.userName);
             $("#MemerId").val(res.memerId);
@@ -160,7 +160,7 @@
         //状态
         m.UserState = $("input[name='sex']:checked").val();
         $.ajax({
-            url: "http://localhost:52229/api/default/UptUs",
+            url: "http://localhost:8060/api/default/UptUs",
             data: JSON.stringify(m),
             dataType: "json",
             type: "post",
@@ -177,7 +177,7 @@
         })
     }
     function GetCity() {
-        $.get('http://localhost:52229/api/default/getcity?id=1', function (res) {
+        $.get('http://localhost:8060/api/default/getcity?id=1', function (res) {
             $("#quiz1").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -194,7 +194,7 @@
     }
     function GetCity1() {
         var id = $('select[name="demo1"] option:selected').val();
-        $.get('http://localhost:52229/api/default/getcity?id=' + id, function (res) {
+        $.get('http://localhost:8060/api/default/getcity?id=' + id, function (res) {
             $("#quiz2").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -213,7 +213,7 @@
 
     function GetCity2() {
         var id = $('select[name="demo2"] option:selected').val();
-        $.get('http://localhost:52229/api/default/getcity?id=' + id, function (res) {
+        $.get('http://localhost:8060/api/default/getcity?id=' + id, function (res) {
             $("#quiz3").empty();
             var html = "";
             $.each(res, function (i, v) {
