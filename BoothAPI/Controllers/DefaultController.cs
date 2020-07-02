@@ -36,11 +36,11 @@ namespace BoothAPI.Controllers
             }
             else if(datetime=="今天")//今天
             {
-                flag = _show.UserCount(b => b.CreateTime.Day==DateTime.Now.Day);
+                flag = _show.UserCount(b => b.CreateTime.Day==DateTime.Now.Day & b.CreateTime.Month == DateTime.Now.Month & b.CreateTime.Year == DateTime.Now.Year);
             }
             else//昨天
             {
-                flag = _show.UserCount(b => b.CreateTime.Day == (DateTime.Now.Day)-1);
+                flag = _show.UserCount(b => b.CreateTime.Day == (DateTime.Now.Day)-1 & b.CreateTime.Month == DateTime.Now.Month & b.CreateTime.Year == DateTime.Now.Year);
             }
 
 

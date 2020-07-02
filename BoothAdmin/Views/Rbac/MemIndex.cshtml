@@ -27,7 +27,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">所属部门</label>
                         <div class="layui-input-inline">
-                            <select name="dept" id="deptid"  lay-verify="required" lay-search="">
+                            <select name="dept" id="deptid" lay-verify="required" lay-search="">
                             </select>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
         <a href="#" onclick="Del()"></a>
     </div>
     <div id="demo" style="text-align:center">
-        <button type="button" id="prev" onclick="Prev()"  class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">上一页</i></button>
+        <button type="button" id="prev" onclick="Prev()" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">上一页</i></button>
         <label id="page"></label>
         <button type="button" id="next" onclick="Next()" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon">下一页</i></button>
     </div>
@@ -67,15 +67,18 @@
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
+<script src="~/Url.js"></script>
 <script>
-    
+
     //对表单重新渲染  复选框、下拉框等
     layui.use('form', function () {
         var form = layui.form;
         form.render();
     });
+    var url = "";
     //页面加载
     $(function () {
+        url = $.urls();
         GetDept();//部门下拉框
         if (pageindex == 1) {
             $('#prev').attr("disabled", true);
@@ -83,13 +86,13 @@
         accname = $("#accname").val();
         deptid = $('select[name="dept"] option:selected').val();
         AdminShow(pageindex);
-        
+
     });
 
     var accname = $("#accname").val();
     var deptid = $('select[name="dept"] option:selected').val();
 
-   
+
 
     var pageindex = 1;// 页码
     var pagesize = 2;  //每页数据
@@ -97,7 +100,7 @@
     var pages = 0; //得到总页数
     //上一页
     function Prev() {
-        
+
         $('#next').attr("disabled", false);
         if (pageindex == 1) {
             $('#prev').attr("disabled", true);
@@ -110,7 +113,7 @@
     }
     //下一页
     function Next() {
-        
+
         $('#prev').attr("disabled", false);
         if (pageindex >= pages) {
             $('#next').attr("disabled", true);
@@ -130,7 +133,7 @@
 
     //显示
     function AdminShow(pageindex) {
-        $.get('http://localhost:8060/api/rbac/getadmin?accName=' + accname + '&deptId=' + deptid + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
+        $.get(url+'api/rbac/getadmin?accName=' + accname + '&deptId=' + deptid + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
             total = res.count;
             pages = Math.ceil(total / pagesize);
             $("#dt").empty();
@@ -154,20 +157,20 @@
     //时间转换
     function dateFormat(datestr) {
         var date = new Date(datestr);
-        var datestr = date.getFullYear() + "-" + (date.getMonth()+1) + "-" +
+        var datestr = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" +
             date.getDate() + " " + date.getHours() + ":" +
             date.getMinutes() + ":" + date.getSeconds();
         return datestr;
     }
     //下拉框部门
     function GetDept() {
-        $.get('http://localhost:8060/api/rbac/getdept', function (res) {
+        $.get(url+'api/rbac/getdept', function (res) {
 
             $("#deptid").empty();
-            var html = ""; 
+            var html = "";
             html += '<option value="undefined">请选择</option>';
             $.each(res, function (i, v) {
-                
+
                 html += '<option value="' + v.id + '">' + v.deptName + '</option>';
 
             });
@@ -182,7 +185,7 @@
 
     //下拉框角色
     function GetRole() {
-        $.get('http://localhost:8060/api/rbac/getrole', function (res) {
+        $.get(url+'api/rbac/getrole', function (res) {
             $("#roleid").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -202,9 +205,9 @@
     function Del(id) {
         alert(id);
         if (confirm("确认删除吗")) {
-            
+
             $.ajax({
-                url: "http://localhost:8060/api/rbac/deladmin",
+                url: url+"api/rbac/deladmin",
                 data: { "id": id },
                 dataType: "json",
                 //contentType: "application/json",
@@ -267,21 +270,21 @@
             '</form>';
         layui.use('layer', function () { //独立版的layer无需执行这一句
             //var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
-            
-            
+
+
             layer.open({
 
                 type: 1
-                ,title:'添加成员'
-                ,area:["600px","550px"]
+                , title: '添加成员'
+                , area: ["600px", "550px"]
                 , offset: 't' //具体配置参考：offset参数项
                 , content:
                     str
-                , btn: ['添加','取消']
+                , btn: ['添加', '取消']
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
                 , success: function () {
-                    $.get('http://localhost:8060/api/rbac/getdept', function (res) {
+                    $.get(url+'api/rbac/getdept', function (res) {
                         $("#deptids").empty();
                         var html = "";
                         $.each(res, function (i, v) {
@@ -307,7 +310,7 @@
                     admin.RoleId = $('select[name="roleid"] option:selected').val();
                     admin.IsEnable = $("input[name='isenable']:checked").val();
                     $.ajax({
-                        url: "http://localhost:8060/api/rbac/addadmin",
+                        url: url+"api/rbac/addadmin",
                         data: JSON.stringify(admin),
                         dataType: "json",
                         contentType: "application/json",
@@ -320,12 +323,12 @@
                             }
                         }
                     });
-                    
+
                 }
                 , btn2: function () {  //取消关闭
                     layer.closeAll();
                 }
-                
+
             });
 
         });
@@ -376,7 +379,7 @@
             '</form>';
         layui.use('layer', function () { //独立版的layer无需执行这一句
             //var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
-            
+
 
             layer.open({
                 type: 1
@@ -389,7 +392,7 @@
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
                 , success: function () {
-                    $.get('http://localhost:8060/api/rbac/getdept', function (res) {
+                    $.get(url+'api/rbac/getdept', function (res) {
                         $("#deptids").empty();
                         var html = "";
                         $.each(res, function (i, v) {
@@ -404,7 +407,7 @@
                         });
                     });
                     GetRole();
-                    $.get('http://localhost:8060/api/rbac/getadminone?id=' + id, function (res) {
+                    $.get(url+'api/rbac/getadminone?id=' + id, function (res) {
                         $("#adminnum").val(res.accNum);
                         $("#adminname").val(res.accName);
                         $("#accpass").val(res.accPass);
@@ -431,7 +434,7 @@
                     admin.RoleId = $('select[name="roleid"] option:selected').val();
                     admin.IsEnable = $("input[name='isenable']:checked").val();
                     $.ajax({
-                        url: "http://localhost:8060/api/rbac/uptadmin",
+                        url: url+"api/rbac/uptadmin",
                         data: JSON.stringify(admin),
                         dataType: "json",
                         contentType: "application/json",

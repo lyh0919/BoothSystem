@@ -99,29 +99,32 @@
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
+<script src="~/Url.js"></script>
 <script>
     $(function () {
-        $.get('http://localhost:8060/api/market/boothcount?isenable=1', function (res) {
+        var url = $.urls();
+
+        $.get(url + 'api/market/boothcount?isenable=1', function (res) {
             $("#yes").html(res);
         });
-        $.get('http://localhost:8060/api/market/boothcount?isenable=0', function (res) {
+        $.get(url + 'api/market/boothcount?isenable=0', function (res) {
             $("#no").html(res);
         });
-        $.get('http://localhost:8060/api/market/boothcount?isenable=', function (res) {
+        $.get(url + 'api/market/boothcount?isenable=', function (res) {
             $("#all").html(res);
         });
 
 
-        $.get('http://localhost:8060/api/default/usercount?datetime=昨天', function (res) {
+        $.get(url + 'api/default/usercount?datetime=今天', function (res) {
             $("#today").html(res);
         });
-        $.get('http://localhost:8060/api/default/usercount?datetime=今天', function (res) {
+        $.get(url + 'api/default/usercount?datetime=昨天', function (res) {
             $("#yestoday").html(res);
         });
-        $.get('http://localhost:8060/api/default/usercount?datetime=本月', function (res) {
+        $.get(url + 'api/default/usercount?datetime=本月', function (res) {
             $("#month").html(res);
         });
-        $.get('http://localhost:8060/api/default/usercount?datetime=', function (res) {
+        $.get(url + 'api/default/usercount?datetime=', function (res) {
             $("#userall").html(res);
         });
     });

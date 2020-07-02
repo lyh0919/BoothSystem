@@ -19,7 +19,7 @@
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body>
-
+    <script src="~/Url.js"></script>
     <h4>修改摊位</h4>
     <hr />
     <form>
@@ -115,7 +115,8 @@
 </html>
 
 <script>
-
+    var url = "";
+    url = $.urls();
 
     function UpdateBooths() {
         var obj = {};
@@ -167,7 +168,7 @@
             //obj.IsEnable = "1";
 
         $.ajax({
-            url: "http://localhost:8060/api/market/UpdateBooth",
+            url: url+"api/market/UpdateBooth",
             dataType: "json",
             type: "post",
             data: JSON.stringify(obj),

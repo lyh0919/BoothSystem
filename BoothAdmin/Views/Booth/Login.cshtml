@@ -11,12 +11,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>摊位管理系统</title>
 
- 
+
     <link href="~/style.css" rel="stylesheet" />
+    
 
-    <script src="~/jquery.min.js"></script>
     <script src="~/vector.js"></script>
-
+    
 </head>
 <body>
 
@@ -33,36 +33,41 @@
             </div>
         </div>
     </div>
+    <script src="~/jquery.min.js"></script>
+    <script src="~/Url.js"></script>
+    <script type="text/javascript">
+        var url = "";
+        $(function () {
+            Victor("container", "output");   //登录背景函数
+            $("#entry_name").focus();
+            $(document).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#entry_btn").click();
+                }
+            });
 
-<script type="text/javascript">
-    $(function(){
-        Victor("container", "output");   //登录背景函数
-        $("#entry_name").focus();
-        $(document).keydown(function(event){
-            if(event.keyCode==13){
-                $("#entry_btn").click();
-            }
-        });
-    });
-    $("#login").click(function () {
-        var username = $("#username").val();
-        var userpass = $("#userpass").val();
-        $.get('http://localhost:8060/api/boothsys/login?username=' + username + '&userpass=' + userpass, function (res) {
-            //alert(res.accNum);
-            if (res.accNum == username) {
-                localStorage["Admin"] = res.accName;
-                localStorage["AdminId"] = res.id;
-                location.href = "/Booth/Index";
-            }
-            else {
-                alert("账号或密码错误");               
-            }
-            
-        });
-    });
-    
+            url = $.urls();
 
-</script>
+        });
+        $("#login").click(function () {
+            var username = $("#username").val();
+            var userpass = $("#userpass").val();
+            $.get(url + 'api/boothsys/login?username=' + username + '&userpass=' + userpass, function (res) {
+                //alert(res.accNum);
+                if (res.accNum == username) {
+                    localStorage["Admin"] = res.accName;
+                    localStorage["AdminId"] = res.id;
+                    location.href = "/Booth/Index";
+                }
+                else {
+                    alert("账号或密码错误");
+                }
+
+            });
+        });
+
+
+    </script>
 
 </body>
 </html>

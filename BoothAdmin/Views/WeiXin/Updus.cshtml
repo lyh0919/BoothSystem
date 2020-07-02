@@ -19,6 +19,7 @@
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body>
+    <script src="~/Url.js"></script>
     <form class="layui-form">
         <div class="layui-form-item">
             <label class="layui-form-label">租户名称：</label>
@@ -61,62 +62,64 @@
             </div>
             </div>*@
 
-            <div class="layui-form-item">
-                <label class="layui-form-label">联系地址</label>
-                <input type="hidden" name="UserAddress" id="UserAddress" />
-                <div class="layui-input-inline">
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系地址</label>
+            <input type="hidden" name="UserAddress" id="UserAddress" />
+            <div class="layui-input-inline">
 
-                    <select id="quiz1" name="demo1" onchange="f1()">
-                        <option value="" id="quiz1">请选择你所在的省</option>
-                    </select>
-                </div>
-                <div class="layui-input-inline">
-                    <select id="quiz2" name="demo2" onchange="f2()">
-                        <option value="">请选择你所在的城市</option>
-                        <option value="1">阜阳市</option>
-                        <option value="2">合肥市</option>
-                        <option value="3">郑州市</option>
-                        <option value="4">武汉市</option>
-                    </select>
-                </div>
-                <div class="layui-input-inline">
-                    <select id="quiz3" name="demo3">
-                        <option value="">请选择你所在的区</option>
-                        <option value="1">太和县</option>
-                        <option value="2">临泉县</option>
-                        <option value="3">奉贤区</option>
-                        <option value="4">朝阳区</option>
-                        <option value="5">奉城区</option>
-                    </select>
-                </div>
+                <select id="quiz1" name="demo1" onchange="f1()">
+                    <option value="" id="quiz1">请选择你所在的省</option>
+                </select>
             </div>
+            <div class="layui-input-inline">
+                <select id="quiz2" name="demo2" onchange="f2()">
+                    <option value="">请选择你所在的城市</option>
+                    <option value="1">阜阳市</option>
+                    <option value="2">合肥市</option>
+                    <option value="3">郑州市</option>
+                    <option value="4">武汉市</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select id="quiz3" name="demo3">
+                    <option value="">请选择你所在的区</option>
+                    <option value="1">太和县</option>
+                    <option value="2">临泉县</option>
+                    <option value="3">奉贤区</option>
+                    <option value="4">朝阳区</option>
+                    <option value="5">奉城区</option>
+                </select>
+            </div>
+        </div>
 
 
-            <div class="layui-form-item">
-                <label class="layui-form-label">状态</label>
-                <div class="layui-input-block">
-                    <input type="radio" name="sex" value="1" title="开启" checked="" />
-                    <input type="radio" name="sex" value="0" title="关闭" />
-                </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="1" title="开启" checked="" />
+                <input type="radio" name="sex" value="0" title="关闭" />
             </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button type="button" class="layui-btn" id="bt" onclick="uptus()">修改</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">取消</button>
-                </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="bt" onclick="uptus()">修改</button>
+                <button type="reset" class="layui-btn layui-btn-primary">取消</button>
             </div>
+        </div>
     </form>
 </body>
 </html>
 <script>
-
+    var url = "";
+  
   
     $(function () {
+        url = $.urls();
         GetMem();    
     });
 
     function GetMem() {
-        $.get('http://localhost:8060/api/default/showweixins', function (res) {
+        $.get(url+'api/default/showweixins', function (res) {
             $("#memid").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -130,7 +133,7 @@
             });
         });
         var id = this.location.search.replace("?id=", "");
-        $.get('http://localhost:8060/api/default/uptus?ids=' + id, function (res) {
+        $.get(url+'api /default /uptus?ids=' + id, function (res) {
             console.log(res);
             $("#UserName").val(res.userName);
             $("#MemerId").val(res.memerId);
@@ -160,7 +163,7 @@
         //状态
         m.UserState = $("input[name='sex']:checked").val();
         $.ajax({
-            url: "http://localhost:8060/api/default/UptUs",
+            url: url +'api/default/UptUs',
             data: JSON.stringify(m),
             dataType: "json",
             type: "post",
@@ -177,7 +180,7 @@
         })
     }
     function GetCity() {
-        $.get('http://localhost:8060/api/default/getcity?id=1', function (res) {
+        $.get(url +'api/default/getcity?id=1', function (res) {
             $("#quiz1").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -194,7 +197,7 @@
     }
     function GetCity1() {
         var id = $('select[name="demo1"] option:selected').val();
-        $.get('http://localhost:8060/api/default/getcity?id=' + id, function (res) {
+        $.get(url +'api/default/getcity?id=' + id, function (res) {
             $("#quiz2").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -213,7 +216,7 @@
 
     function GetCity2() {
         var id = $('select[name="demo2"] option:selected').val();
-        $.get('http://localhost:8060/api/default/getcity?id=' + id, function (res) {
+        $.get(url +'api/default/getcity?id=' + id, function (res) {
             $("#quiz3").empty();
             var html = "";
             $.each(res, function (i, v) {

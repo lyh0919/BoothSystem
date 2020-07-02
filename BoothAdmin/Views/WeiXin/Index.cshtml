@@ -45,6 +45,7 @@
     <script src="~/layuiadmin/layui/layui.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Url.js"></script>
     <script>
         layui.use('table', function () {
             var table = layui.table;
@@ -58,7 +59,7 @@
                 , title: '市场数据表'
                 , totalRow: true
                 , cols: [[ //表头
-                    { type: 'checkbox', fixed: 'left',field: 'id' }
+                    { type: 'checkbox', fixed: 'left', field: 'id' }
                     , { field: 'id', title: 'ID', sort: true, fixed: 'left' }
                     , { field: 'memName', title: '昵称', sort: true }
                     , { field: 'memWx', title: '微信号' }
@@ -151,7 +152,8 @@
 </body>
 </html>
 <script>
-
+    var url = "";
+    url = $.urls();
     $('#delAll').click(function () {
         var checkStatus = layui.table.checkStatus('testReload');
         if (checkStatus.data.length == 0) {
@@ -170,7 +172,7 @@
                 layer.close(index);
                 $.ajax({
                     type: 'Get',
-                    url: 'http://localhost:8060/api/default/delall?noList=' + ids,
+                    url: url +'api/default/delall?noList=' + ids,
                     success: function (ids) {
                        if (ids > 0) {
                            parent.layer.msg('删除中...', { icon: 16, shade: 0.3, time: 500 });
