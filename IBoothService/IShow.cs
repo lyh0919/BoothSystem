@@ -36,6 +36,8 @@ namespace IBoothService
         /// ///////租户页面/////////////////////////////////////////////////////
         /// </summary>
         /// <returns></returns>
+        //用户数
+        int UserCount(Expression<Func<UserInfo, bool>> where);
 
         //分页获取租户信息列表
         List<UserInfo> ShowUser();

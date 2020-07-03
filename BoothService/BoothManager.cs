@@ -15,6 +15,13 @@ namespace BoothService
         {
 
         }
+        //摊位数
+        public int BoothCount(Expression<Func<BooInfo, bool>> where)
+        {
+            var server = this.CreateService<BooInfo>();
+            return server.Count(where);
+        }
+
         #region 添加摊位
         public int AddBoo(BooInfo model)
         {

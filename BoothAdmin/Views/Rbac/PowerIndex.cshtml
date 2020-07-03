@@ -28,7 +28,7 @@
 
 <div>
     <form class="layui-form" action="" lay-filter="example">
-        <div class="layui-form-item" style="height:300px" >
+        <div class="layui-form-item" style="height:300px">
             <label class="layui-form-label">权限</label>
             <div class="layui-input-block" id="power">
 
@@ -47,9 +47,11 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
 <script src="~/layuiadmin/layui/layui.js"></script>
+<script src="~/Url.js"></script>
 <script>
+    var url = "";
     $(function () {
-
+        url = $.urls();
 
         var role = window.location.search.split('?')[1].split('&')[0].split('=')[1];
         $("#role").html(decodeURI(role));//需要解码
@@ -58,7 +60,7 @@
         $("#roleid").val(id);
 
         //反填权限
-        $.get('http://localhost:52229/api/rbac/getpower', function (res) {
+        $.get(url+'api/rbac/getpower', function (res) {
             //$("#power").remove();
             var html = "";
             $.each(res, function (i, v) {
@@ -72,7 +74,7 @@
             });
         });
         //已有权限打钩
-        $.get('http://localhost:52229/api/rbac/getrolepowbyid?roleId=' + id, function (res) {
+        $.get(url+'api/rbac/getrolepowbyid?roleId=' + id, function (res) {
 
             $.each(res, function (i, v) {
                 var power = document.getElementsByName("pow");
@@ -101,11 +103,11 @@
                 arr.push(power[index].value);
             }
         }
-        
+
         if (arr.length != 0) {
             var roleid = $("#roleid").val();
             var powid = arr.join(',');
-            $.get('http://localhost:52229/api/rbac/addrolepow?roleId=' + roleid + '&powId=' + powid, function (res) {
+            $.get(url+'api/rbac/addrolepow?roleId=' + roleid + '&powId=' + powid, function (res) {
                 if (res > 0) {
                     alert("设置成功");
                     location.href = "/Rbac/RoleIndex";
@@ -115,7 +117,7 @@
         else {
             alert("请选择权限");
         }
-        
+
     }
 
     function Back() {

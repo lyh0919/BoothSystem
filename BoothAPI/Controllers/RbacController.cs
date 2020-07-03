@@ -280,7 +280,7 @@ namespace BoothAPI.Controllers
 
             if (accid != "undefined")//判断是否有效
             {
-                recordlist = _rbac.GetRecord(r => r.AccId.ToString() == accid & r.UpdateTime.ToString().Contains(datetime), r => r.UpdateTime, pageindex, pagesize, out count);
+                recordlist = _rbac.GetRecord(r => r.AccId.ToString() == accid & r.UpdateTime.Date.Equals(DateTime.Parse(datetime)), r => r.UpdateTime, pageindex, pagesize, out count);
 
             }
             else if (datetime != null)

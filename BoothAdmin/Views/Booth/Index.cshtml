@@ -17,7 +17,7 @@
 
 
     <script>
-        /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+        /^http(s*):\/\//.test(location.href) || alert('请先部署到 192.168.43.218 下再访问');
     </script>
 </head>
 <body class="layui-layout-body">
@@ -127,17 +127,17 @@
                                     <a lay-href="/Market/ShowBooth">摊位管理</a>
                                 </dd>
                                 @*<dd data-name="button">
-                                    <a lay-href="/Market/DetialBoothAndUser">出租明细历史</a>
-                                </dd>*@
+                                        <a lay-href="/Market/DetialBoothAndUser">出租明细历史</a>
+                                    </dd>*@
                                 <dd data-name="button">
                                     <a lay-href="/Market/BooAucalInfoShow">摊位竞拍管理</a>
                                 </dd>
                                 @*<dd data-name="button">
-                                    <a lay-href="/Market/DetialBooAucalAndBoo">竞拍明细</a>
-                                </dd>*@
+                                        <a lay-href="/Market/DetialBooAucalAndBoo">竞拍明细</a>
+                                    </dd>*@
                                 @*<dd data-name="tabs">
-           data-name="nav"
-        </dd>*@
+                                       data-name="nav"
+                                    </dd>*@
 
 
 
@@ -241,6 +241,7 @@
     </div>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/layuiadmin/layui/layui.js"></script>
+    <script src="~/Url.js"></script>
     <script>
         layui.config({
             base: '../layuiadmin/' //静态资源所在路径
@@ -248,15 +249,16 @@
             index: 'lib/index' //主入口模块
         }).use('index');
 
-        
+
         var accname = localStorage["Admin"]
         $("#accname").html(accname);
-
+        
         $(function () {
+            var url = $.urls();
             var admin = {};
             admin.Id = localStorage["AdminId"];
             $.ajax({
-                url: "http://localhost:52229/api/rbac/uptadmin",
+                url: url + "api/rbac/uptadmin",
                 data: JSON.stringify(admin),
                 dataType: "json",
                 contentType: "application/json",

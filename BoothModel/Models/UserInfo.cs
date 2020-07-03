@@ -13,5 +13,6 @@ namespace BoothModel.Models
         public string UserAddress { get; set; }
         public string UserState { get; set; }
         public string UserImg { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace BoothAPI
             services.AddScoped<IRbac, Rbac>();
             services.AddScoped<IMarketBll, MarketBll>();
             services.AddScoped<IRent, Rent>();
-            //services.AddScoped<ICity, CityBll>();
+
             services.AddScoped<IBoothManager, BoothManager>();
  
 
@@ -52,7 +52,7 @@ namespace BoothAPI
                 options.AddPolicy("getd", policy =>
                 {
                     // 設定允許跨域的來源，有多個的話可以用 `,` 隔開
-                    policy.WithOrigins("http://localhost:52229", "http://localhost:53979")
+                    policy.WithOrigins("http://localhost:52229", "http://localhost:53979", "http://localhost:8060", "http://localhost:8061")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();

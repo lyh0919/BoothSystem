@@ -24,7 +24,7 @@ namespace BoothAdmin.Controllers
         public ActionResult SelectMarket(int page=1,int limit=10)
         {
 
-            string url = "http://localhost:52229/api/Market/ShowMarket";
+            string url = "http://localhost:8060/api/Market/ShowMarket";
             HttpClient client = new HttpClient();
 
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
@@ -44,7 +44,7 @@ namespace BoothAdmin.Controllers
         //查询
         public ActionResult SearchMarket(string name="",string isables="")
         {
-            string url = "http://localhost:52229/api/market/SearchMarket?name=" + name + "&isable=" + isables;
+            string url = "http://localhost:8060/api/market/SearchMarket?name=" + name + "&isable=" + isables;
             HttpClient client = new HttpClient();
 
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
@@ -72,7 +72,7 @@ namespace BoothAdmin.Controllers
         public int Add(MarketInfo m)
         {
             HttpResponseMessage message = null;
-            string url = "http://localhost:52229/api/Market/AddMarket";
+            string url = "http://localhost:8060/api/Market/AddMarket";
             m.Id = Guid.NewGuid();
             m.CreateTime = DateTime.Now;
             m.UpdateTime = DateTime.Now;
@@ -92,7 +92,7 @@ namespace BoothAdmin.Controllers
         //反填数据
        public IActionResult UpdateMarket(Guid id)
         {
-            string url = "http://localhost:52229/api/Market/ShowDetial?id=" + id;
+            string url = "http://localhost:8060/api/Market/ShowDetial?id=" + id;
             HttpClient client = new HttpClient();
 
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
@@ -108,7 +108,7 @@ namespace BoothAdmin.Controllers
         public int DelMarket(Guid id)
         {
             HttpResponseMessage message = null;
-            string url = "http://localhost:52229/api/Market/DelMarket?id=" + id;
+            string url = "http://localhost:8060/api/Market/DelMarket?id=" + id;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json") { CharSet = "utf-8" });
            
@@ -139,11 +139,11 @@ namespace BoothAdmin.Controllers
         public int AddBoos(BooInfo m)
         {
             HttpResponseMessage message = null;
-            string url = "http://localhost:52229/api/Market/AddBooth";
+            string url = "http://localhost:8060/api/Market/AddBooth";
             m.Id = Guid.NewGuid();
             m.CreateTime = DateTime.Now;
             m.UpdateTime = DateTime.Now;
-            m.LessId =new Guid("2704a5d9-5c2d-4ead-a25d-b8d8d135466c");
+
          
             m.IsEnable = "1";
             string stu = JsonConvert.SerializeObject(m);
@@ -160,7 +160,7 @@ namespace BoothAdmin.Controllers
         {
             
             ViewBag.MarketShow = ShowMarket();
-            string url = "http://localhost:52229/api/Market/ShowBooDetial?id=" + id;
+            string url = "http://localhost:8060/api/Market/ShowBooDetial?id=" + id;
             HttpClient client = new HttpClient();
 
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
@@ -174,7 +174,7 @@ namespace BoothAdmin.Controllers
         //显示数据
         public List<MarketInfo> ShowMarket()
         {
-            string url = "http://localhost:52229/api/Market/ShowMarket";
+            string url = "http://localhost:8060/api/Market/ShowMarket";
             HttpClient client = new HttpClient();
 
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
@@ -208,7 +208,7 @@ namespace BoothAdmin.Controllers
         public IActionResult UpdateBooAucalInfo(Guid id)
         {
             ViewBag.ShowBooInfo = ShowBooInfo();
-            string url = "http://localhost:52229/api/Market/ShowDetialOne?id=" + id;
+            string url = "http://localhost:8060/api/Market/ShowDetialOne?id=" + id;
             HttpClient client = new HttpClient();
 
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
@@ -220,7 +220,7 @@ namespace BoothAdmin.Controllers
 
         public List<BooInfo> ShowBooInfo()
         {
-            string url = "http://localhost:52229/api/Market/ShowBooInfo";
+            string url = "http://localhost:8060/api/Market/ShowBooInfo";
             HttpClient client = new HttpClient();
 
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;

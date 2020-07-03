@@ -16,6 +16,7 @@
     <link href="~/css/site.css" rel="stylesheet" />
 </head>
 <body>
+    
     <div style="float: left;padding-top:10px">
         <div class="layui-inline">
             <div style="float:left"><input class="layui-input" type="text" placeholder="请输入摊位名称" id="txt_Name" style="width: 300px;height: 30px;border: aliceblue;" autocomplete="off" /></div>
@@ -44,11 +45,12 @@
         <div style="padding-left:20px">
             <table id="demo" class="layui-table" style=""></table>
         </div>
-       
+
 
         <script src="~/layuiadmin/layui/layui.js"></script>
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
+        <script src="~/Url.js"></script>
         <script>
             //layui.use('table', function () {
             //    var table = layui.table;
@@ -135,15 +137,15 @@
 </body>
 </html>
 <script>
-
+    var url = "";
      $(function () {
-
+         url = $.urls();
          Show();
          ShowMarket();
     });
     function Show() {
 
-        $.get('http://localhost:52229/api/Market/ShowBooth', function (res) {
+        $.get(url+'api/Market/ShowBooth', function (res) {
             var str = "";
             $.each(res, function (i, n) {
                 console.log(n);
@@ -164,7 +166,7 @@
         })
     }
     function ShowMarket() {
-        $.get('http://localhost:52229/api/market/ShowMarket', function (res) {
+        $.get(url+'api/market/ShowMarket', function (res) {
             $("#MarkId").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -212,7 +214,7 @@
             Marketid = "";
         }
         $.ajax({
-            url: "http://localhost:52229/api/market/SearchBooInfo?name=" + txtName + "&isable=" + selectid + "&Marketid=" + Marketid,
+            url: url+"=api/market/SearchBooInfo?name=" + txtName + "&isable=" + selectid + "&Marketid=" + Marketid,
             dataType: "json",
             type: "get",
             success: function (res) {
@@ -243,7 +245,7 @@
 
     function Del(id) {
         if (confirm("请确认删除吗？")) {
-            $.get('http://localhost:52229/api/market/DelBooth', { id: id }, function (res) {
+            $.get(url+'api/market/DelBooth', { id: id }, function (res) {
                 if (res >= 1) {
                     alert("删除成功");
                 }

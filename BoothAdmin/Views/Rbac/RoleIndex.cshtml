@@ -44,13 +44,16 @@
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
+<script src="~/Url.js"></script>
 <script>
+    var url = "";
     $(function () {
+        url = $.urls();
         RoleShow();
     });
     //显示列表
     function RoleShow() {
-        $.get('http://localhost:52229/api/rbac/getrole', function (res) {
+        $.get(url+'api/rbac/getrole', function (res) {
             $("#dt").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -78,7 +81,7 @@
     function Del(id) {
         if (confirm("确认删除吗")) {
             $.ajax({
-                url: "http://localhost:52229/api/rbac/delrole",
+                url: url+"api/rbac/delrole",
                 data: { id: id },
                 dataType: "json",
                 contentType: "application/json",
@@ -100,21 +103,21 @@
 
             layer.open({
                 type: 1
-                ,title:'添加角色'
-                ,area:["600px","400px"]
+                , title: '添加角色'
+                , area: ["600px", "400px"]
                 , offset: 't' //具体配置参考：offset参数项
                 , content:
-                    '<div style="padding: 20px 100px;"><div class="layui-form-item">'+
-                        '<label class= "layui-form-label" >角色名称</label>'+
-                        '<div class="layui-input-inline">'+
-                            '<input type="text" id="rolename" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">'+
-                        '</div>' +
-                        '<label class= "layui-form-label" >角色描述</label>' +
-                        '<div class="layui-input-inline">' +
-                            '<input type="text" id="roledesc" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">' +
-                        '</div>' +
+                    '<div style="padding: 20px 100px;"><div class="layui-form-item">' +
+                    '<label class= "layui-form-label" >角色名称</label>' +
+                    '<div class="layui-input-inline">' +
+                    '<input type="text" id="rolename" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">' +
+                    '</div>' +
+                    '<label class= "layui-form-label" >角色描述</label>' +
+                    '<div class="layui-input-inline">' +
+                    '<input type="text" id="roledesc" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">' +
+                    '</div>' +
                     '</div> '
-                , btn: ['添加','取消']
+                , btn: ['添加', '取消']
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
                 , yes: function () {  //添加按钮
@@ -122,7 +125,7 @@
                     role.RoleName = $("#rolename").val();
                     role.RoleDesc = $("#roledesc").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/addrole",
+                        url: url+"api/rbac/addrole",
                         data: JSON.stringify(role),
                         dataType: "json",
                         contentType: "application/json",
@@ -170,7 +173,7 @@
                 , btnAlign: 'c' //按钮居中
                 , shade: 0 //不显示遮罩
                 , success: function () {
-                    $.get('http://localhost:52229/api/rbac/getroleone?id=' + id, function (res) {
+                    $.get(url+'api/rbac/getroleone?id=' + id, function (res) {
                         $("#rolename").val(res.roleName);
                         $("#roledesc").val(res.roleDesc);
 
@@ -182,7 +185,7 @@
                     role.RoleName = $("#rolename").val();
                     role.RoleDesc = $("#roledesc").val();
                     $.ajax({
-                        url: "http://localhost:52229/api/rbac/uptrole",
+                        url: url+"api/rbac/uptrole",
                         data: JSON.stringify(role),
                         dataType: "json",
                         contentType: "application/json",

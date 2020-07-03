@@ -19,6 +19,7 @@
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body>
+    <script src="~/Url.js"></script>
     <form class="layui-form">
         <div class="layui-form-item">
             <label class="layui-form-label">会员昵称：</label>
@@ -78,7 +79,8 @@
             form.render();
         });
 
-   
+    var url = "";
+    url = $.urls();
     $(function () {
 
         layui.use('form', function () {
@@ -93,7 +95,7 @@
 
 
      var id = this.location.search.replace("?id=", "");
-        $.get('http://localhost:52229/api/default/uptwx?ids=' + id, function (res) {
+        $.get(url+'api/default/uptwx?ids=' + id, function (res) {
             $("#MemName").val(res.memName);
             $("#MemWX").val(res.memWx);
             $("#MemPhone").val(res.memPhone);
@@ -118,7 +120,7 @@ function upwx() {
         //状态
         m.MemState = $("input[name='sex']:checked").val();
         $.ajax({
-            url: "http://localhost:52229/api/default/uptwx",
+            url: url+'api/default/uptwx',
             data: m,
             dataType: "json",
             type: "post",
@@ -136,7 +138,7 @@ function upwx() {
 
     //显示地址
     function GetAdders() {
-        $.get('http://localhost:52229/api/default/getsheng?id=1', function (res) {
+        $.get(url+'api/default/getsheng?id=1', function (res) {
             $("#memAddress1").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -155,7 +157,7 @@ function upwx() {
     function GetCity1(res) {
         var id = res.value;
 
-        $.get('http://localhost:52229/api/default/getsheng?id=' + id, function (res) {
+        $.get(url+'api/default/getsheng?id=' + id, function (res) {
             $("#memAddress2").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -172,7 +174,7 @@ function upwx() {
     //显示县
     function GetCity2(res) {
         var id = res.value;
-        $.get('http://localhost:52229/api/default/getsheng?id=' + id, function (res) {
+        $.get(url+'api/default/getsheng?id=' + id, function (res) {
             $("#memAddress3").empty();
             var html = "";
             $.each(res, function (i, v) {

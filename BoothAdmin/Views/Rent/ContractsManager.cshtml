@@ -50,6 +50,7 @@
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
+<script src="~/Url.js"></script>
 <script>
     var id = window.location.search.split("?")[1].split("=")[1];
     //对表单重新渲染  复选框、下拉框等
@@ -57,9 +58,10 @@
         var form = layui.form;
         form.render();
     });
+    var url = "";
     //页面加载
     $(function () {
-
+        url = $.urls();
         OrderShow(id);
 
     });
@@ -68,7 +70,7 @@
 
     //显示
     function OrderShow(id) {
-        $.get('http://localhost:52229/api/rent/ShowContastInfo?orderid=' + id, function (res) {
+        $.get(url+'api/rent/ShowContastInfo?orderid=' + id, function (res) {
 
             $("#dt").empty();
             var html = "";

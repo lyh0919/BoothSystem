@@ -18,7 +18,7 @@
     <title></title>
 </head>
 <body>
-
+    <script src="~/Url.js"></script>
     <h4>添加摊位</h4>
     <hr />
     <form class="layui-form">
@@ -114,13 +114,14 @@
             , type: 'datetime'
         });
     });
-
+    var url=""
     $(function () {
+        url = $.urls();
         ShowMarket();
     });
 
     function ShowMarket() {
-        $.get('http://localhost:52229/api/market/ShowBooInfo', function (res) {
+        $.get(url + 'api/market/ShowBooInfo', function (res) {
             $("#BooId").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -178,14 +179,16 @@
        
     
         $.ajax({
-            url: "http://localhost:52229/api/market/AddBooAcucal",
+            url: url + "api/market/AddBooAcucal",
             dataType: "json",
             type: "post",
             data: JSON.stringify(obj),
             contentType: "application/json;charset=utf-8",
             success: function (success) {
-                if (success >= 1)
+                if (success >= 1) {
                     alert('添加成功');
+                    window.parent.location.href = "/Market/BooAucalInfoShow";
+                }
                 else {
                     alert('添加失败');
                 }

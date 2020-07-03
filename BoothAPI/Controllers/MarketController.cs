@@ -25,6 +25,18 @@ namespace BoothAPI.Controllers
           
             this._boothManager = boothManager;
         }
+
+        //摊位数
+        [HttpGet]
+        public int BoothCount(string isenable)
+        {
+            if (isenable == null)
+            {
+                isenable = "";
+            }
+            return _boothManager.BoothCount(b => b.IsEnable.Contains(isenable));
+        }
+
         #region  添加市场
 
         //添加方法
