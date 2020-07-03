@@ -54,16 +54,7 @@ namespace BoothService
             return service.Where(where).ToList();
         }
 
-        ////显示所有省份  
-        //public List<City> GetShi(Expression<Func<City, bool>> where)
-        //{
-        //    var service = this.CreateService<City>();
-        //    return service.Where(where).ToList();
-        //}
-
-
-
-
+    
         //批量删除微信会员信息
         public int DelAll(List<MemberInfoo> entitys)
         {

@@ -59,7 +59,7 @@ namespace BoothAdmin.Controllers
         //根据会员名称和账户查询
         public ActionResult SeleWx(string name="",string wx="")
         {
-            string url = "http://localhost:52229/api/Default/SeleWx?name="+name+"&wx="+wx;
+            string url = "http://localhost:52229/api/Default/SeleWx?name=" + name+"&wx="+wx;
             HttpClient client = new HttpClient();
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
             string s = httpResponse.Content.ReadAsStringAsync().Result;

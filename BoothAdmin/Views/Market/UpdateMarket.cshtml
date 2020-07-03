@@ -4,130 +4,137 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
 
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/layuiadmin/layui/layui.js"></script>
+
+
 <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
-<script src="~/layuiadmin/jquery.unobtrusive-ajax.js"></script>
 
 
 
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/layuiadmin/layui/layui.js"></script>
-<link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
-<div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">市场名称:</label>
-        <div class="layui-input-block">
-            <input type="hidden" id="Ids" name="Ids" value="@Model.Id" />
-            <input type="text" name="title" id="MarkName" value="@Model.MarkName" lay-verify="title" autocomplete="off" placeholder="请输入市场名称" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">市场管理员:</label>
-        <div class="layui-input-block">
-            <input type="text" name="title" id="MarkAccName" value="@Model.MarkAccName" lay-verify="title" autocomplete="off" placeholder="请输入市场管理员名称" class="layui-input">
-        </div>
-    </div>
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">市场电话</label>
-            <div class="layui-input-inline">
-                <input type="text" name="phone" id="MarkPhone" value="@Model.MarkPhone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+
+    <div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">市场名称:</label>
+            <div class="layui-input-block">
+                <input type="hidden" id="Ids" name="Ids" value="@Model.Id" />
+                <input type="text" name="title" id="MarkName" value="@Model.MarkName" lay-verify="title" autocomplete="off" placeholder="请输入市场名称" class="layui-input">
             </div>
         </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">联动选择框</label>
-        <input type="hidden" name="MarkAddress" id="MarkAddress" value="@Model.MarkAddress" />
-        <div class="layui-input-inline">
-            <select id="quiz1" name="demo1" onchange="f1()">
-                <option value="">请选择你所在的省</option>
-            </select>
-
-
-    
-        </div>
-        <div class="layui-input-inline">
-            <select id="quiz2" name="demo2" onchange="f2()">
-                <option value="">请选择你所在的城市</option>
-            </select>
-           
-
-        </div>
-        <div class="layui-input-inline">
-            <select id="quiz3" name="demo3">
-                <option>请选择你所在的区</option>
-            </select>
-           
-
-     
+        <div class="layui-form-item">
+            <label class="layui-form-label">市场管理员:</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" id="MarkAccName" value="@Model.MarkAccName" lay-verify="title" autocomplete="off" placeholder="请输入市场管理员名称" class="layui-input">
+            </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">单选框</label>
-            <div class="layui-input-block">
-                <input type="radio" name="sex" value="1" title="开启" checked="">开启
-                <input type="radio" name="sex" value="0" title="关闭">关闭
+            <div class="layui-inline">
+                <label class="layui-form-label">市场电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="phone" id="MarkPhone" value="@Model.MarkPhone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
 
+        <div class="layui-form-item">
+            <label class="layui-form-label">联动选择框</label>
+            <input type="hidden" name="MarkAddress" id="MarkAddress" value="@Model.MarkAddress" />
+            <div class="layui-input-inline">
+                <select id="quiz1" name="demo1" onchange="f1()">
+                    <option value="">请选择你所在的省</option>
+                </select>
+
+
+
+            </div>
+            <div class="layui-input-inline">
+                <select id="quiz2" name="demo2" onchange="f2()">
+                    <option value="">请选择你所在的城市</option>
+                </select>
+
+
+            </div>
+            <div class="layui-input-inline">
+                <select id="quiz3" name="demo3">
+                    <option>请选择你所在的区</option>
+                </select>
+
+
+
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">单选框</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sex" value="1" title="开启" checked="">开启
+                    <input type="radio" name="sex" value="0" title="关闭">关闭
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" id="Btn_Update" onclick="UpdateMarket()">修改</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
     </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button type="submit" class="layui-btn" id="Btn_Update" onclick="UpdateMarket()">修改</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        </div>
-    </div>
-</div>
 
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/layuiadmin/layui/layui.js"></script>
+<script src="~/Url.js"></script>
 
 <script>
+    var url = "";
+    url = $.urls();
+    ///初始化加载城市
+    $(function () {
+        //  GetCity();
+        
 
+    });
     var address = $("#MarkAddress").val();
     var addressec = address.trim().split(" ");
-    $.get('http://localhost:8060/api/market/getcity?id=1', function (res) {
-         $("#quiz1").empty();
-            var html = "";
+    $.get(url + 'api/market/getcity?id=1', function (res) {
+        $("#quiz1").empty();
+        var html = "";
         $.each(res, function (i, v) {
-           
-           html += '<option id="' + v.id + '" value="' + v.id + '">' + v.cityName + '</option>';
-                        
+
+            html += '<option id="' + v.id + '" value="' + v.id + '">' + v.cityName + '</option>';
+
         });
         $("#quiz1").append(html);
         if (addressec[0] != null) {
-                $("#quiz1 option").each(function () {
-                    if ($(this).text() == addressec[0]) {
-                        $(this).attr("selected", true);
-                        f1(addressec[1],addressec[2]);
-                    }
-                    
-                })
-            }
-       
+            $("#quiz1 option").each(function () {
+                if ($(this).text() == addressec[0]) {
+                    $(this).attr("selected", true);
+                    f1(addressec[1], addressec[2]);
+                }
+
+            })
+        }
+
         layui.use('form', function () {
             var form = layui.form;
             form.render();
         });
-    //     $("#quiz1 option").each(function () {
-    //    /* 遍历省下拉框;判断下拉框值是否和取到的省的值相同;
-    //     * 相同就选中;选中之后紧接着就是第二级了;上面大家应该看到了
-    //     * f1()代表第二级;所以在选中之后进行f1()
-    //     * 并将 市 和 县 的值传过去;
-    //     * (县的值在f1()里面是不用的,是为了给f2()传过去的)
-    //     */
-        
-    //});
+        //     $("#quiz1 option").each(function () {
+        //    /* 遍历省下拉框;判断下拉框值是否和取到的省的值相同;
+        //     * 相同就选中;选中之后紧接着就是第二级了;上面大家应该看到了
+        //     * f1()代表第二级;所以在选中之后进行f1()
+        //     * 并将 市 和 县 的值传过去;
+        //     * (县的值在f1()里面是不用的,是为了给f2()传过去的)
+        //     */
+
+        //});
     });
-   
+
     function f1(city, country) {
-        var id =$("#quiz1 option:selected").val();
+        var id = $("#quiz1 option:selected").val();
         //alert(id);
         //alert(city);
-        $.get('http://localhost:8060/api/market/getcity?id=' + id, function (res) {
+        $.get(url + 'api/market/getcity?id=' + id, function (res) {
             $("#quiz2").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -142,7 +149,7 @@
                         $(this).attr("selected", true);
                         f2(country);
                     }
-                    
+
                 })
             }
 
@@ -152,7 +159,7 @@
         //alert(country);
         var ids = $("#quiz2 option:selected").val();
         //alert(ids);
-        $.get('http://localhost:8060/api/market/getcity?id=' + ids, function (res) {
+        $.get(url + 'api/market/getcity?id=' + ids, function (res) {
             $("#quiz3").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -166,7 +173,7 @@
                     if ($(this).text() == country) {
                         $(this).attr("selected", true)
                     }
-                  
+
                 })
             }
 
@@ -175,12 +182,7 @@
 
     }
 
-    ///初始化加载城市
-    $(function () {
-      //  GetCity();
-
-
-    });
+    
     function UpdateMarket() {
         var obj = {};
         obj.Id = $("#Ids").val();
@@ -189,35 +191,36 @@
             alert("市场部名称不能为空");
             return false;
         }
-      
+
 
         obj.MarkAccName = $("#MarkAccName").val();
         if (obj.MarkAccName == null) {
             alert("市场管理员不能为空");
             return false;
         }
-       
+
 
         obj.MarkPhone = $("#MarkPhone").val();
         if (!(/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(obj.MarkPhone))) {
             alert("手机号码有误，请重填");
             return false;
         }
-     
+
         var Address = $("#quiz1 option:selected").text() + " " + $("#quiz2 option:selected").text() + " " + $("#quiz3  option:selected").text();
         obj.MarkAddress = Address;
 
         obj.IsEnable = $("input[type='radio']:checked").val();
 
         $.ajax({
-            url: "http://localhost:8060/api/Market/UpdateMarket",
+            url: url + "api/Market/UpdateMarket",
             data: JSON.stringify(obj),
-            contentType:"application/json",
+            contentType: "application/json",
             dataType: "json",
             type: "post",
             success: function (res) {
                 if (res >= 1) {
                     alert("修改成功");
+                    window.parent.location.href = "/Market/Index";
                 }
                 else {
                     alert("修改失败");
@@ -228,7 +231,7 @@
     }
 
     //function GetCity() {
-    //    $.get('http://localhost:52229/api/market/getcity?id=1', function (res) {
+    //    $.get('http://192.168.43.218:52229/api/market/getcity?id=1', function (res) {
     //        $("#quiz1").empty();
     //        var html = "";
     //        $.each(res, function (i, v) {
@@ -245,7 +248,7 @@
     //}
     //function GetCity1() {
     //    var id = $('select[name="demo1"] option:selected').val();
-    //    $.get('http://localhost:52229/api/market/getcity?id=' + id, function (res) {
+    //    $.get('http://192.168.43.218:52229/api/market/getcity?id=' + id, function (res) {
     //        $("#quiz2").empty();
     //        var html = "";
     //        $.each(res, function (i, v) {
@@ -264,7 +267,7 @@
 
     //function GetCity2() {
     //    var id = $('select[name="demo2"] option:selected').val();
-    //    $.get('http://localhost:52229/api/market/getcity?id=' + id, function (res) {
+    //    $.get('http://192.168.43.218:52229/api/market/getcity?id=' + id, function (res) {
     //        $("#quiz3").empty();
     //        var html = "";
     //        $.each(res, function (i, v) {
@@ -279,7 +282,7 @@
     //        });
     //    });
     //}
-   
+
 </script>
 
 

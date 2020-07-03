@@ -44,20 +44,23 @@
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
-
+<script src="~/Url.js"></script>
 <script>
+    var url = "";
     $(function () {
+
         var orderid = window.location.search.split('?')[1].split('=')[1];
+        url = $.urls();
         OrderShowOne(orderid)
 
     });
     function OrderShowOne(orderid) {
-        $.get('http://localhost:8060/api/rent/getorderone?orderno=' + orderid, function (res) {
+        $.get(url+'api/rent/getorderone?orderno=' + orderid, function (res) {
             $("#dt").empty();
             console.log(res);
             var html = "";
             //$.each(res, function (i, v) {
-                html += "<tr>";
+            html += "<tr>";
             html += "<td>" + res.orderNo + "</td>";
             html += "<td>" + res.booNo + "</td>";
             html += "<td>" + res.markName + "</td>";
@@ -65,7 +68,7 @@
             html += "<td>" + dateFormat(res.zCreateTime) + "至" + dateFormat(res.zEndTime) + "</td>";
             html += "<td>" + dateFormat(res.createTime) + "</td>";
             html += "<td>" + (res.isEnable = "1" ? "已支付" : "未支付") + "</td>";
-                html += "</tr>";
+            html += "</tr>";
             //});
             $("#dt").append(html);
         });

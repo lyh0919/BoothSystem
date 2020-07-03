@@ -67,6 +67,7 @@
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
+<script src="~/Url.js"></script>
 <script>
 
     //对表单重新渲染  复选框、下拉框等
@@ -75,8 +76,9 @@
         form.render();
     });
     //页面加载
+    var url = "";
     $(function () {
-
+        url = $.urls();
         if (pageindex == 1) {
             $('#prev').attr("disabled", true);
         }
@@ -130,7 +132,7 @@
 
     //显示
     function OrderShow(pageindex) {
-        $.get('http://localhost:8060/api/rent/getorder?orderno=' + orderno + '&paystate=' + paystate + '&pageindex=' + pageindex, function (res) {
+        $.get(url+'api/rent/getorder?orderno=' + orderno + '&paystate=' + paystate + ' &pageindex=' + pageindex, function (res) {
             total = res.count;
             pages = Math.ceil(total / pagesize);
             console.log(res);

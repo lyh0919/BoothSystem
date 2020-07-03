@@ -19,6 +19,7 @@
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body>
+    <script src="~/Url.js"></script>
     <form class="layui-form">
         <div class="layui-form-item">
             <label class="layui-form-label">租户名称：</label>
@@ -42,7 +43,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">联系地址</label>
             <div class="layui-input-inline">
-                <select id="memAddress1" name="demo1"  lay-filter="city1" lay-search="">
+                <select id="memAddress1" name="demo1" lay-filter="city1" lay-search="">
                 </select>
             </div>
             <div class="layui-input-inline">
@@ -54,7 +55,7 @@
                 </select>
             </div>
         </div>
- <div class="layui-form-item">
+        <div class="layui-form-item">
             <label class="layui-form-label">状态</label>
             <div class="layui-input-block">
                 <input type="radio" name="sex" value="1" title="开启" checked="" />
@@ -70,9 +71,12 @@
         </div>
     </form>
 </body>
+
 </html>
 <script>
+    var url = "";
     $(function () {
+        url = $.urls();
         GetMem();
         GetCity();
    });
@@ -87,7 +91,7 @@
     });
     //关联会员
     function GetMem() {
-        $.get('http://localhost:8060/api/default/showweixins', function (res) {
+        $.get(url +'api/default/showweixins', function (res) {
             $("#memid").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -113,7 +117,7 @@
         //状态
         m.UserState = $("input[name='sex']:checked").val();
         $.ajax({
-            url: "http://localhost:8060/api/default/adduser",
+            url: url +'api/default/adduser',
             data: JSON.stringify(m),
             dataType: "json",
             type: "post",
@@ -133,7 +137,7 @@
     }
     //显示省
     function GetCity() {
-        $.get('http://localhost:8060/api/default/getcity?id=1', function (res) {
+        $.get(url +'api/default/getcity?id=1', function (res) {
             $("#memAddress1").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -150,7 +154,7 @@
     //显示市
     function GetCity1(res) {
      var id = res.value;
-        $.get('http://localhost:8060/api/default/getcity?id=' + id, function (res) {
+        $.get(url +'api/default/getcity?id=' + id, function (res) {
             $("#memAddress2").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -167,7 +171,7 @@
     //显示县
       function GetCity2(res) {
           var id = res.value;
-          $.get('http://localhost:8060/api/default/getcity?id=' + id, function (res) {
+          $.get(url +'api/default/getcity?id=' + id, function (res) {
             $("#memAddress3").empty();
             var html = "";
             $.each(res, function (i, v) {

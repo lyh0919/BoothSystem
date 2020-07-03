@@ -101,7 +101,7 @@ namespace BoothAPI.Controllers
                     _rbac.UptAdmin(admin, propertyNames);
                 }
                 //但会url显示
-                return "http://localhost:52229/img/"+ filenames; 
+                return filenames; 
             }
             catch (Exception)
             {

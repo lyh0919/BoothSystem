@@ -108,11 +108,19 @@
                                 area: ["1000px", "600px"],
                                 fix: false,
                                 maxmin: true,
+                                btn: ['修改', '取消'],
                                 shadeClose: true,
                                 shade: 0.4,
                                 skin: 'layui-layer-rim',
                                 content: ["/Market/UpdateMarket?id=" + data.id, "no"],
-
+                                //success: function () {
+                                //    layer.closeAll();
+                                //    location.reload();
+                                //    layer.msg(res.info, { icon: 1, time: 1000 }, function () {
+                                //        setTimeout('window.location.reload()', 1000);
+                                //    });
+                                //}
+                                
                             });
                             break;
                         case 'del':

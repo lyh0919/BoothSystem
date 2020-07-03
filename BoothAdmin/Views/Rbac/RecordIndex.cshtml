@@ -67,6 +67,7 @@
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
+<script src="~/Url.js"></script>
 <script>
 
     //日期框
@@ -80,14 +81,15 @@
     });
 
 
-
+    var url = "";
     //页面加载
     $(function () {
+        url = $.urls();
         GetAdmin();
         if (pageindex == 1) {
             $('#prev').attr("disabled", true);
         }
-        datetime = $("#datetime").val();
+        datetime = ""
         adminid = $('select[name="admin"] option:selected').val();
         RecordShow(pageindex);
 
@@ -133,6 +135,9 @@
     //查询
     function searchData() {
         datetime = $("#datetime").val();
+        if (datetime == null) {
+            datetime = "";
+        }
         //accname = decodeURI(accname);
         adminid = $('select[name="admin"] option:selected').val();
         RecordShow(1);
@@ -140,7 +145,7 @@
 
     //显示
     function RecordShow(pageindex) {
-        $.get('http://localhost:8060/api/rbac/getrecord?accid=' + adminid + '&datetime=' + datetime + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
+        $.get(url+'api/rbac/getrecord?accid=' + adminid + '&datetime=' + datetime + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
             total = res.count;
             pages = Math.ceil(total / pagesize);
             $("#dt").empty();
@@ -188,7 +193,7 @@
         if (chk_value.length != 0) {
             var ids = chk_value.join(',');
             alert(ids);
-            $.post('http://localhost:8060/api/rbac/delrecord?ids=' + ids, function (res) {
+            $.post(url+'api/rbac/delrecord?ids=' + ids, function (res) {
                 if (res > 0) {
                     alert("删除成功");
                     AdminShow(1);
@@ -202,7 +207,7 @@
 
     //下拉成员
     function GetAdmin() {
-        $.get('http://localhost:8060/api/rbac/getadminall', function (res) {
+        $.get(url+'api/rbac/getadminall', function (res) {
 
             $("#adminid").empty();
             var html = "";

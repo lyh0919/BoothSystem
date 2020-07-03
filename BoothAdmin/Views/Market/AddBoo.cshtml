@@ -19,7 +19,7 @@
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body>
-
+    <script src="~/Url.js"></script>
     <h4>添加摊位</h4>
     <hr />
     <form class="layui-form">
@@ -109,7 +109,7 @@
     });
 
     function ShowMarket() {
-        $.get('http://localhost:8060/api/market/ShowMarket', function (res) {
+        $.get(url + 'api/market/ShowMarket', function (res) {
             $("#MarkId").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -168,13 +168,13 @@
             alert("租期不能为空");
             return;
         }
-        obj.LessId = localStorage["AdminId"];
+        obj.LessId = "6584BD1D-BB18-42D8-88C6-2B58CF0A7EAB";
         //$.post('', { obj: obj }, function (success) {
         //    if (success >= 1) alert('添加成功'); else { alert('添加失败'); }
         //});
         console.log(obj);
         //$.ajax({
-        //    url: "http://localhost:52229/api/market/AddBooth",
+        //    url: "http://192.168.43.218:52229/api/market/AddBooth",
         //    dataType: "json",
         //    type: "get",
         //    data: JSON.stringify(obj),

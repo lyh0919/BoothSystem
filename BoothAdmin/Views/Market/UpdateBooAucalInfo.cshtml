@@ -18,7 +18,7 @@
     <title></title>
 </head>
 <body>
-
+    <script src="~/Url.js"></script>
     <h4>修改竞拍</h4>
     <hr />
     <form>
@@ -112,6 +112,10 @@
 
 <script>
 
+    var url = "";
+    $(function () {
+        url = $.urls();
+    });
     var form;   
     layui.use(['laydate', 'form'], function () {
         var laydate = layui.laydate;
@@ -156,19 +160,21 @@
         }
        
 
-        //$.post('http://localhost:52229/api/market/UpdateBooAucal', { obj: obj }, function (success) {
+        //$.post('http://49.234.34.192:52229/api/market/UpdateBooAucal', { obj: obj }, function (success) {
         //    if (success >= 1) alert('添加成功'); else { alert('添加失败'); }
         //});
 
-         $.ajax({
-             url: "http://localhost:8060/api/market/UpdateBooAucal",
+        $.ajax({
+            url: url+"api/market/UpdateBooAucal",
             dataType: "json",
             type: "post",
             data: JSON.stringify(obj),
             contentType: "application/json;charset=utf-8",
             success: function (success) {
-                if (success >= 1)
+                if (success >= 1) {
                     alert('修改成功');
+                    window.parent.location.href = "/Market/BooAucalInfoShow";
+                }
                 else {
                     alert('修改失败');
                 }

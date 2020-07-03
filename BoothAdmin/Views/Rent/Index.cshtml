@@ -14,7 +14,7 @@
         </div>
         <div class="layui-card-body">
             <blockquote class="layui-elem-quote role_search">
-                
+
                 <div class="layui-inline">
                     <div class="layui-input-inline">
                         <input id="orderno" type="text" value="" placeholder="请输入订单号" class="layui-input search_input">
@@ -65,6 +65,7 @@
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/layuiadmin/layui/layui.js"></script>
+<script src="~/Url.js"></script>
 <script>
 
     //对表单重新渲染  复选框、下拉框等
@@ -72,9 +73,10 @@
         var form = layui.form;
         form.render();
     });
+    var url = "";
     //页面加载
     $(function () {
-
+        url = $.urls();
         if (pageindex == 1) {
             $('#prev').attr("disabled", true);
         }
@@ -128,7 +130,7 @@
 
     //显示
     function OrderShow(pageindex) {
-        $.get('http://localhost:8060/api/rent/getorder?orderno=' + orderno + '&paystate=' + paystate + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
+        $.get(url+'api/rent/getorder?orderno=' + orderno + '&paystate=' + paystate + '&pageindex=' + pageindex + '&pagesize=' + pagesize, function (res) {
             total = res.count;
             pages = Math.ceil(total / pagesize);
             $("#dt").empty();
@@ -139,7 +141,7 @@
                 html += "<td>" + v.booNo + "</td>";
                 html += "<td>" + v.markName + "</td>";
                 html += "<td>" + v.renPrice + "</td>";
-                html += "<td>" + dateFormat(v.zCreateTime) +"至"+ dateFormat(v.zEndTime) + "</td>";
+                html += "<td>" + dateFormat(v.zCreateTime) + "至" + dateFormat(v.zEndTime) + "</td>";
                 html += "<td>" + dateFormat(v.createTime) + "</td>";
                 html += "<td>" + (v.isEnable = "1" ? "已支付" : "未支付") + "</td>";
                 html += "<td><a href='/Rent/OrderDesc?orderid=" + v.orderNo + "' >查看</a>&nbsp;<a href='/Rent/ContractsManager?orderid=" + v.id + "' >合同</a></td>";
@@ -152,7 +154,7 @@
     //时间转换
     function dateFormat(datestr) {
         var date = new Date(datestr);
-        var datestr = date.getFullYear() + "-" + (date.getMonth()+1) + "-" +
+        var datestr = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" +
             date.getDate() + " " + date.getHours() + ":" +
             date.getMinutes() + ":" + date.getSeconds();
         return datestr;

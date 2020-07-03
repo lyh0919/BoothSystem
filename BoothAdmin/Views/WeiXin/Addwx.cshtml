@@ -20,6 +20,7 @@
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body>
+    <script src="~/Url.js"></script>
     <form class="layui-form">
         <div class="layui-form-item">
             <label class="layui-form-label">会员昵称：</label>
@@ -42,37 +43,39 @@
         <div class="layui-form-item">
             <label class="layui-form-label">联系地址</label>
             <div class="layui-input-inline">
-                <select id="memAddress1" name="demo1"  lay-filter="city1" lay-search="">
+                <select id="memAddress1" name="demo1" lay-filter="city1" lay-search="">
                 </select>
             </div>
             <div class="layui-input-inline">
-                <select id="memAddress2" name="demo2"  lay-filter="city2" lay-search="">
+                <select id="memAddress2" name="demo2" lay-filter="city2" lay-search="">
                 </select>
             </div>
             <div class="layui-input-inline">
                 <select id="memAddress3" name="demo3" lay-filter="city3" lay-search="">
                 </select>
             </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="1" title="开启" checked="" />
+                <input type="radio" name="sex" value="0" title="关闭" />
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">状态</label>
-                <div class="layui-input-block">
-                    <input type="radio" name="sex" value="1" title="开启" checked="" />
-                    <input type="radio" name="sex" value="0" title="关闭" />
-                </div>
-            </div>
+        </div>
 
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button type="button" class="layui-btn" id="bt" onclick="addwx()">保存</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">取消</button>
-                </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="bt" onclick="addwx()">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary">取消</button>
             </div>
+        </div>
     </form>
 </body>
 </html>
 <script>
+    var url = "";
     $(function () {
+        url = $.urls();
         GetAdders();
         
     });
@@ -98,7 +101,7 @@
         m.MemState = $("input[name='sex']:checked").val();
 
         $.ajax({
-            url: "http://localhost:8060/api/default/add",
+            url: url +'api/default/add',
             data: JSON.stringify(m),
             dataType: "json",
             type: "post",
@@ -117,7 +120,7 @@
 
     //显示地址
     function GetAdders() {
-        $.get('http://localhost:8060/api/default/getsheng?id=1', function (res) {
+        $.get(url +'api/default/getsheng?id=1', function (res) {
             $("#memAddress1").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -136,7 +139,7 @@
     function GetCity1(res) {
         var id = res.value;
 
-        $.get('http://localhost:8060/api/default/getsheng?id=' + id, function (res) {
+        $.get(url +'api/default/getsheng?id=' + id, function (res) {
             $("#memAddress2").empty();
             var html = "";
             $.each(res, function (i, v) {
@@ -153,7 +156,7 @@
     //显示县
     function GetCity2(res) {
         var id = res.value;
-        $.get('http://localhost:8060/api/default/getsheng?id=' + id, function (res) {
+        $.get(url +'api/default/getsheng?id=' + id, function (res) {
             $("#memAddress3").empty();
             var html = "";
             $.each(res, function (i, v) {
