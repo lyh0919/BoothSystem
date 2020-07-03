@@ -151,6 +151,7 @@ namespace BoothAPI.Controllers
         public int AddUser(UserInfo m)
         {
             m.Id = Guid.NewGuid();
+            m.CreateTime = DateTime.Now;
             return _show.AddUser(m);
         }
 

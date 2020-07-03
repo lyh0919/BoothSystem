@@ -83,7 +83,7 @@
         if (pageindex == 1) {
             $('#prev').attr("disabled", true);
         }
-        accname = $("#accname").val();
+        accname = "";
         deptid = $('select[name="dept"] option:selected').val();
         AdminShow(pageindex);
 
@@ -126,7 +126,9 @@
     }
     function searchData() {
         accname = $("#accname").val();
-        accname = decodeURI(accname);
+        if (accname == null) {
+            accname = "";
+        }
         deptid = $('select[name="dept"] option:selected').val();
         AdminShow(1);
     }

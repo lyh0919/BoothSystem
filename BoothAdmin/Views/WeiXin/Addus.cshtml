@@ -91,7 +91,7 @@
     });
     //关联会员
     function GetMem() {
-        $.get(url +'/api/default/showweixins', function (res) {
+        $.get(url +'api/default/showweixins', function (res) {
             $("#memid").empty();
             var html = "";
             $.each(res, function (i, v) {

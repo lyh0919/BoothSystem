@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +14,7 @@ using IBoothDataAccess;
 using BoothDataAccess;
 using IBoothService;
 using BoothService;
+using BoothAPI.ViewModel;
 
 namespace BoothAPI
 {
@@ -43,7 +43,7 @@ namespace BoothAPI
             services.AddScoped<IRent, Rent>();
 
             services.AddScoped<IBoothManager, BoothManager>();
- 
+
 
             // 配置跨域处理，允许所有来源
             services.AddCors(options =>
@@ -52,12 +52,14 @@ namespace BoothAPI
                 options.AddPolicy("getd", policy =>
                 {
                     // 設定允許跨域的來源，有多個的話可以用 `,` 隔開
-                    policy.WithOrigins("http://localhost:52229", "http://localhost:53979", "http://localhost:8060", "http://localhost:8061")
+                    policy.WithOrigins("http://localhost:52229", "http://localhost:53979", "http://49.234.34.192:8060", "http://49.234.34.192:8061")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();
                 });
             });
+
+
             services.AddControllers();
             
 
@@ -76,6 +78,7 @@ namespace BoothAPI
 
             app.UseAuthorization();
             app.UseCors("getd");
+            app.UseMiddleware<CorsMiddleware>();
             app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {

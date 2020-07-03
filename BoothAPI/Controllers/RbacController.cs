@@ -192,11 +192,11 @@ namespace BoothAPI.Controllers
         {
             int count = 0;
             List<RbacAdmin> memlist = new List<RbacAdmin>();
-            if (accName == null)
+            if (accName==null)
             {
                 accName = "";
             }
-            
+
             if (deptId!= "undefined")//判断是否有效
             {
                 memlist = _rbac.GetAdmin(u => u.AccName.Contains(accName) & u.DeptId.ToString() == deptId, u => u.AccName, pageindex, pagesize, out count);
@@ -324,6 +324,13 @@ namespace BoothAPI.Controllers
             {
                 records.Add(_rbac.GetRecordeOne(r => r.Id.ToString() == item)); 
             }
+
+            //RecordInfo record = new RecordInfo();
+            //record.Id = Guid.NewGuid();
+            //record.IpAddress = "批量删除日志";
+            //record.UpdateTime = DateTime.Now;
+            //record.AccId = Guid.NewGuid();
+            //_rbac.AddRecord(record);
             
             return _rbac.DelRecord(records);
         }

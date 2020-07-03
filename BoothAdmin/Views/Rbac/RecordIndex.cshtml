@@ -89,7 +89,7 @@
         if (pageindex == 1) {
             $('#prev').attr("disabled", true);
         }
-        datetime = $("#datetime").val();
+        datetime = ""
         adminid = $('select[name="admin"] option:selected').val();
         RecordShow(pageindex);
 
@@ -135,6 +135,9 @@
     //查询
     function searchData() {
         datetime = $("#datetime").val();
+        if (datetime == null) {
+            datetime = "";
+        }
         //accname = decodeURI(accname);
         adminid = $('select[name="admin"] option:selected').val();
         RecordShow(1);
