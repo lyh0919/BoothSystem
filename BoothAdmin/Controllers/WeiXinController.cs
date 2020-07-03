@@ -19,7 +19,7 @@ namespace BoothAdmin.Controllers
         //显示微信会员信息
         public ActionResult ShowWeiXin(int page = 1, int limit = 10)
         {
-            string url = "http://49.234.34.192:8060/api/Default/ShowWeiXin";
+            string url = "http://localhost:52229/api/Default/ShowWeiXin";
             HttpClient client = new HttpClient();
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
             string s = httpResponse.Content.ReadAsStringAsync().Result;
@@ -42,7 +42,7 @@ namespace BoothAdmin.Controllers
         public int Delwx(Guid id) 
         {
            HttpResponseMessage message = null;
-            string url = "http://49.234.34.192:8060/api/default/DelWx?ids=" + id;
+            string url = "http://localhost:52229/api/default/DelWx?ids=" + id;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json") { CharSet = "utf-8" });
             message = client.DeleteAsync(url).Result;
@@ -59,7 +59,7 @@ namespace BoothAdmin.Controllers
         //根据会员名称和账户查询
         public ActionResult SeleWx(string name="",string wx="")
         {
-            string url = "http://49.234.34.192:8060/api/Default/SeleWx?name=" + name+"&wx="+wx;
+            string url = "http://localhost:52229/api/Default/SeleWx?name=" + name+"&wx="+wx;
             HttpClient client = new HttpClient();
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
             string s = httpResponse.Content.ReadAsStringAsync().Result;
@@ -88,7 +88,7 @@ namespace BoothAdmin.Controllers
         //显示租户信息
         public ActionResult ShowUser(int page = 1, int limit = 10)
         {
-            string url = "http://49.234.34.192:8060/api/Default/ShowUser";
+            string url = "http://localhost:52229/api/Default/ShowUser";
             HttpClient client = new HttpClient();
 
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
@@ -111,7 +111,7 @@ namespace BoothAdmin.Controllers
         public int Delus(Guid id)
         {
             HttpResponseMessage message = null;
-            string url = "http://49.234.34.192:8060/api/default/Delus?id=" + id;
+            string url = "http://localhost:52229/api/default/Delus?id=" + id;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json") { CharSet = "utf-8" });
             message = client.DeleteAsync(url).Result;
@@ -128,7 +128,7 @@ namespace BoothAdmin.Controllers
         //根据名称查询租户
         public ActionResult SeleUs(string name = "")
         {
-            string url = "http://49.234.34.192:8060/api/Default/SeleUs?name=" + name ;
+            string url = "http://localhost:52229/api/Default/SeleUs?name=" + name ;
             HttpClient client = new HttpClient();
             HttpResponseMessage httpResponse = client.GetAsync(url).Result;
             string s = httpResponse.Content.ReadAsStringAsync().Result;
