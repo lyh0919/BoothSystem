@@ -53,7 +53,7 @@ namespace BoothAPI.Controllers
         [HttpPost]
         public int UptWx(MemberInfoo m)
         {
-           // m.Id = Guid.NewGuid();
+           m.Id = Guid.NewGuid();
             return _show.UpdateWx(m);
         }
         //根据id 查询数据 修改
@@ -70,16 +70,6 @@ namespace BoothAPI.Controllers
         {
          return _show.GetSheng(c => c.PId == id); ;
         }
-
-        ////查询所有市  
-        //[HttpGet]
-        //public List<City> GetShi(int pid)
-        //{
-        //    return _show.GetShi(c => c.CType == pid); ;
-        //}
-
-
-
 
         //批量删除微信会员信息
         [HttpGet]
@@ -136,7 +126,7 @@ namespace BoothAPI.Controllers
         //编辑租户信息
         public int UptUs(UserInfo m)
         {
-            //m.Id = Guid.NewGuid();
+            m.Id = Guid.NewGuid();
             return _show.UptUs(m);
         }
        [HttpGet]
