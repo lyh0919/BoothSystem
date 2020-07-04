@@ -16,12 +16,12 @@ namespace BoothAPI.Controllers
     {
         private IRent _rent;
         private IMarketBll _market;
-        private IBoothManager _boothManager;
+        private IBoothManager _boothManager;     
         public RentController(IRent rent, IMarketBll market, IBoothManager boothManager)
         {
             _rent = rent;
             _market = market;
-            _boothManager = boothManager;
+            _boothManager = boothManager;         
         }
 
         //显示
@@ -103,5 +103,7 @@ namespace BoothAPI.Controllers
         {
             return _rent.GetContastOne(o => o.Oid == orderid);
         }
+
+      
     }
 }
